@@ -1,0 +1,26 @@
+:root {
+  --primary: #ef476f;
+  --primary-dark: #cc395b;
+  --secondary: #118ab2;
+  --secondary-dark: #0e789b;
+  --accent: #ffd166;
+  --success: #06d6a0;
+  --background: #073b4c;
+  --text: #1f2d3d;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: var(--background);
+}
+
+#root {
+  height: 100%;
+}

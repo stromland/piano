@@ -1,0 +1,39 @@
+.key {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid black;
+  border-bottom: 5px solid black;
+  justify-content: center;
+  user-select: none;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: #f5f5f5;
+}
+
+.blackKey {
+  position: absolute;
+  border-bottom: 5px solid #2b2a2a;
+  width: 46%;
+  height: 65%;
+  right: -23%;
+  z-index: 1;
+  color: white;
+  background: black;
+}
+
+.key:hover {
+  background: var(--primary);
+  color: black;
+}
+
+.key:active {
+  background: var(--primary-dark);
+  color: black;
+}
+
+.pressed {
+  background: var(--primary-dark);
+  color: black;
+}
