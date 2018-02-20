@@ -2,6 +2,7 @@
   flex: 1;
   position: relative;
   display: flex;
+  font-weight: bold;
   align-items: flex-end;
   border: 1px solid black;
   border-bottom: 5px solid black;

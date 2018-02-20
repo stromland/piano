@@ -40,7 +40,7 @@ class Scale extends Component {
     scaleIndex: 0,
     selectedKey: 0,
     scale: [2, 2, 1, 2, 2, 2, 1],
-    speed: 300,
+    speed: 500,
     showAll: true,
     intervalId: null
   };
@@ -59,7 +59,7 @@ class Scale extends Component {
           scaleIndex: state.scaleIndex + 1
         };
       });
-    }, this.state.speed);
+    }, this.state.speed || 500);
 
     this.setState(() => ({
       intervalId
@@ -90,6 +90,13 @@ class Scale extends Component {
     }));
   };
 
+  changeSpeed = e => {
+    const speed = e.target.value;
+    this.setState(() => ({
+      speed
+    }));
+  };
+
   getScaleKeyIndexes = () => {
     const { scale, selectedKey } = this.state;
     return scale.reduce((acc, s, i) => {
@@ -107,9 +114,7 @@ class Scale extends Component {
       if (i !== scaleKeys[scaleIndex]) {
         return k;
       }
-      if (scaleKeys.length > scaleIndex) {
-        scaleIndex++;
-      }
+      scaleIndex++;
       return { ...k, pressed: true };
     });
   };
@@ -141,11 +146,20 @@ class Scale extends Component {
   };
 
   render() {
-    const keys = this.renderPressedKeys([...twelveKeys, ...twelveKeys]);
+    const keys = this.renderPressedKeys([
+      ...twelveKeys,
+      ...twelveKeys,
+      ...twelveKeys
+    ]);
     return (
       <ScaleContainer>
         <Keys keys={keys} height="40%" />
         <ControllerContainer>
+          <input
+            type="number"
+            onChange={this.changeSpeed}
+            value={this.state.speed}
+          />
           <NoteSelector onSelect={this.selectNote} />
           <ScaleSelector onSelect={this.selectScale} />
           <Button success onClick={this.startOrStop}>
