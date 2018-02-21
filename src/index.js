@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Scale from './containers/Scale';
+import Scale from './views/Scale';
 import styled from 'styled-components';
 import registerServiceWorker from './registerServiceWorker';
 
