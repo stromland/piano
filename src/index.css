@@ -1,12 +1,18 @@
 :root {
   --primary: #ef476f;
   --primary-dark: #cc395b;
+  --primary-hover: #da395f;
   --secondary: #118ab2;
-  --secondary-dark: #0e789b;
+  --secondary-dark: #0c6d8d;
+  --secondary-hover: #1080a5;
   --accent: #ffd166;
-  --accent-dark: #c09c48;
+  --accent-dark: #b39143;
+  --accent-hover: #e7bb52;
   --success: #06d6a0;
+  --success-dark: #049770;
+  --success-hover: #04be8d;
   --background: #073b4c;
+  --label-text: #032530;
   --text: #1f2d3d;
 }
 

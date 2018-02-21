@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
-import Keys from '../../components/Keys';
-import Button from '../../components/Button';
-import { NoteSelector, ScaleSelector } from './components/Selector';
-import piano from '../../service/piano';
 import styled from 'styled-components';
+import piano from 'services/piano';
+import Keys from 'components/Keys';
 
-const ScaleContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { NoteSelector, ScaleSelector } from './components/Selectors';
+import { ScaleContainer } from './components/Containers';
+import { ToggleButtonGroup } from 'components/ToggleButton';
 
-const ControllerContainer = styled.div`
-  width: 60%;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  margin: 30px;
+const Label = styled.p`
+  color: var(--label-text);
+  font-weight: bold;
+  font-size: 1.9em;
+  margin: 10px 0 5px 0;
+  padding: 0;
 `;
 
 class Scale extends Component {
@@ -101,13 +96,12 @@ class Scale extends Component {
     return (
       <ScaleContainer>
         <Keys keys={keys} height="40%" />
-        <ControllerContainer>
+        <ToggleButtonGroup>
+          <Label>Key</Label>
           <NoteSelector onSelect={this.selectNote} activeKey={selectedKey} />
+          <Label>Scale</Label>
           <ScaleSelector onSelect={this.selectScale} activeKey={scaleName} />
-          <Button success onClick={this.startOrStop}>
-            {!this.state.intervalId ? 'Start' : 'Stop'}
-          </Button>
-        </ControllerContainer>
+        </ToggleButtonGroup>
       </ScaleContainer>
     );
   }
