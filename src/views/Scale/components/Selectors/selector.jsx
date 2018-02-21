@@ -1,13 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import ToggleButton from 'components/ToggleButton';
 
-const NoteContainer = styled.div`
-  display: flex;
-`;
-
 const Selector = ({ onSelect, options, activeKey }) => (
-  <NoteContainer>
+  <div style={{ display: 'flex' }}>
     {options.map(opt => (
       <ToggleButton
         key={opt.key}
@@ -17,7 +12,7 @@ const Selector = ({ onSelect, options, activeKey }) => (
         {opt.key}
       </ToggleButton>
     ))}
-  </NoteContainer>
+  </div>
 );
 
 export default Selector;

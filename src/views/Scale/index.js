@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import piano from 'services/piano';
 import Keys from 'components/Keys';
-
-import { NoteSelector, ScaleSelector } from './components/Selectors';
-import { ScaleContainer } from './components/Containers';
 import { ToggleButtonGroup } from 'components/ToggleButton';
 
-const Label = styled.p`
-  color: var(--label-text);
-  font-weight: bold;
-  font-size: 1.9em;
-  margin: 10px 0 5px 0;
-  padding: 0;
-`;
+import { NoteSelector, ScaleSelector } from './components/Selectors';
+import ScaleContainer from './components/scale-container';
+import Label from './components/label';
 
 class Scale extends Component {
   state = {
