@@ -62,6 +62,7 @@ function pressOneKey(allKeys, keyIndex) {
 export default {
   keySet,
   scales,
+  getScaleKeyIndexes,
   pressAllScaleKeys,
   pressOneKey
 };
