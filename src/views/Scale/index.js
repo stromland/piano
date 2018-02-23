@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import piano from 'services/piano';
 import Keys from 'components/Keys';
-import { ToggleButtonGroup } from 'components/ToggleButton';
 
 import { NoteSelector, ScaleSelector } from './components/Selectors';
-import ScaleContainer from './components/scale-container';
+import { ButtonGroupsContainer, ScaleContainer } from './components/Containers';
 import Label from './components/label';
 
 class Scale extends Component {
@@ -88,12 +87,12 @@ class Scale extends Component {
     return (
       <ScaleContainer>
         <Keys keys={keys} height="40%" />
-        <ToggleButtonGroup>
+        <ButtonGroupsContainer>
           <Label>Key</Label>
           <NoteSelector onSelect={this.selectNote} activeKey={selectedKey} />
           <Label>Scale</Label>
           <ScaleSelector onSelect={this.selectScale} activeKey={scaleName} />
-        </ToggleButtonGroup>
+        </ButtonGroupsContainer>
       </ScaleContainer>
     );
   }

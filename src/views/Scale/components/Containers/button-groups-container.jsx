@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ToggleButtonGroup = styled.div`
+const ButtonGroupsContainer = styled.div`
   width: 60%;
   display: flex;
   flex: 1;
@@ -8,4 +8,4 @@ const ToggleButtonGroup = styled.div`
   margin: 30px;
 `;
 
-export default ToggleButtonGroup;
+export default ButtonGroupsContainer;

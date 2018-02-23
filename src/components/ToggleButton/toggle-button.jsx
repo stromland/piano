@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const ToggleButton = styled.button`
   flex: 1;
+  color: #000000;
   font-size: 1.1em;
   font-weight: bold;
   border: none;
