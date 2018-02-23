@@ -50,21 +50,21 @@ function scaleContainsKey(scaleKeys, key) {
   }, false);
 }
 
-function findScaleKeyIndex(scaleKeys, startKey) {
+function findScaleKeyIndex(scaleKeys, key) {
   return scaleKeys.reduce((found, s, i) => {
-    if (s === startKey) {
+    if (s === key) {
       return i;
     }
     return found;
   }, -1);
 }
 
-function getChordKeyIndexes(scaleKeys, startKey) {
-  if (!scaleContainsKey(scaleKeys, startKey)) {
+function getChordKeyIndexes(scaleKeys, chordStartKey) {
+  if (!scaleContainsKey(scaleKeys, chordStartKey)) {
     return [];
   }
 
-  const scaleKeyIndex = findScaleKeyIndex(scaleKeys, startKey);
+  const scaleKeyIndex = findScaleKeyIndex(scaleKeys, chordStartKey);
   if (scaleKeyIndex < 0) {
     return [];
   }
