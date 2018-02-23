@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import piano from 'services/piano';
+import piano from '../../services/piano';
 import Keys from 'components/Keys';
 
 import { NoteSelector, ScaleSelector } from './components/Selectors';
@@ -83,7 +83,12 @@ class Scale extends Component {
 
   render() {
     const { selectedKey, scaleName } = this.state;
-    const keys = this.renderPressedKeys(piano.keySet(3));
+    const keys = piano.pressChordKeys(
+      piano.keySet(3),
+      piano.scales[scaleName],
+      0,
+      selectedKey
+    );
     return (
       <ScaleContainer>
         <Keys keys={keys} height="40%" />

@@ -20,3 +20,36 @@ describe('piano major scale', () => {
     });
   });
 });
+
+describe('piano major chords', () => {
+  [
+    {
+      chord: 'C',
+      index: 0,
+      expect: [0, 4, 7]
+    },
+    {
+      chord: 'Dm',
+      index: 2,
+      expect: [2, 5, 9]
+    }
+  ].forEach(t => {
+    test(`piano ${t.chord} chord`, () => {
+      const majorScale = piano.scales['major'];
+      const scaleKeys = piano.getScaleKeyIndexes(0, majorScale);
+      const keyIndexes = piano.getChordKeyIndexes(scaleKeys, t.index);
+      expect(keyIndexes).toEqual(t.expect);
+    });
+  });
+});
+
+describe('piano scale has every key', () => {
+  [7, 9, 11, 12, 14, 16, 18, 19].forEach(key => {
+    test(`keyIndex ${key} is in scale G major`, () => {
+      const majorScale = piano.scales['major'];
+      const scaleKeys = piano.getScaleKeyIndexes(7, majorScale);
+      const isInScale = piano.scaleContainsKey(scaleKeys, key);
+      expect(isInScale).toEqual(true);
+    });
+  });
+});

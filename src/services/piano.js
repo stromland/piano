@@ -21,12 +21,57 @@ const scales = {
   'Pentatonic Minor': [3, 2, 2, 3, 2]
 };
 
+const chords = {
+  tripple: [0, 2, 4]
+};
+
 function keySet(sets) {
   let pianoKeys = [];
   for (let i = 1; i <= sets; i++) {
     pianoKeys.push(...twelveKeys);
   }
   return pianoKeys;
+}
+
+function pressKeys(allKeys, keysToPress) {
+  let index = 0;
+  return allKeys.map((k, i) => {
+    if (i !== keysToPress[index]) {
+      return k;
+    }
+    index++;
+    return { ...k, pressed: true };
+  });
+}
+
+function scaleContainsKey(scaleKeys, key) {
+  return scaleKeys.reduce((isInScale, s) => {
+    return key === s || isInScale;
+  }, false);
+}
+
+function findScaleKeyIndex(scaleKeys, startKey) {
+  return scaleKeys.reduce((found, s, i) => {
+    if (s === startKey) {
+      return i;
+    }
+    return found;
+  }, -1);
+}
+
+function getChordKeyIndexes(scaleKeys, startKey) {
+  if (!scaleContainsKey(scaleKeys, startKey)) {
+    return [];
+  }
+
+  const scaleKeyIndex = findScaleKeyIndex(scaleKeys, startKey);
+  if (scaleKeyIndex < 0) {
+    return [];
+  }
+
+  return chords.tripple.reduce((acc, s) => {
+    return [...acc, scaleKeys[scaleKeyIndex + s] || 0];
+  }, []);
 }
 
 function getScaleKeyIndexes(startKey, scale) {
@@ -38,31 +83,29 @@ function getScaleKeyIndexes(startKey, scale) {
   }, []);
 }
 
+function pressChordKeys(allKeys, scale, scaleKey, chordKey) {
+  const scaleKeys = getScaleKeyIndexes(scaleKey, [...scale, ...scale]);
+  const chordKeys = getChordKeyIndexes(scaleKeys, chordKey);
+  return pressKeys(allKeys, chordKeys);
+}
+
 function pressAllScaleKeys(allKeys, startKey, scale) {
-  let scaleIndex = 0;
   const scaleKeys = getScaleKeyIndexes(startKey, scale);
-  return allKeys.map((k, i) => {
-    if (i !== scaleKeys[scaleIndex]) {
-      return k;
-    }
-    scaleIndex++;
-    return { ...k, pressed: true };
-  });
+  return pressKeys(allKeys, scaleKeys);
 }
 
 function pressOneKey(allKeys, keyIndex) {
-  return allKeys.map((k, i) => {
-    if (i !== keyIndex) {
-      return k;
-    }
-    return { ...k, pressed: true };
-  });
+  return pressKeys(allKeys, [keyIndex]);
 }
 
 export default {
-  keySet,
   scales,
+  chords,
+  keySet,
+  scaleContainsKey,
+  getChordKeyIndexes,
   getScaleKeyIndexes,
+  pressChordKeys,
   pressAllScaleKeys,
   pressOneKey
 };
