@@ -1,9 +1,6 @@
 ![Logo](https://raw.githubusercontent.com/stromland/piano/feature/chords/images/piano-logo.png)
 
-##Learn piano
-
-<hr />
-
+<h2 align="center">Learn, enjoy and understand piano</h2>
 <p align="center">
   <a href="https://travis-ci.org/stromland/piano">
     <img alt="Travis" src="https://img.shields.io/travis/stromland/piano/master.svg?style=flat-square">
@@ -21,5 +18,3 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Demo
 
 Try the [demo](https://stromland.github.io/piano/)
-
-![Preview](https://raw.githubusercontent.com/stromland/piano/feature/chords/images/preview.png)
