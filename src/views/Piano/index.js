@@ -7,45 +7,24 @@ class Piano extends Component {
   state = {
     selectedKey: 0,
     scaleName: 'major',
-    pianoKeys: []
+    pianoKeys: piano.keySet(3)
   };
 
-  componentDidMount() {
+  updatePianoKeys = fn => {
     this.setState(state => ({
-      pianoKeys: piano.keySet(3)
-    }));
-  }
-
-  selectScale = name => {
-    this.setState(() => ({
-      scaleName: name
-    }));
-  };
-
-  selectNote = index => {
-    console.log(index);
-    this.setState(() => ({
-      selectedKey: index
+      pianoKeys: fn(piano.keySet(3))
     }));
   };
 
   render() {
-    const { pianoKeys, selectedKey, scaleName } = this.state;
+    const { pianoKeys } = this.state;
     const { children } = this.props;
-    const pressedKeys = piano.pressAllScaleKeys(
-      pianoKeys,
-      selectedKey,
-      piano.scales[scaleName]
-    );
     return (
       <Container>
-        <PianoKeys keys={pressedKeys} height="40%" />
+        <PianoKeys keys={pianoKeys} height="40%" />
         {React.Children.map(children, child =>
           React.cloneElement(child, {
-            selectScale: this.selectScale,
-            selectNote: this.selectNote,
-            activeKey: selectedKey,
-            activeScale: scaleName
+            updatePianoKeys: this.updatePianoKeys
           })
         )}
       </Container>

@@ -1,16 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
+import piano from 'services/piano';
 
 import { NoteSelector, ScaleSelector } from './components/Selectors';
 import ButtonGroupsContainer from './components/ButtonGroupsContainer';
 import Label from './components/label';
 
-const Scale = ({ selectNote, selectScale, activeKey, activeScale }) => (
-  <ButtonGroupsContainer>
-    <Label>Key</Label>
-    <NoteSelector onSelect={selectNote} selected={activeKey} />
-    <Label>Scale</Label>
-    <ScaleSelector onSelect={selectScale} selected={activeScale} />
-  </ButtonGroupsContainer>
-);
+class Scale extends Component {
+  state = {
+    selectedKey: 0,
+    scaleName: 'major'
+  };
+
+  componentDidMount() {
+    this.pressKeys(this.state);
+  }
+
+  pressKeys = state => {
+    const { selectedKey, scaleName } = state;
+    this.props.updatePianoKeys(keys =>
+      piano.pressAllScaleKeys(keys, selectedKey, piano.scales[scaleName])
+    );
+  };
+
+  updateStateAndPressKeys = partial => {
+    this.setState(state => {
+      const newState = {
+        ...state,
+        ...partial
+      };
+      this.pressKeys(newState);
+      return newState;
+    });
+  };
+
+  selectScale = name => {
+    this.updateStateAndPressKeys({
+      scaleName: name
+    });
+  };
+
+  selectNote = index => {
+    this.updateStateAndPressKeys({
+      selectedKey: index
+    });
+  };
+
+  render() {
+    const { selectedKey, scaleName } = this.state;
+    return (
+      <ButtonGroupsContainer>
+        <Label>Key</Label>
+        <NoteSelector onSelect={this.selectNote} selected={selectedKey} />
+        <Label>Scale</Label>
+        <ScaleSelector onSelect={this.selectScale} selected={scaleName} />
+      </ButtonGroupsContainer>
+    );
+  }
+}
 
 export default Scale;
