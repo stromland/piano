@@ -53,3 +53,25 @@ describe('piano scale has every key', () => {
     });
   });
 });
+
+describe('predict chords', () => {
+  [
+    {
+      key: 'C',
+      keyIndex: 0,
+      scale: 'major',
+      expect: ['C', 'Dm', 'Em', 'F', 'G', 'Am', 'Bm']
+    },
+    {
+      key: 'G',
+      keyIndex: 7,
+      scale: 'major',
+      expect: ['G', 'Am', 'Bm', 'C', 'D', 'Em', 'F#m']
+    }
+  ].forEach(t => {
+    test(`predict ${t.key} ${t.scale} chords`, () => {
+      const chords = piano.getAllChords(piano.keySet(3), t.keyIndex, t.scale);
+      expect(chords).toEqual(t.expect);
+    });
+  });
+});

@@ -85,6 +85,31 @@ function pressOneKey(allKeys, keyIndex) {
   return pressKeys(allKeys, [keyIndex]);
 }
 
+function predictMajorOrMinorChord(allKeys, chordKeys) {
+  if (chordKeys.length <= 0) {
+    return '';
+  }
+  const firstKeyIndex = chordKeys[0];
+  const scaleKeys = getScaleKeyIndexes(firstKeyIndex, scales['major']);
+  const note = allKeys[firstKeyIndex] && allKeys[firstKeyIndex].note;
+
+  const isMajor = chordKeys
+    .map(k => findScaleKeyIndex(scaleKeys, k) !== -1)
+    .reduce((acc, b) => acc && b, true);
+
+  // TODO: Check minor scale too
+  return isMajor ? note : `${note}m`;
+}
+
+function getAllChords(allKeys, keyIndex, scaleName) {
+  const scale = scales[scaleName];
+  const scaleKeys = getScaleKeyIndexes(keyIndex, [...scale, ...scale]);
+  return scaleKeys.slice(0, 7).map(s => {
+    const chordKeys = getChordKeyIndexes(scaleKeys, s);
+    return predictMajorOrMinorChord(allKeys, chordKeys);
+  });
+}
+
 export default {
   scales,
   chords,
@@ -94,5 +119,7 @@ export default {
   getScaleKeyIndexes,
   pressChordKeys,
   pressAllScaleKeys,
-  pressOneKey
+  pressOneKey,
+  predictMajorOrMinorChord,
+  getAllChords
 };
