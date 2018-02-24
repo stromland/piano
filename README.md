@@ -1,6 +1,6 @@
-![Logo](https://raw.githubusercontent.com/stromland/piano/master/images/piano-logo.png)
+![Logo](https://raw.githubusercontent.com/stromland/piano/feature/chords/images/piano-logo.png)
 
-Learn piano
+##Learn piano
 
 <hr />
 
@@ -22,4 +22,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Try the [demo](https://stromland.github.io/piano/)
 
-![Preview](https://raw.githubusercontent.com/stromland/piano/master/images/preview.png)
+![Preview](https://raw.githubusercontent.com/stromland/piano/feature/chords/images/preview.png)
