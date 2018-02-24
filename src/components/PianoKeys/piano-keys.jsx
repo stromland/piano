@@ -1,5 +1,5 @@
 import React from 'react';
-import Key from 'components/Key';
+import Key from './key';
 import KeyContainer from './key-container';
 import KeyGroup from './key-group';
 

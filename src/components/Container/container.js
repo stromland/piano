@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const ScaleContainer = styled.div`
+const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-export default ScaleContainer;
+export default Container;

@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Scale from './views/Scale';
 import styled from 'styled-components';
+import './index.css';
 import registerServiceWorker from './registerServiceWorker';
+
+import Piano from './views/Piano';
+import Scale from './views/Scale';
 
 const MainContainer = styled.div`
   height: 100%;
@@ -13,7 +15,9 @@ const MainContainer = styled.div`
 
 const Main = () => (
   <MainContainer>
-    <Scale />
+    <Piano>
+      <Scale />
+    </Piano>
   </MainContainer>
 );
 

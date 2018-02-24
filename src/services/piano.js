@@ -44,26 +44,13 @@ function pressKeys(allKeys, keysToPress) {
   });
 }
 
-function scaleContainsKey(scaleKeys, key) {
-  return scaleKeys.reduce((isInScale, s) => {
-    return key === s || isInScale;
-  }, false);
-}
-
 function findScaleKeyIndex(scaleKeys, key) {
-  return scaleKeys.reduce((found, s, i) => {
-    if (s === key) {
-      return i;
-    }
-    return found;
+  return scaleKeys.reduce((num, s, i) => {
+    return s === key ? i : num;
   }, -1);
 }
 
 function getChordKeyIndexes(scaleKeys, chordStartKey) {
-  if (!scaleContainsKey(scaleKeys, chordStartKey)) {
-    return [];
-  }
-
   const scaleKeyIndex = findScaleKeyIndex(scaleKeys, chordStartKey);
   if (scaleKeyIndex < 0) {
     return [];
@@ -102,7 +89,7 @@ export default {
   scales,
   chords,
   keySet,
-  scaleContainsKey,
+  findScaleKeyIndex,
   getChordKeyIndexes,
   getScaleKeyIndexes,
   pressChordKeys,

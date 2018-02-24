@@ -48,8 +48,8 @@ describe('piano scale has every key', () => {
     test(`keyIndex ${key} is in scale G major`, () => {
       const majorScale = piano.scales['major'];
       const scaleKeys = piano.getScaleKeyIndexes(7, majorScale);
-      const isInScale = piano.scaleContainsKey(scaleKeys, key);
-      expect(isInScale).toEqual(true);
+      const isInScale = piano.findScaleKeyIndex(scaleKeys, key);
+      expect(isInScale).not.toEqual(-1);
     });
   });
 });

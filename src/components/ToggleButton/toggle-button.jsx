@@ -29,6 +29,10 @@ const ToggleButton = styled.button`
   &:focus {
     outline: 0 !important;
   }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
 `;
 
 export default ToggleButton;
