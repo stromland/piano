@@ -1,4 +1,8 @@
-# Piano
+![Logo](https://raw.githubusercontent.com/stromland/piano/master/images/piano-logo.png)
+
+Learn piano
+
+<hr />
 
 <p align="center">
   <a href="https://travis-ci.org/stromland/piano">
@@ -12,12 +16,10 @@
   </a>
 </p>
 
-Learn the different scales
-
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 ## Demo
 
 Try the [demo](https://stromland.github.io/piano/)
 
-![Preview](https://raw.githubusercontent.com/stromland/piano/master/preview.png)
+![Preview](https://raw.githubusercontent.com/stromland/piano/master/images/preview.png)
