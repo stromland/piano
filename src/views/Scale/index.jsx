@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import piano from 'services/piano';
 
 import NoteSelector from './components/note-selector';
+import ChordSelector from './components/chord-selector';
 import ScaleSelector from './components/scale-selector';
 import ButtonGroupsContainer from './components/button-groups-container';
 import Label from './components/label';
@@ -47,13 +48,20 @@ class Scale extends Component {
   };
 
   render() {
+    const { pianoKeys } = this.props;
     const { selectedKey, scaleName } = this.state;
     return (
       <ButtonGroupsContainer>
-        <Label>Key</Label>
+        <Label>Keys</Label>
         <NoteSelector onSelect={this.selectNote} selected={selectedKey} />
-        <Label>Scale</Label>
+        <Label>Scales</Label>
         <ScaleSelector onSelect={this.selectScale} selected={scaleName} />
+        <Label>Chords</Label>
+        <ChordSelector
+          pianoKeys={pianoKeys}
+          selectedKey={selectedKey}
+          scaleName={scaleName}
+        />
       </ButtonGroupsContainer>
     );
   }

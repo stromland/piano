@@ -106,11 +106,14 @@ function getAllChords(allKeys, keyIndex, scaleName) {
   const scaleKeys = getScaleKeyIndexes(keyIndex, [...scale, ...scale]);
   return scaleKeys.slice(0, 7).map(s => {
     const chordKeys = getChordKeyIndexes(scaleKeys, s);
-    return predictMajorOrMinorChord(allKeys, chordKeys);
+    return {
+      key: predictMajorOrMinorChord(allKeys, chordKeys),
+      chordKeys
+    };
   });
 }
 
-const piano = {
+export default {
   scales,
   chords,
   keySet,
@@ -123,5 +126,3 @@ const piano = {
   predictMajorOrMinorChord,
   getAllChords
 };
-
-export default piano;

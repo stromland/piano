@@ -22,7 +22,8 @@ class Piano extends Component {
         <PianoKeys keys={pianoKeys} height="40%" />
         {React.Children.map(children, child =>
           React.cloneElement(child, {
-            updatePianoKeys: this.updatePianoKeys
+            updatePianoKeys: this.updatePianoKeys,
+            pianoKeys
           })
         )}
       </Container>

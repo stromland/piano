@@ -71,7 +71,8 @@ describe('predict chords', () => {
   ].forEach(t => {
     test(`predict ${t.key} ${t.scale} chords`, () => {
       const chords = piano.getAllChords(piano.keySet(3), t.keyIndex, t.scale);
-      expect(chords).toEqual(t.expect);
+      const expectedChords = chords.map(c => c.key);
+      expect(expectedChords).toEqual(t.expect);
     });
   });
 });
