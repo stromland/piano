@@ -16,4 +16,8 @@
   </a>
 </p>
 
-<a align="center" href="https://stromland.github.io/piano/"><h2>Demo</h2></a>
+<p align="center">
+  <a href="https://stromland.github.io/piano/">
+    <h1>Demo</h1>
+  </a>
+</p>
