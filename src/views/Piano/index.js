@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import piano from '../../services/piano';
+import piano from 'services/piano';
 import PianoKeys from 'components/PianoKeys';
 import Container from 'components/Container';
 
 class Piano extends Component {
   state = {
-    selectedKey: 0,
-    scaleName: 'major',
     pianoKeys: piano.keySet(3)
   };
 
