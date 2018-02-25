@@ -37,20 +37,17 @@ describe('piano major chords', () => {
     test(`piano ${t.chord} chord`, () => {
       const majorScale = piano.scales['major'];
       const scaleKeys = piano.getScaleKeyIndexes(0, majorScale);
-      const keyIndexes = piano.getChordKeyIndexes(scaleKeys, t.index);
-      expect(keyIndexes).toEqual(t.expect);
+      const chord = piano.findChord(piano.keySet(3), t.index, scaleKeys);
+      expect(chord.indexes).toEqual(t.expect);
     });
   });
 });
 
 describe('piano scale has every key', () => {
-  [7, 9, 11, 12, 14, 16, 18, 19].forEach(key => {
-    test(`keyIndex ${key} is in scale G major`, () => {
-      const majorScale = piano.scales['major'];
-      const scaleKeys = piano.getScaleKeyIndexes(7, majorScale);
-      const isInScale = piano.findScaleKeyIndex(scaleKeys, key);
-      expect(isInScale).not.toEqual(-1);
-    });
+  test(`key indexes in scale G major`, () => {
+    const majorScale = piano.scales['major'];
+    const scaleKeys = piano.getScaleKeyIndexes(7, majorScale);
+    expect([7, 9, 11, 12, 14, 16, 18, 19]).toEqual(scaleKeys);
   });
 });
 
@@ -60,19 +57,19 @@ describe('predict chords', () => {
       key: 'C',
       keyIndex: 0,
       scale: 'major',
-      expect: ['C', 'Dm', 'Em', 'F', 'G', 'Am', 'Bm']
+      expect: ['C', 'Dm', 'Em', 'F', 'G', 'Am', 'Bdim']
     },
     {
       key: 'G',
       keyIndex: 7,
       scale: 'major',
-      expect: ['G', 'Am', 'Bm', 'C', 'D', 'Em', 'F#m']
+      expect: ['G', 'Am', 'Bm', 'C', 'D', 'Em', 'F#dim']
     }
   ].forEach(t => {
     test(`predict ${t.key} ${t.scale} chords`, () => {
       const chords = piano.getAllChords(piano.keySet(3), t.keyIndex, t.scale);
-      const expectedChords = chords.map(c => c.key);
-      expect(expectedChords).toEqual(t.expect);
+      const chordNames = chords.map(c => c.note + c.suffix);
+      expect(chordNames).toEqual(t.expect);
     });
   });
 });
