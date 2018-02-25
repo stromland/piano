@@ -110,7 +110,7 @@ function getAllChords(allKeys, keyIndex, scaleName) {
   });
 }
 
-export default {
+const piano = {
   scales,
   chords,
   keySet,
@@ -123,3 +123,5 @@ export default {
   predictMajorOrMinorChord,
   getAllChords
 };
+
+export default piano;

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import piano from 'services/piano';
 
-import { NoteSelector, ScaleSelector } from './components/Selectors';
-import ButtonGroupsContainer from './components/ButtonGroupsContainer';
+import NoteSelector from './components/note-selector';
+import ScaleSelector from './components/scale-selector';
+import ButtonGroupsContainer from './components/button-groups-container';
 import Label from './components/label';
 
 class Scale extends Component {

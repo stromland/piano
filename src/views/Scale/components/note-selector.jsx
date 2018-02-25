@@ -1,6 +1,6 @@
 import React from 'react';
 import piano from 'services/piano';
-import Selector from './selector';
+import Selector from 'components/Selector';
 
 const NoteSelector = props => {
   const notes = piano.keySet(1).map(k => k.note);

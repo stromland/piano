@@ -1,6 +1,6 @@
 import React from 'react';
 import piano from 'services/piano';
-import Selector from './selector';
+import Selector from 'components/Selector';
 
 function capitalize(s) {
   return s[0].toUpperCase() + s.slice(1);
