@@ -11,10 +11,9 @@
   <a href="https://github.com/facebook/react">
     <img alt="React" src="https://img.shields.io/badge/react-16.2.0-blue.svg?style=flat-square">
   </a>
+  <a href="https://github.com/facebookincubator/create-react-app">
+    <img alt="React" src="https://img.shields.io/badge/bootstrapped-create--react--app-blue.svg?style=flat-square">
+  </a>
 </p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-## Demo
-
-Try the [demo](https://stromland.github.io/piano/)
+<a align="center" href="https://stromland.github.io/piano/"><h2>Demo</h2></a>
