@@ -1,4 +1,4 @@
-const twelveKeys = [
+const basePianoKeys = [
   { note: 'C' },
   { note: 'C#', black: true },
   { note: 'D' },
@@ -41,22 +41,9 @@ const baseChords = {
 };
 
 function keySet(sets) {
-  let pianoKeys = [];
-  for (let i = 1; i <= sets; i++) {
-    pianoKeys.push(...twelveKeys);
-  }
-  return pianoKeys;
-}
-
-function pressKeys(pianoKeys, keysToPress) {
-  let index = 0;
-  return pianoKeys.map((k, i) => {
-    if (i !== keysToPress[index]) {
-      return k;
-    }
-    index++;
-    return { ...k, pressed: true };
-  });
+  return Array(sets)
+    .fill(basePianoKeys)
+    .reduce((allKeys, keys) => [...allKeys, ...keys]);
 }
 
 function getScaleKeyIndexes(startKey, scale) {
@@ -66,11 +53,6 @@ function getScaleKeyIndexes(startKey, scale) {
     }
     return [...acc, acc[i] + s];
   }, []);
-}
-
-function pressAllScaleKeys(pianoKeys, startKey, scale) {
-  const scaleKeys = getScaleKeyIndexes(startKey, scale);
-  return pressKeys(pianoKeys, scaleKeys);
 }
 
 function isChordInScale(chordKeys, scaleKeys) {
@@ -94,6 +76,22 @@ function getAllChords(pianoKeys, keyIndex, scaleName) {
   const scaleKeys = getScaleKeyIndexes(keyIndex, [...scale, ...scale]);
 
   return scaleKeys.slice(0, 7).map(s => findChord(pianoKeys, s, scaleKeys));
+}
+
+function pressKeys(pianoKeys, keysToPress) {
+  let index = 0;
+  return pianoKeys.map((k, i) => {
+    if (i !== keysToPress[index]) {
+      return k;
+    }
+    index++;
+    return { ...k, pressed: true };
+  });
+}
+
+function pressAllScaleKeys(pianoKeys, startKey, scale) {
+  const scaleKeys = getScaleKeyIndexes(startKey, scale);
+  return pressKeys(pianoKeys, scaleKeys);
 }
 
 export default {
