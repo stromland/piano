@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "npm-run-all lint prettier",
+    "prebuild": "npm-run-all lint",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "CI=true react-scripts test",
