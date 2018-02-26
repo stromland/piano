@@ -81,18 +81,18 @@ function findChord(
   startKey: number,
   scaleKeys: number[]
 ): Chord {
-  return Object.keys(triadChords).reduce(
-    (acc, name) => {
+  const chords = Object.keys(triadChords)
+    .map(name => {
       const chordIndexes = triadChords[name].indexes.map(i => i + startKey);
-      const chord = {
+      return {
         note: pianoKeys[startKey].note,
         suffix: triadChords[name].suffix,
         indexes: chordIndexes
       };
-      return isChordInScale(chordIndexes, scaleKeys) && !acc ? chord : acc;
-    },
-    { indexes: [], suffix: '' }
-  );
+    })
+    .filter(chord => isChordInScale(chord.indexes, scaleKeys));
+
+  return chords.length > 0 ? chords[0] : { indexes: [], suffix: '' };
 }
 
 function getAllChords(

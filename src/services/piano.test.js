@@ -69,7 +69,7 @@ describe('chords', () => {
   ].forEach(t => {
     test(`get ${t.key} ${t.scale} chords`, () => {
       const chords = piano.getAllChords(piano.keySet(3), t.keyIndex, t.scale);
-      const chordNames = chords.map(c => c.note || '' + c.suffix);
+      const chordNames = chords.map(c => c.note + c.suffix);
       expect(chordNames).toEqual(t.expect);
     });
   });
