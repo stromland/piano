@@ -13,8 +13,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "CI=true react-scripts test",
-    "lint": "eslint --ext .js --ext .jsx src",
-    "prettier": "prettier -l ./src/**/*{.js,.jsx,.css}"
+    "lint": "npm-run-all lint:prettier lint:eslint",
+    "lint:fix": "npm-run-all lint:prettier-fix lint:eslint-fix",
+    "lint:eslint": "eslint 'src/**/*{.js,.jsx}'",
+    "lint:eslint-fix": "eslint --fix 'src/**/*{.js,.jsx}'",
+    "lint:prettier": "prettier -l src/**/*{.js,.jsx,.css}",
+    "lint:prettier-fix": "prettier --write src/**/*{.js,.jsx,.css}"
   },
   "dependencies": {
     "classnames": "^2.2.5",
