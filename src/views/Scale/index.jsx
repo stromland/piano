@@ -47,6 +47,10 @@ class Scale extends Component {
     });
   };
 
+  selectChord = indexes => {
+    this.props.updatePianoKeys(keys => piano.pressKeys(keys, indexes));
+  };
+
   render() {
     const { pianoKeys } = this.props;
     const { selectedKey, scaleName } = this.state;
@@ -61,6 +65,7 @@ class Scale extends Component {
           pianoKeys={pianoKeys}
           selectedKey={selectedKey}
           scaleName={scaleName}
+          onSelect={this.selectChord}
         />
       </ButtonGroupsContainer>
     );

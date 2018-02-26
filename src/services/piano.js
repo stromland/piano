@@ -16,9 +16,9 @@ const basePianoKeys = [
 const scales = {
   major: [2, 2, 1, 2, 2, 2, 1],
   minor: [2, 1, 2, 2, 1, 2, 2],
-  harmonic: [2, 1, 2, 2, 1, 3, 1],
-  'Pentatonic Major': [2, 2, 3, 2, 3],
-  'Pentatonic Minor': [3, 2, 2, 3, 2]
+  harmonicMinor: [2, 1, 2, 2, 1, 3, 1],
+  pentatonicMajor: [2, 2, 3, 2, 3],
+  pentatonicMinor: [3, 2, 2, 3, 2]
 };
 
 const baseChords = {
@@ -67,15 +67,17 @@ function findChord(pianoKeys, startKey, scaleKeys) {
       suffix: baseChords[name].suffix,
       indexes: chordIndexes
     };
-    return isChordInScale(chordIndexes, scaleKeys) ? chord : acc;
-  }, {});
+    return isChordInScale(chordIndexes, scaleKeys) && !acc ? chord : acc;
+  }, undefined);
 }
 
 function getAllChords(pianoKeys, keyIndex, scaleName) {
   const scale = scales[scaleName];
   const scaleKeys = getScaleKeyIndexes(keyIndex, [...scale, ...scale]);
 
-  return scaleKeys.slice(0, 7).map(s => findChord(pianoKeys, s, scaleKeys));
+  return scaleKeys
+    .slice(0, 7)
+    .map(s => findChord(pianoKeys, s, scaleKeys) || {});
 }
 
 function pressKeys(pianoKeys, keysToPress) {
@@ -98,8 +100,9 @@ export default {
   scales,
   baseChords,
   keySet,
-  findChord,
   getScaleKeyIndexes,
-  pressAllScaleKeys,
-  getAllChords
+  findChord,
+  getAllChords,
+  pressKeys,
+  pressAllScaleKeys
 };
