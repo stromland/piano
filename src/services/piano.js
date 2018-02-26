@@ -80,6 +80,17 @@ function getAllChords(pianoKeys, keyIndex, scaleName) {
     .map(s => findChord(pianoKeys, s, scaleKeys) || {});
 }
 
+function getTriadInversions(chordIndexes) {
+  const shiftIndexes = x => {
+    return Array(x)
+      .fill(12)
+      .map((v, i) => chordIndexes[i] + v)
+      .concat(chordIndexes.slice(x))
+      .sort((x, y) => x - y);
+  };
+  return [chordIndexes, shiftIndexes(1), shiftIndexes(2)];
+}
+
 function pressKeys(pianoKeys, keysToPress) {
   let index = 0;
   return pianoKeys.map((k, i) => {
@@ -101,6 +112,7 @@ export default {
   triadChords,
   keySet,
   getScaleKeyIndexes,
+  getTriadInversions,
   findChord,
   getAllChords,
   pressKeys,

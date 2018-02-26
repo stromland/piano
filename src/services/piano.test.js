@@ -51,7 +51,7 @@ describe('piano scale has every key', () => {
   });
 });
 
-describe('predict chords', () => {
+describe('chords', () => {
   [
     {
       key: 'C',
@@ -66,10 +66,30 @@ describe('predict chords', () => {
       expect: ['G', 'Am', 'Bm', 'C', 'D', 'Em', 'F#dim']
     }
   ].forEach(t => {
-    test(`predict ${t.key} ${t.scale} chords`, () => {
+    test(`get ${t.key} ${t.scale} chords`, () => {
       const chords = piano.getAllChords(piano.keySet(3), t.keyIndex, t.scale);
       const chordNames = chords.map(c => c.note + c.suffix);
       expect(chordNames).toEqual(t.expect);
+    });
+  });
+});
+
+describe('inversions', () => {
+  [
+    {
+      chord: 'C',
+      indexes: [0, 4, 7],
+      expect: [[0, 4, 7], [4, 7, 12], [7, 12, 16]]
+    },
+    {
+      chord: 'Dm',
+      indexes: [2, 5, 9],
+      expect: [[2, 5, 9], [5, 9, 14], [9, 14, 17]]
+    }
+  ].forEach(t => {
+    test(`get all inversions for chord ${t.chord}`, () => {
+      const inversions = piano.getTriadInversions(t.indexes);
+      expect(inversions).toEqual(t.expect);
     });
   });
 });
