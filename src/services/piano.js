@@ -21,7 +21,7 @@ const scales = {
   pentatonicMinor: [3, 2, 2, 3, 2]
 };
 
-const baseChords = {
+const triadChords = {
   major: {
     suffix: '',
     indexes: [0, 4, 7]
@@ -60,11 +60,11 @@ function isChordInScale(chordKeys, scaleKeys) {
 }
 
 function findChord(pianoKeys, startKey, scaleKeys) {
-  return Object.keys(baseChords).reduce((acc, name) => {
-    const chordIndexes = baseChords[name].indexes.map(i => i + startKey);
+  return Object.keys(triadChords).reduce((acc, name) => {
+    const chordIndexes = triadChords[name].indexes.map(i => i + startKey);
     const chord = {
       note: pianoKeys[startKey].note,
-      suffix: baseChords[name].suffix,
+      suffix: triadChords[name].suffix,
       indexes: chordIndexes
     };
     return isChordInScale(chordIndexes, scaleKeys) && !acc ? chord : acc;
@@ -98,7 +98,7 @@ function pressAllScaleKeys(pianoKeys, startKey, scale) {
 
 export default {
   scales,
-  baseChords,
+  triadChords,
   keySet,
   getScaleKeyIndexes,
   findChord,
