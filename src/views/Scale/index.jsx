@@ -52,7 +52,6 @@ class Scale extends Component {
   };
 
   render() {
-    const { pianoKeys } = this.props;
     const { selectedKey, scaleName } = this.state;
     return (
       <ButtonGroupsContainer>
@@ -62,7 +61,6 @@ class Scale extends Component {
         <ScaleSelector onSelect={this.selectScale} selected={scaleName} />
         <Label>Chords</Label>
         <ChordSelector
-          pianoKeys={pianoKeys}
           selectedKey={selectedKey}
           scaleName={scaleName}
           onSelect={this.selectChord}

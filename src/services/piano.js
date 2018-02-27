@@ -2,7 +2,8 @@
 
 type PianoKey = {
   note: string,
-  black?: boolean
+  black?: boolean,
+  pressed?: boolean
 };
 
 type Chord = {
@@ -76,11 +77,8 @@ function isChordInScale(chordKeys: number[], scaleKeys: number[]): boolean {
   return chordKeys.reduce((acc, i) => acc && scaleKeys.indexOf(i) !== -1, true);
 }
 
-function findChord(
-  pianoKeys: PianoKey[],
-  startKey: number,
-  scaleKeys: number[]
-): Chord {
+function findChord(startKey: number, scaleKeys: number[]): Chord {
+  const pianoKeys = keySet(Math.ceil(startKey / 12) + 2);
   const chords = Object.keys(triadChords)
     .map(name => {
       const chordIndexes = triadChords[name].indexes.map(i => i + startKey);
@@ -95,15 +93,11 @@ function findChord(
   return chords.length > 0 ? chords[0] : { indexes: [], suffix: '' };
 }
 
-function getAllChords(
-  pianoKeys: PianoKey[],
-  keyIndex: number,
-  scaleName: string
-): Chord[] {
+function getAllChords(keyIndex: number, scaleName: string): Chord[] {
   const scale = scales[scaleName];
   const scaleKeys = getScaleKeyIndexes(keyIndex, [...scale, ...scale]);
 
-  return scaleKeys.slice(0, 7).map(s => findChord(pianoKeys, s, scaleKeys));
+  return scaleKeys.slice(0, 7).map(s => findChord(s, scaleKeys));
 }
 
 function getTriadInversions(chordIndexes: number[]): number[][] {

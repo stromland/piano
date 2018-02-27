@@ -1,4 +1,3 @@
-// @flow
 import piano from './piano';
 
 describe('piano major scale', () => {
@@ -38,8 +37,11 @@ describe('piano major chords', () => {
     test(`piano ${t.chord} chord`, () => {
       const majorScale = piano.scales['major'];
       const scaleKeys = piano.getScaleKeyIndexes(0, majorScale);
-      const chord = piano.findChord(piano.keySet(3), t.index, scaleKeys);
+
+      const chord = piano.findChord(t.index, scaleKeys);
+
       expect(chord.indexes).toEqual(t.expect);
+      expect(chord.note + chord.suffix).toBe(t.chord);
     });
   });
 });
@@ -68,7 +70,7 @@ describe('chords', () => {
     }
   ].forEach(t => {
     test(`get ${t.key} ${t.scale} chords`, () => {
-      const chords = piano.getAllChords(piano.keySet(3), t.keyIndex, t.scale);
+      const chords = piano.getAllChords(t.keyIndex, t.scale);
       const chordNames = chords.map(c => c.note + c.suffix);
       expect(chordNames).toEqual(t.expect);
     });
