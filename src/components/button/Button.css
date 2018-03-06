@@ -1,0 +1,41 @@
+.btn {
+  flex: 1;
+  color: #000000;
+  font-size: 1.1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  border-bottom: 3px solid var(--primary-dark);
+  background: var(--primary);
+  padding: 5px 10px;
+  margin: 10px;
+}
+
+.btn-active {
+  background: var(--secondary);
+  border-bottom: 3px solid var(--secondary-dark);
+}
+
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+.btn-active:hover {
+  background: var(--secondary-hover);
+}
+
+.btn:active {
+  background: var(--primary-dark);
+}
+
+.btn-active:active {
+  background: var(--secondary-dark);
+}
+
+.btn:focus {
+  outline: 0 !important;
+}
+
+.btn::-moz-focus-inner {
+  border: 0;
+}
