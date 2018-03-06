@@ -9,7 +9,7 @@ cache:
   directories:
     - "node_modules"
 before_script:
-  - java --version
+  - java -version
 script:
   - npm run build --verbose
 deploy:
