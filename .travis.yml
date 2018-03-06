@@ -8,8 +8,10 @@ addons:
 cache:
   directories:
     - "node_modules"
+before_script:
+  - java --version
 script:
-  - npm run build
+  - npm run build --verbose
 deploy:
   provider: pages
   skip-cleanup: true
