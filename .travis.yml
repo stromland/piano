@@ -5,6 +5,11 @@ addons:
   apt:
     packages:
       - oracle-java8-set-default 
+install:
+  - bash -c "curl -s "https://get.sdkman.io" | bash"
+  - source "/home/travis/.sdkman/bin/sdkman-init.sh"
+  - sdk install kotlin
+  - npm install
 before_script:
   - java -version
 script:
