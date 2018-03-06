@@ -6,10 +6,11 @@ addons:
     packages:
       - oracle-java8-set-default 
 before_script:
-  - java -version
   - env
 script:
   - npm run build --verbose
+after_failure:
+  - cat /home/travis/.npm/_logs/*
 deploy:
   provider: pages
   skip-cleanup: true
