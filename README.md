@@ -5,11 +5,8 @@
   <a href="https://travis-ci.org/stromland/piano">
     <img alt="Travis" src="https://img.shields.io/travis/stromland/piano/master.svg?style=flat-square">
   </a>
-  <a href="https://github.com/prettier/prettier">
-    <img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
-  </a>
-  <a href="https://github.com/facebookincubator/create-react-app">
-    <img alt="React" src="https://img.shields.io/badge/bootstrapped-create--react--app-blue.svg?style=flat-square">
+  <a href="https://github.com/JetBrains/create-react-kotlin-app">
+    <img alt="React" src="https://img.shields.io/badge/bootstrapped-create--react--kotlin--app-orange.svg?style=flat-square">
   </a>
 </p>
 
