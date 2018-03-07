@@ -26,11 +26,7 @@ object Piano {
             ?.second ?: throw IllegalArgumentException("Not a valid note ($note)")
     }
 
-    fun getPianoKeySets(sets: Int): List<PianoKey> {
-        return List(sets) { pianoKeys }.fold(listOf()) { allKeys, keys ->
-            allKeys + keys
-        }
-    }
+    fun getPianoKeySets(sets: Int) = List(sets) { pianoKeys }.reduce { allKeys, keys -> allKeys + keys }
 
     fun getPianoKeys(keys: Int): List<PianoKey> {
         val sets = ceil(keys / pianoKeys.size.toDouble()).toInt()

@@ -4,7 +4,7 @@ import kotlinx.html.BUTTON
 import react.RBuilder
 import react.dom.RDOMBuilder
 import react.dom.button
-import com.github.stromland.piano.utils.classNames
+import utils.classNames
 
 fun RBuilder.toggleButton(active: Boolean = false, block: RDOMBuilder<BUTTON>.() -> Unit) {
     val classes = mapOf(

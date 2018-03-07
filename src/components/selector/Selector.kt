@@ -15,7 +15,7 @@ fun RBuilder.selector(onSelect: SelectOption, options: List<String>, selected: S
             toggleButton(selected == option) {
                 key = option
                 attrs.onClickFunction = { onSelect(option) }
-                if(formatText) +option.replace("[A-Z]".toRegex(), { " ${it.value}" }).capitalize()
+                if (formatText) +option.replace("[A-Z]".toRegex(), { " ${it.value}" }).capitalize()
                 else +option
             }
         }

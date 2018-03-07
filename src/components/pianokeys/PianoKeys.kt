@@ -1,11 +1,11 @@
 package components.pianokeys
 
 import com.github.stromland.piano.models.PianoKey
-import com.github.stromland.piano.utils.classNames
 import react.RBuilder
 import react.ReactElement
 import react.dom.div
 import react.dom.span
+import utils.classNames
 
 fun RBuilder.pianoKeys(keys: List<PianoKey>) {
     div("key-container") {
