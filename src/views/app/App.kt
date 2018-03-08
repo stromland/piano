@@ -4,8 +4,8 @@ import com.github.stromland.piano.models.PianoKey
 import com.github.stromland.piano.services.Piano
 import com.github.stromland.piano.services.Scale
 import com.github.stromland.piano.services.TriadChord
-import components.button.toggleButton
 import components.button.buttonGroup
+import components.button.toggleButton
 import components.pianokeys.pianoKeys
 import components.selector.selector
 import kotlinx.html.js.onClickFunction
@@ -15,8 +15,8 @@ import react.RProps
 import react.RState
 import react.dom.div
 import react.dom.jsStyle
-import react.dom.label
 import react.setState
+import views.footer.footer
 
 sealed class PressType(val type: String)
 class PressScale : PressType("SCALE")
@@ -74,7 +74,7 @@ class App : RComponent<RProps, AppState>() {
     }
 
     fun findFirstChord(note: String, scale: String): String {
-        return getAllChords(note, scale).first().let { it.note+it.suffix }
+        return getAllChords(note, scale).first().let { it.note + it.suffix }
     }
 
     fun getAllChords(note: String, scale: String): List<TriadChord.Chord> {
@@ -84,7 +84,8 @@ class App : RComponent<RProps, AppState>() {
     }
 
     fun pressChordKeys(): List<PianoKey> {
-        val chord = getAllChords(state.selectedNote, state.selectedScale).first { it.note+it.suffix == state.selectedChord }
+        val chord =
+            getAllChords(state.selectedNote, state.selectedScale).first { it.note + it.suffix == state.selectedChord }
         val inversions = TriadChord.getTriadInversions(chord.keyIndexes)
         val index = TriadChord.inversions().indexOf(state.selectedInversion)
         return Piano.pressKeys(pianoKeys, inversions[index])
@@ -123,13 +124,14 @@ class App : RComponent<RProps, AppState>() {
                 +"Press Keys"
             }
             selectorContainer {
-                selectorLabel() { +"Scale" }
+                selectorLabel { +"Scale" }
                 selector(::selectNote, keyNames, state.selectedNote)
                 selector(::selectScale, scaleNames, state.selectedScale, true)
-                selectorLabel() { +"Chord" }
+                selectorLabel { +"Chord" }
                 selector(::selectChord, chordNames, state.selectedChord)
                 selector(::selectInversion, TriadChord.inversions(), state.selectedInversion, true)
             }
+            footer()
         }
     }
 }
