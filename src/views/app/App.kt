@@ -5,7 +5,7 @@ import com.github.stromland.piano.services.Piano
 import com.github.stromland.piano.services.Scale
 import com.github.stromland.piano.services.TriadChord
 import components.button.toggleButton
-import components.buttonGroup.buttonGroup
+import components.button.buttonGroup
 import components.pianokeys.pianoKeys
 import components.selector.selector
 import kotlinx.html.js.onClickFunction
@@ -118,34 +118,15 @@ class App : RComponent<RProps, AppState>() {
                     +"Chords"
                 }
             }
-            label {
-                attrs.jsStyle {
-                    marginTop = "5px"
-                    fontSize = "1em"
-                    fontWeight = "bold"
-                    color = "var(--label-text)"
-                }
+            selectorLabel(LabelSizes(small = true)) {
+                attrs.jsStyle.marginTop = "5px"
                 +"Press Keys"
             }
-            buttonGroupsContainer {
-                label {
-                    attrs.jsStyle {
-                        fontSize = "2em"
-                        fontWeight = "bold"
-                        color = "var(--label-text)"
-                    }
-                    +"Scale"
-                }
+            selectorContainer {
+                selectorLabel() { +"Scale" }
                 selector(::selectNote, keyNames, state.selectedNote)
                 selector(::selectScale, scaleNames, state.selectedScale, true)
-                label {
-                    attrs.jsStyle {
-                        fontSize = "2em"
-                        fontWeight = "bold"
-                        color = "var(--label-text)"
-                    }
-                    +"Chord"
-                }
+                selectorLabel() { +"Chord" }
                 selector(::selectChord, chordNames, state.selectedChord)
                 selector(::selectInversion, TriadChord.inversions(), state.selectedInversion, true)
             }

@@ -1,4 +1,4 @@
-package components.buttonGroup
+package components.button
 
 import kotlinx.html.DIV
 import react.RBuilder
