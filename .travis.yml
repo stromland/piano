@@ -1,12 +1,6 @@
 language: node_js
 node_js:
   - "8"
-addons:
-  apt:
-    packages:
-      - oracle-java8-set-default 
-before_script:
-  - unset _JAVA_OPTIONS
 script:
   - npm run build
 deploy:
