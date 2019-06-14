@@ -5,7 +5,7 @@ import { classNames } from "utils/functions";
 import "./ToggleButton.css";
 
 interface ToggleButtonProps {
-  active: boolean;
+  pressed: boolean;
 }
 
 export function ToggleButton(
@@ -13,7 +13,7 @@ export function ToggleButton(
 ) {
   const classes = classNames({
     btn: true,
-    "btn-active": props.active,
+    "btn-active": props.pressed,
     // TODO: refactor
     [props.className || ""]: !!props.className
   });

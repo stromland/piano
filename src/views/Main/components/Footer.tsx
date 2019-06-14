@@ -1,6 +1,6 @@
 import React from "react";
 
-import GitHubLogo from "./GitHub-Mark-Light-32px.png";
+import GitHubLogo from "./assets/GitHub-Mark-Light-32px.png";
 
 export function Footer() {
   return (

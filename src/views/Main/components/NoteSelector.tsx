@@ -2,7 +2,7 @@ import React from "react";
 import { PIANO_NOTES, Note } from "services/Piano";
 import { ToggleButton } from "components/button/ToggleButton";
 
-import styles from "./NoteSelector.module.css";
+import styles from "./Selector.module.css";
 
 interface NoteSelectorProps {
   selectedNote: Note;
@@ -17,7 +17,8 @@ export function NoteSelector({
     <div className={styles.container}>
       {PIANO_NOTES.map(note => (
         <ToggleButton
-          active={note === selectedNote}
+          key={note}
+          pressed={note === selectedNote}
           onClick={() => handleSelectNote(note)}
         >
           {note}
