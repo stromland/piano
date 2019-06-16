@@ -5,8 +5,6 @@ script:
   - npm run build
 deploy:
   provider: pages
-  edge:
-    branch: pages-ivar-set
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: false
