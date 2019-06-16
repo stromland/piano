@@ -15,6 +15,7 @@ export class Scale {
     // pentatonicMajor: [2, 2, 3, 2, 3],
     // pentatonicMinor: [3, 2, 2, 3, 2]
   };
+
   public static getScaleKeyIndexes(
     noteIndex: number,
     scaleType: ScaleType,
@@ -28,7 +29,7 @@ export class Scale {
         (keys, nextKey) =>
           keys.length === 0
             ? [noteIndex, noteIndex + nextKey]
-            : [...keys, last(keys) || 0 + nextKey],
+            : [...keys, last(keys)! + nextKey],
         [] as number[]
       );
   }
