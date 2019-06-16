@@ -1,6 +1,5 @@
 import React from "react";
-
-import { classNames } from "utils/functions";
+import classnames from "classnames";
 
 import "./ToggleButton.css";
 
@@ -11,11 +10,8 @@ interface ToggleButtonProps {
 export function ToggleButton(
   props: ToggleButtonProps & JSX.IntrinsicElements["button"]
 ) {
-  const classes = classNames({
-    btn: true,
-    "btn-active": props.pressed,
-    // TODO: refactor
-    [props.className || ""]: !!props.className
+  const classes = classnames("btn", props.className, {
+    "btn-active": props.pressed
   });
 
   return <button className={classes} {...props} />;

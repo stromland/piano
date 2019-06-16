@@ -1,29 +1,28 @@
-import { Scale } from "./Scale";
+import { Scale, ScaleType } from "./Scale";
+import { Piano, Note } from "./Piano";
 
-// Key index
-// C = 0
-// C# = 1
-// D = 2
-// D# = 3
-// E = 4
-// F = 5
-// F# = 6
-// G = 7
-// G# = 8
-// A = 9
-// Bb = 10
-// B = 11
+interface Test {
+  note: Note;
+  scale: ScaleType;
+  expected: number[];
+}
 
 describe("Scale", () => {
-  it("should create C major scale", () => {
-    const keys = Scale.getScaleKeyIndexes(0, "major");
-    expect(keys.length).toBe(8);
-    expect(keys).toStrictEqual([0, 2, 4, 5, 7, 9, 11, 12]);
-  });
-
-  it("should create E major scale", () => {
-    const keys = Scale.getScaleKeyIndexes(4, "major");
-    expect(keys.length).toBe(8);
-    expect(keys).toStrictEqual([4, 6, 8, 9, 11, 13, 15, 16]);
+  describe("getScaleKeyIndexes", () => {
+    test.each`
+      note   | scale      | expected
+      ${"C"} | ${"major"} | ${[0, 2, 4, 5, 7, 9, 11, 12]}
+      ${"C"} | ${"minor"} | ${[0, 2, 3, 5, 7, 8, 10, 12]}
+      ${"E"} | ${"major"} | ${[4, 6, 8, 9, 11, 13, 15, 16]}
+      ${"F"} | ${"major"} | ${[5, 7, 9, 10, 12, 14, 16, 17]}
+    `(
+      "when given note=$note and scale=$scale it should return $expected",
+      ({ note, scale, expected }: Test) => {
+        const index = Piano.getPianoKeyIndex(note);
+        const keys = Scale.getScaleKeyIndexes(index, scale);
+        expect(keys.length).toBe(8);
+        expect(keys).toStrictEqual(expected);
+      }
+    );
   });
 });

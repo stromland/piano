@@ -7,11 +7,15 @@
     "name": "Espen Strømland"
   },
   "dependencies": {
+    "classnames": "2.2.6",
+    "lodash": "4.17.11",
     "react": "16.8.6",
     "react-dom": "16.8.6"
   },
   "devDependencies": {
+    "@types/classnames": "2.2.8",
     "@types/jest": "24.0.13",
+    "@types/lodash": "4.14.134",
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
     "prettier": "1.18.2",

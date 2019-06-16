@@ -1,6 +1,7 @@
 import React from "react";
+import classnames from "classnames";
+
 import { PianoKey } from "models/PianoKey";
-import { classNames } from "utils/functions";
 
 import "./PianoKeys.css";
 
@@ -9,8 +10,7 @@ interface KeyProps {
 }
 
 function Key({ pianoKey }: KeyProps) {
-  const classes = classNames({
-    key: true,
+  const classes = classnames("key", {
     "black-key": pianoKey.black,
     pressed: pianoKey.pressed
   });

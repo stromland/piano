@@ -1,5 +1,6 @@
+import every from "lodash/every";
+
 import { PianoKey } from "models/PianoKey";
-import { all } from "utils/functions";
 
 export interface Chord extends ChordSpec {
   note: string;
@@ -45,7 +46,7 @@ export class TriadChord {
           keyIndexes: spec.keyIndexes.map(it => it + startKey)
         })
       )
-      .find(chord => all(chord.keyIndexes, key => scaleKeys.includes(key)));
+      .find(chord => every(chord.keyIndexes, key => scaleKeys.includes(key)));
   }
 
   public static getTriadInversion(

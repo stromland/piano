@@ -11,7 +11,6 @@ import styles from "./Main.module.css";
 import { InversionSelector } from "./components/InversionSelector";
 import { ScaleSelector } from "./components/ScaleSelector";
 import { TypeSelector } from "./components/TypeSelector";
-import { PressType } from "services/PianoBoard";
 
 export function Main() {
   const {

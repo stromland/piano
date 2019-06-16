@@ -1,3 +1,5 @@
+import last from "lodash/last";
+
 interface Scales {
   major: number[];
   minor: number[];
@@ -26,16 +28,12 @@ export class Scale {
         (keys, nextKey) =>
           keys.length === 0
             ? [noteIndex, noteIndex + nextKey]
-            : [...keys, this.last(keys) + nextKey],
+            : [...keys, last(keys) || 0 + nextKey],
         [] as number[]
       );
   }
 
-  private static last<T>(arr: Array<T>): T {
-    return arr[arr.length - 1];
-  }
-
-  private static getScaleSpec(name: keyof Scales): number[] {
+  private static getScaleSpec(name: ScaleType): number[] {
     return Scale.scales[name];
   }
 }

@@ -25,11 +25,11 @@ export class Piano {
   }));
 
   public static getPianoKeyIndex(note: Note): number {
-    const index = this.keys.findIndex(it => it.note === note);
-    if (index === -1) {
-      throw new Error(`Not a valid note (${note})`);
-    }
-    return index;
+    return this.keys.findIndex(it => it.note === note);
+  }
+
+  public static getNoteFromIndex(index: number): Note {
+    return PIANO_NOTES[index % 12];
   }
 
   public static getPianoKeySets(sets: number): PianoKey[] {
