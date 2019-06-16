@@ -1,6 +1,6 @@
 import React from "react";
 import { PIANO_NOTES, Note } from "services/Piano";
-import { ToggleButton } from "components/button/ToggleButton";
+import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import styles from "./Selector.module.css";
 

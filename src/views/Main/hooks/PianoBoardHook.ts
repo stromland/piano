@@ -30,13 +30,20 @@ export function usePianoBoard(keys: number = 41) {
     return PianoBoard.getPressedKeys(keys, note, scale, chord, inversion, type);
   };
 
+  const findFirstChord = (note: Note, scale: ScaleType): Chord => {
+    const chords = PianoBoard.getAllChords(state.keys, note, scale);
+    return chords[0];
+  };
+
   return {
     ...state,
     keys: pressKeys(),
     chords: PianoBoard.getAllChords(state.keys, state.note, state.scale),
     selectType: (type: PressType): void => setState({ ...state, type }),
-    selectNote: (note: Note): void => setState({ ...state, note }),
-    selectScale: (scale: ScaleType): void => setState({ ...state, scale }),
+    selectNote: (note: Note): void =>
+      setState({ ...state, chord: findFirstChord(note, state.scale), note }),
+    selectScale: (scale: ScaleType): void =>
+      setState({ ...state, chord: findFirstChord(state.note, scale), scale }),
     selectChord: (chord: Chord): void => setState({ ...state, chord }),
     selectInversion: (inversion: Inversion): void =>
       setState({ ...state, inversion })

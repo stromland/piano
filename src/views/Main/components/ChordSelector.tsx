@@ -1,6 +1,6 @@
 import React from "react";
 import { Chord } from "services/TriadChord";
-import { ToggleButton } from "components/button/ToggleButton";
+import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import styles from "./Selector.module.css";
 
@@ -15,18 +15,41 @@ export const ChordSelector = ({
   handleSelectChord,
   selectedChord
 }: ChordSelectorProps) => {
-  const createChordName = (chord: Chord) => chord.note + chord.suffix;
   return (
     <div className={styles.container}>
       {chords.map(chord => (
-        <ToggleButton
-          key={createChordName(chord)}
-          pressed={createChordName(chord) === createChordName(selectedChord)}
-          onClick={() => handleSelectChord(chord)}
-        >
-          {createChordName(chord)}
-        </ToggleButton>
+        <ChordButton
+          chord={chord}
+          selectedChord={selectedChord}
+          handleSelectChord={handleSelectChord}
+        />
       ))}
     </div>
+  );
+};
+
+interface ChordButtonProps {
+  chord: Chord;
+  handleSelectChord: (chord: Chord) => void;
+  selectedChord: Chord;
+}
+
+const ChordButton = ({
+  chord,
+  handleSelectChord,
+  selectedChord
+}: ChordButtonProps) => {
+  const createChordName = (chord: Chord) => chord.note + chord.suffix;
+  const chordName = createChordName(chord);
+  const selectedChordName = createChordName(selectedChord);
+
+  return (
+    <ToggleButton
+      key={chordName}
+      pressed={chordName === selectedChordName}
+      onClick={() => handleSelectChord(chord)}
+    >
+      {chordName}
+    </ToggleButton>
   );
 };
