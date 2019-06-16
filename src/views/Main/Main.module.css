@@ -1,0 +1,19 @@
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.label {
+  font-weight: bold;
+  color: var(--label-text);
+}
+
+.label--small {
+  font-size: 1em;
+}
+
+.label--medium {
+  font-size: 2em;
+}

@@ -31,10 +31,5 @@ body {
 
 #root {
   height: 100%;
-}
-
-.main-container {
-  height: 100%;
   display: flex;
-  margin: 0;
 }

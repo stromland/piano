@@ -7,17 +7,43 @@
     "name": "Espen Strømland"
   },
   "dependencies": {
-    "react": "16.7.0",
-    "react-dom": "16.7.0"
+    "classnames": "2.2.6",
+    "lodash": "4.17.11",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
   },
   "devDependencies": {
-    "react-scripts-kotlin": "3.0.3"
+    "@types/classnames": "2.2.8",
+    "@types/jest": "24.0.13",
+    "@types/lodash": "4.14.134",
+    "@types/react": "16.8.19",
+    "@types/react-dom": "16.8.4",
+    "prettier": "1.18.2",
+    "react-scripts": "3.0.1",
+    "rimraf": "2.6.3",
+    "typescript": "3.5.1"
   },
   "scripts": {
-    "start": "react-scripts-kotlin start",
-    "build": "react-scripts-kotlin build",
-    "eject": "react-scripts-kotlin eject",
-    "gen-idea-libs": "react-scripts-kotlin gen-idea-libs",
-    "get-types": "react-scripts-kotlin get-types --dest=src/types"
+    "start": "react-scripts start",
+    "prebuild": "npm run clean",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "clean": "rimraf build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
