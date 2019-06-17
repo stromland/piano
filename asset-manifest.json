@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/piano/static/css/main.2d17fae9.chunk.css",
+    "main.js": "/piano/static/js/main.a0de575d.chunk.js",
+    "main.js.map": "/piano/static/js/main.a0de575d.chunk.js.map",
+    "runtime~main.js": "/piano/static/js/runtime~main.32f1f0ba.js",
+    "runtime~main.js.map": "/piano/static/js/runtime~main.32f1f0ba.js.map",
+    "static/js/2.116465eb.chunk.js": "/piano/static/js/2.116465eb.chunk.js",
+    "static/js/2.116465eb.chunk.js.map": "/piano/static/js/2.116465eb.chunk.js.map",
+    "index.html": "/piano/index.html",
+    "precache-manifest.8d85384b617d0e2c48ef2483219d625c.js": "/piano/precache-manifest.8d85384b617d0e2c48ef2483219d625c.js",
+    "service-worker.js": "/piano/service-worker.js",
+    "static/css/main.2d17fae9.chunk.css.map": "/piano/static/css/main.2d17fae9.chunk.css.map"
+  }
+}
