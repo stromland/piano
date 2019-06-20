@@ -10,9 +10,10 @@ interface ToggleButtonProps {
 export function ToggleButton(
   props: ToggleButtonProps & JSX.IntrinsicElements["button"]
 ) {
+  const { pressed, ...rest } = props;
   const classes = classnames("btn", props.className, {
     "btn-active": props.pressed
   });
 
-  return <button className={classes} {...props} />;
+  return <button className={classes} {...rest} />;
 }

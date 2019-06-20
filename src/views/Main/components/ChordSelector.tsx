@@ -19,6 +19,7 @@ export const ChordSelector = ({
     <div className={styles.container}>
       {chords.map(chord => (
         <ChordButton
+          key={chord.note}
           chord={chord}
           selectedChord={selectedChord}
           handleSelectChord={handleSelectChord}
