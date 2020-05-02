@@ -12,7 +12,7 @@ interface InversionSelectorProps {
 
 export const InversionSelector = ({
   inversion,
-  handleSelectInversion
+  handleSelectInversion,
 }: InversionSelectorProps) => {
   return (
     <div className={style.container}>

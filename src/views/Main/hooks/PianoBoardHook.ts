@@ -22,7 +22,7 @@ export function usePianoBoard(keys: number = 41) {
     scale: "major",
     inversion: Inversion.ROOT,
     chord: { note: "C", suffix: "", keyIndexes: [0, 4, 7] },
-    keys: Piano.getPianoKeys(keys)
+    keys: Piano.getPianoKeys(keys),
   });
 
   const pressKeys = (): PianoKey[] => {
@@ -46,6 +46,6 @@ export function usePianoBoard(keys: number = 41) {
       setState({ ...state, chord: findFirstChord(state.note, scale), scale }),
     selectChord: (chord: Chord): void => setState({ ...state, chord }),
     selectInversion: (inversion: Inversion): void =>
-      setState({ ...state, inversion })
+      setState({ ...state, inversion }),
   };
 }

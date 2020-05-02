@@ -25,7 +25,7 @@ export function Main() {
     selectNote,
     selectScale,
     selectChord,
-    selectInversion
+    selectInversion,
   } = usePianoBoard();
 
   return (

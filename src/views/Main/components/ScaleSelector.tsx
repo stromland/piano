@@ -11,7 +11,7 @@ interface ScaleSelectorProps {
 
 export const ScaleSelector = ({
   handleSelectScale,
-  scale
+  scale,
 }: ScaleSelectorProps) => {
   return (
     <div className={style.container}>

@@ -13,11 +13,11 @@ interface ChordSelectorProps {
 export const ChordSelector = ({
   chords,
   handleSelectChord,
-  selectedChord
+  selectedChord,
 }: ChordSelectorProps) => {
   return (
     <div className={styles.container}>
-      {chords.map(chord => (
+      {chords.map((chord) => (
         <ChordButton
           key={chord.note}
           chord={chord}
@@ -38,7 +38,7 @@ interface ChordButtonProps {
 const ChordButton = ({
   chord,
   handleSelectChord,
-  selectedChord
+  selectedChord,
 }: ChordButtonProps) => {
   const createChordName = (chord: Chord) => chord.note + chord.suffix;
   const chordName = createChordName(chord);

@@ -12,7 +12,7 @@ interface KeyProps {
 function Key({ pianoKey }: KeyProps) {
   const classes = classnames("key", {
     "black-key": pianoKey.black,
-    pressed: pianoKey.pressed
+    pressed: pianoKey.pressed,
   });
 
   return (
