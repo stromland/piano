@@ -1,0 +1,44 @@
+.dropdown {
+  position: relative;
+  padding: 5px;
+  display: flex;
+}
+
+.selected {
+  display: block;
+  position: relative;
+  min-width: 100px;
+  border: 5px solid var(--primary-dark);
+  padding: 5px 20px;
+  background: var(--primary);
+  cursor: pointer;
+  font-weight: bolder;
+  font-size: large;
+}
+
+.options {
+  position: absolute;
+  min-width: 100px;
+  top: 48px;
+  background: var(--secondary);
+  cursor: pointer;
+  border-bottom: 3px solid var(--secondary-dark);
+  border-right: 3px solid var(--secondary-dark);
+}
+
+.optionsHidden {
+  display: none;
+}
+
+.option {
+  margin: 0;
+  padding: 5px 20px;
+}
+
+.option:hover {
+  background: var(--secondary-hover);
+}
+
+.optionSelected {
+  background: var(--secondary-dark);
+}
