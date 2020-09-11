@@ -11,11 +11,11 @@ interface NoteSelectorProps {
 
 export function NoteSelector({
   handleSelectNote,
-  selectedNote
+  selectedNote,
 }: NoteSelectorProps) {
   return (
     <div className={styles.container}>
-      {PIANO_NOTES.map(note => (
+      {PIANO_NOTES.map((note) => (
         <ToggleButton
           key={note}
           pressed={note === selectedNote}

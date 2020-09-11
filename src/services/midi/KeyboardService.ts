@@ -11,11 +11,11 @@ export async function loadMidi(
   }
   try {
     const access = await navigator.requestMIDIAccess({ sysex: false });
-    access.inputs.forEach(val => {
+    access.inputs.forEach((val) => {
       val.onmidimessage = readNote(keys, updateKeys);
     });
 
-    access.onstatechange = function(e) {
+    access.onstatechange = function (e) {
       console.log(e.port.name, e.port.manufacturer, e.port.state);
     };
   } catch (e) {
@@ -25,7 +25,7 @@ export async function loadMidi(
 
 enum KeyState {
   OFF = 128,
-  ON = 144
+  ON = 144,
 }
 
 const readNote = (keys: PianoKey[], updateKeys: (keys: PianoKey[]) => void) => (

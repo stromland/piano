@@ -12,7 +12,7 @@ export function ToggleButton(
 ) {
   const { pressed, ...rest } = props;
   const classes = classnames("btn", props.className, {
-    "btn-active": props.pressed
+    "btn-active": props.pressed,
   });
 
   return <button className={classes} {...rest} />;
