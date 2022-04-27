@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "target": "ES5",
+    "declaration": true,
+    "baseUrl": "src",
+    "paths": {
+      "*": ["types/*"]
+    },
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "exclude": ["**/*.test.ts", "lib"]
+}
