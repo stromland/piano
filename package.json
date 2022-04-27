@@ -1,0 +1,21 @@
+{
+  "name": "@stromland/piano",
+  "version": "0.0.0",
+  "private": true,
+  "homepage": "http://stromland.github.io/piano",
+  "author": {
+    "name": "Espen Strømland"
+  },
+  "workspaces": [
+    "packages/piano-react",
+    "packages/piano-vue",
+    "packages/piano-lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stromland/piano.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stromland/piano/issues"
+  }
+}
