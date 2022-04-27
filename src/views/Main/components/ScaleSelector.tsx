@@ -1,5 +1,5 @@
 import React from "react";
-import { ScaleType } from "services/Scale";
+import { ScaleType, Scale } from "services/Scale";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import style from "./Selector.module.css";
@@ -15,18 +15,14 @@ export const ScaleSelector = ({
 }: ScaleSelectorProps) => {
   return (
     <div className={style.container}>
+      {Object.keys(Scale.scales).map((key) => (
       <ToggleButton
-        pressed={scale === "major"}
-        onClick={() => handleSelectScale("major")}
+        pressed={scale === key}
+        onClick={() => handleSelectScale(key as ScaleType)}
       >
-        Major
+        {key}
       </ToggleButton>
-      <ToggleButton
-        pressed={scale === "minor"}
-        onClick={() => handleSelectScale("minor")}
-      >
-        Minor
-      </ToggleButton>
+      ))}
     </div>
   );
 };
