@@ -5,7 +5,7 @@ import { TriadChord, Chord, Inversion } from "./TriadChord";
 
 export enum PressType {
   SCALE,
-  CHORD
+  CHORD,
 }
 
 export class PianoBoard {
@@ -43,7 +43,9 @@ export class PianoBoard {
     const scaleKeys = Scale.getScaleKeyIndexes(keyIndex, scale, 2);
     return scaleKeys
       .slice(0, 7)
-      .map(it => TriadChord.findChord(keys, scaleKeys, it)!);
+      .map((it) => TriadChord.findChord(keys, scaleKeys, it))
+      .filter((it) => it !== undefined)
+      .map((it) => it as Chord); // TODO: improve
   }
 
   public static pressChordKeys(

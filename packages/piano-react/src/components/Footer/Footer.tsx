@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 
 import GitHubLogo from "./assets/GitHub-Mark-Light-32px.png";
 
 import "./Footer.css";
 
-export function Footer() {
+export const Footer: FC = () => {
   return (
     <div className="footer">
       <a href="https://github.com/stromland/piano" target="blank">
@@ -12,4 +12,4 @@ export function Footer() {
       </a>
     </div>
   );
-}
+};

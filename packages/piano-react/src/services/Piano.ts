@@ -12,20 +12,20 @@ export const PIANO_NOTES = [
   "G#",
   "A",
   "Bb",
-  "B"
+  "B",
 ] as const;
 
 export type Note = typeof PIANO_NOTES[number];
 
 export class Piano {
-  public static keys: PianoKey[] = PIANO_NOTES.map(note => ({
+  public static keys: PianoKey[] = PIANO_NOTES.map((note) => ({
     note,
     black: note.length === 2,
-    pressed: false
+    pressed: false,
   }));
 
   public static getPianoKeyIndex(note: Note): number {
-    return this.keys.findIndex(it => it.note === note);
+    return this.keys.findIndex((it) => it.note === note);
   }
 
   public static getNoteFromIndex(index: number): Note {

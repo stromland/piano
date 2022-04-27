@@ -1,11 +1,9 @@
-import last from "lodash/last";
-
 interface Scales {
   major: number[];
   minor: number[];
   harmonicMinor: number[];
-    // pentatonicMajor: number[];
-    // pentatonicMinor: number[];
+  // pentatonicMajor: number[];
+  // pentatonicMinor: number[];
 }
 
 export type ScaleType = keyof Scales;
@@ -22,7 +20,7 @@ export class Scale {
   public static getScaleKeyIndexes(
     noteIndex: number,
     scaleType: ScaleType,
-    sets: number = 1
+    sets = 1
   ): number[] {
     const spec = this.getScaleSpec(scaleType);
     return Array<number[]>(sets)
@@ -32,7 +30,7 @@ export class Scale {
         (keys, nextKey) =>
           keys.length === 0
             ? [noteIndex, noteIndex + nextKey]
-            : [...keys, last(keys)! + nextKey],
+            : [...keys, keys[keys.length - 1] + nextKey],
         [] as number[]
       );
   }

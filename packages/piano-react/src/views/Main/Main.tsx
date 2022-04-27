@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { PianoKeys } from "components/PianoKeys/PianoKeys";
 import { Footer } from "components/Footer/Footer";
@@ -12,7 +12,7 @@ import { InversionSelector } from "./components/InversionSelector";
 import { ScaleSelector } from "./components/ScaleSelector";
 import { TypeSelector } from "./components/TypeSelector";
 
-export function Main() {
+export const Main: FC = () => {
   const {
     note,
     scale,
@@ -25,7 +25,7 @@ export function Main() {
     selectNote,
     selectScale,
     selectChord,
-    selectInversion
+    selectInversion,
   } = usePianoBoard();
 
   return (
@@ -48,4 +48,4 @@ export function Main() {
       <Footer />
     </div>
   );
-}
+};

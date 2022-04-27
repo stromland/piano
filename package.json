@@ -7,9 +7,9 @@
     "name": "Espen Strømland"
   },
   "workspaces": [
+    "packages/piano-lib",
     "packages/piano-react",
-    "packages/piano-vue",
-    "packages/piano-lib"
+    "packages/piano-vue"
   ],
   "repository": {
     "type": "git",

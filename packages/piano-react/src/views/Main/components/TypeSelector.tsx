@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { PressType } from "services/PianoBoard";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
@@ -9,7 +9,10 @@ interface TypeSelectorProps {
   handleSelectType: (type: PressType) => void;
 }
 
-export const TypeSelector = ({ type, handleSelectType }: TypeSelectorProps) => {
+export const TypeSelector: FC<TypeSelectorProps> = ({
+  type,
+  handleSelectType,
+}) => {
   return (
     <div className={style.container}>
       <ToggleButton

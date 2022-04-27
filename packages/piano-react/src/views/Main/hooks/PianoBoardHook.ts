@@ -15,14 +15,15 @@ interface PianoBoardState {
   keys: PianoKey[];
 }
 
-export function usePianoBoard(keys: number = 41) {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export function usePianoBoard(keys = 41) {
   const [state, setState] = useState<PianoBoardState>({
     type: PressType.SCALE,
     note: "C",
     scale: "major",
     inversion: Inversion.ROOT,
     chord: { note: "C", suffix: "", keyIndexes: [0, 4, 7] },
-    keys: Piano.getPianoKeys(keys)
+    keys: Piano.getPianoKeys(keys),
   });
 
   const pressKeys = (): PianoKey[] => {
@@ -46,6 +47,6 @@ export function usePianoBoard(keys: number = 41) {
       setState({ ...state, chord: findFirstChord(state.note, scale), scale }),
     selectChord: (chord: Chord): void => setState({ ...state, chord }),
     selectInversion: (inversion: Inversion): void =>
-      setState({ ...state, inversion })
+      setState({ ...state, inversion }),
   };
 }

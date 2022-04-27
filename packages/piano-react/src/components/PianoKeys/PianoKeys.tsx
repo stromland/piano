@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import classnames from "classnames";
 
 import { PianoKey } from "models/PianoKey";
@@ -9,10 +9,10 @@ interface KeyProps {
   pianoKey: PianoKey;
 }
 
-function Key({ pianoKey }: KeyProps) {
+const Key: FC<KeyProps> = ({ pianoKey }) => {
   const classes = classnames("key", {
     "black-key": pianoKey.black,
-    pressed: pianoKey.pressed
+    pressed: pianoKey.pressed,
   });
 
   return (
@@ -20,7 +20,7 @@ function Key({ pianoKey }: KeyProps) {
       <span>{pianoKey.note}</span>
     </div>
   );
-}
+};
 
 interface KeyGroupProps {
   keys: PianoKey[];
@@ -28,7 +28,7 @@ interface KeyGroupProps {
   keyIndex: number;
 }
 
-function KeyGroup({ keys, pianoKey, keyIndex }: KeyGroupProps) {
+const KeyGroup: FC<KeyGroupProps> = ({ keys, pianoKey, keyIndex }) => {
   if (pianoKey.black) return null;
   const nextKey = keys.length > keyIndex + 1 ? keys[keyIndex + 1] : null;
   return (
@@ -37,13 +37,13 @@ function KeyGroup({ keys, pianoKey, keyIndex }: KeyGroupProps) {
       {nextKey && nextKey.black && <Key pianoKey={nextKey} />}
     </div>
   );
-}
+};
 
 interface PianoKeysProps {
   keys: PianoKey[];
 }
 
-export function PianoKeys({ keys }: PianoKeysProps) {
+export const PianoKeys: FC<PianoKeysProps> = ({ keys }) => {
   return (
     <div className="key-container">
       {keys.map((key, index) => (
@@ -51,4 +51,4 @@ export function PianoKeys({ keys }: PianoKeysProps) {
       ))}
     </div>
   );
-}
+};

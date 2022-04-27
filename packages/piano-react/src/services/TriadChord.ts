@@ -14,7 +14,7 @@ export interface ChordSpec {
 export enum Inversion {
   ROOT,
   FIRST,
-  SECOND
+  SECOND,
 }
 
 interface TriadChordSpecs {
@@ -30,7 +30,7 @@ export class TriadChord {
     major: { suffix: "", keyIndexes: [0, 4, 7] },
     minor: { suffix: "m", keyIndexes: [0, 3, 7] },
     diminished: { suffix: "dim", keyIndexes: [0, 3, 6] },
-    augmented: { suffix: "aug", keyIndexes: [0, 4, 8] }
+    augmented: { suffix: "aug", keyIndexes: [0, 4, 8] },
   };
 
   public static findChord(
@@ -43,17 +43,19 @@ export class TriadChord {
         (spec): Chord => ({
           note: pianoKeys[startKey].note,
           suffix: spec.suffix,
-          keyIndexes: spec.keyIndexes.map(it => it + startKey)
+          keyIndexes: spec.keyIndexes.map((it) => it + startKey),
         })
       )
-      .find(chord => every(chord.keyIndexes, key => scaleKeys.includes(key)));
+      .find((chord) =>
+        every(chord.keyIndexes, (key) => scaleKeys.includes(key))
+      );
   }
 
   public static getTriadInversion(
     chord: Chord,
     inversion: Inversion
   ): number[] {
-    const shiftIndexes = (x: number) =>
+    const shiftIndexes = (x: number): number[] =>
       Array(x)
         .fill(12)
         .map((v, i) => chord.keyIndexes[i] + v)

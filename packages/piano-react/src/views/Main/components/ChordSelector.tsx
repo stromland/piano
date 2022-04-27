@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Chord } from "services/TriadChord";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
@@ -10,14 +10,14 @@ interface ChordSelectorProps {
   handleSelectChord: (chord: Chord) => void;
 }
 
-export const ChordSelector = ({
+export const ChordSelector: FC<ChordSelectorProps> = ({
   chords,
   handleSelectChord,
-  selectedChord
-}: ChordSelectorProps) => {
+  selectedChord,
+}) => {
   return (
     <div className={styles.container}>
-      {chords.map(chord => (
+      {chords.map((chord) => (
         <ChordButton
           key={chord.note}
           chord={chord}
@@ -35,12 +35,12 @@ interface ChordButtonProps {
   selectedChord: Chord;
 }
 
-const ChordButton = ({
+const ChordButton: FC<ChordButtonProps> = ({
   chord,
   handleSelectChord,
-  selectedChord
-}: ChordButtonProps) => {
-  const createChordName = (chord: Chord) => chord.note + chord.suffix;
+  selectedChord,
+}) => {
+  const createChordName = (chord: Chord): string => chord.note + chord.suffix;
   const chordName = createChordName(chord);
   const selectedChordName = createChordName(selectedChord);
 

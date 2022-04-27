@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 import { Inversion } from "services/TriadChord";
@@ -10,10 +10,10 @@ interface InversionSelectorProps {
   handleSelectInversion: (inversion: Inversion) => void;
 }
 
-export const InversionSelector = ({
+export const InversionSelector: FC<InversionSelectorProps> = ({
   inversion,
-  handleSelectInversion
-}: InversionSelectorProps) => {
+  handleSelectInversion,
+}) => {
   return (
     <div className={style.container}>
       <ToggleButton

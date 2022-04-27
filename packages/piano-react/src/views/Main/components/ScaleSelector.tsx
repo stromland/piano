@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { ScaleType, Scale } from "services/Scale";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
@@ -9,19 +9,19 @@ interface ScaleSelectorProps {
   handleSelectScale: (scale: ScaleType) => void;
 }
 
-export const ScaleSelector = ({
+export const ScaleSelector: FC<ScaleSelectorProps> = ({
   handleSelectScale,
-  scale
-}: ScaleSelectorProps) => {
+  scale,
+}) => {
   return (
     <div className={style.container}>
       {Object.keys(Scale.scales).map((key) => (
-      <ToggleButton
-        pressed={scale === key}
-        onClick={() => handleSelectScale(key as ScaleType)}
-      >
-        {key}
-      </ToggleButton>
+        <ToggleButton
+          pressed={scale === key}
+          onClick={() => handleSelectScale(key as ScaleType)}
+        >
+          {key}
+        </ToggleButton>
       ))}
     </div>
   );
