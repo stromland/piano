@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { PIANO_NOTES, Note } from "services/Piano";
+import { PIANO_NOTES, Note } from "@stromland/piano-lib";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import styles from "./Selector.module.css";

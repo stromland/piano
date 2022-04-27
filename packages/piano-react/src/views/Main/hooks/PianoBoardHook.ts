@@ -1,10 +1,14 @@
 import { useState } from "react";
-
-import { PianoKey } from "models/PianoKey";
-import { Note, Piano } from "services/Piano";
-import { ScaleType } from "services/Scale";
-import { PianoBoard, PressType } from "services/PianoBoard";
-import { Chord, Inversion } from "services/TriadChord";
+import {
+  PianoKey,
+  Note,
+  Piano,
+  ScaleType,
+  PianoBoard,
+  PressType,
+  Chord,
+  Inversion,
+} from "@stromland/piano-lib";
 
 interface PianoBoardState {
   note: Note;

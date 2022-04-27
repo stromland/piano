@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import classnames from "classnames";
 
-import { PianoKey } from "models/PianoKey";
+import { PianoKey } from "@stromland/piano-lib";
 
 import "./PianoKeys.css";
 

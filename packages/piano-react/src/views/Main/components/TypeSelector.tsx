@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { PressType } from "services/PianoBoard";
+import { PressType } from "@stromland/piano-lib";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import style from "./Selector.module.css";

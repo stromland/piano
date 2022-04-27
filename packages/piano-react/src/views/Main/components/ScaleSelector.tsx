@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ScaleType, Scale } from "services/Scale";
+import { ScaleType, Scale } from "@stromland/piano-lib";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import style from "./Selector.module.css";

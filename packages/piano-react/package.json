@@ -7,14 +7,12 @@
   "dependencies": {
     "@stromland/piano-lib": "1.0.0",
     "classnames": "2.3.1",
-    "lodash": "4.17.21",
     "react": "18.0.0",
     "react-dom": "18.0.0"
   },
   "devDependencies": {
     "@types/classnames": "2.3.1",
     "@types/jest": "27.4.1",
-    "@types/lodash": "4.14.182",
     "@types/react": "18.0.7",
     "@types/react-dom": "18.0.0",
     "@types/webmidi": "2.0.6",

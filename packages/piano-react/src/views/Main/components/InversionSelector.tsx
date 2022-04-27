@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
-import { Inversion } from "services/TriadChord";
+import { Inversion } from "@stromland/piano-lib";
 
 import style from "./Selector.module.css";
 

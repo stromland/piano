@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Chord } from "services/TriadChord";
+import { Chord } from "@stromland/piano-lib";
 import { ToggleButton } from "components/ToggleButton/ToggleButton";
 
 import styles from "./Selector.module.css";
