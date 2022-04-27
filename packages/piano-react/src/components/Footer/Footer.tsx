@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import GitHubLogo from "./assets/GitHub-Mark-Light-32px.png";
+import GitHubLogo from './assets/GitHub-Mark-Light-32px.png';
 
-import "./Footer.css";
+import './Footer.css';
 
 export const Footer: FC = () => {
   return (

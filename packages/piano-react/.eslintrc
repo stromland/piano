@@ -1,17 +1,8 @@
 {
-  "extends": [
-    "react-app",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
-  ],
-  "env": {
-    "jest": true,
-    "es6": true,
-    "node": true
-  },
+  "extends": ["react-app"],
+  "plugins": ["prettier"],
   "rules": {
-    "no-console": "off",
+    "prettier/prettier": "error",
     "@typescript-eslint/explicit-function-return-type": [
       "warn",
       {

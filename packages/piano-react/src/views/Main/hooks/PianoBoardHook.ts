@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   PianoKey,
   Note,
@@ -8,7 +8,7 @@ import {
   PressType,
   Chord,
   Inversion,
-} from "@stromland/piano-lib";
+} from '@stromland/piano-lib';
 
 interface PianoBoardState {
   note: Note;
@@ -23,10 +23,10 @@ interface PianoBoardState {
 export function usePianoBoard(keys = 41) {
   const [state, setState] = useState<PianoBoardState>({
     type: PressType.SCALE,
-    note: "C",
-    scale: "major",
+    note: 'C',
+    scale: 'major',
     inversion: Inversion.ROOT,
-    chord: { note: "C", suffix: "", keyIndexes: [0, 4, 7] },
+    chord: { note: 'C', suffix: '', keyIndexes: [0, 4, 7] },
     keys: Piano.getPianoKeys(keys),
   });
 

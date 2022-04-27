@@ -1,8 +1,8 @@
-import React, { FC } from "react";
-import { Chord } from "@stromland/piano-lib";
-import { ToggleButton } from "components/ToggleButton/ToggleButton";
+import React, { FC } from 'react';
+import { Chord } from '@stromland/piano-lib';
+import { ToggleButton } from 'components/ToggleButton/ToggleButton';
 
-import styles from "./Selector.module.css";
+import styles from './Selector.module.css';
 
 interface ChordSelectorProps {
   chords: Chord[];

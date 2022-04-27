@@ -1,16 +1,16 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { PianoKeys } from "components/PianoKeys/PianoKeys";
-import { Footer } from "components/Footer/Footer";
+import { PianoKeys } from 'components/PianoKeys/PianoKeys';
+import { Footer } from 'components/Footer/Footer';
 
-import { NoteSelector } from "./components/NoteSelector";
-import { ChordSelector } from "./components/ChordSelector";
-import { usePianoBoard } from "./hooks/PianoBoardHook";
+import { NoteSelector } from './components/NoteSelector';
+import { ChordSelector } from './components/ChordSelector';
+import { usePianoBoard } from './hooks/PianoBoardHook';
 
-import styles from "./Main.module.css";
-import { InversionSelector } from "./components/InversionSelector";
-import { ScaleSelector } from "./components/ScaleSelector";
-import { TypeSelector } from "./components/TypeSelector";
+import styles from './Main.module.css';
+import { InversionSelector } from './components/InversionSelector';
+import { ScaleSelector } from './components/ScaleSelector';
+import { TypeSelector } from './components/TypeSelector';
 
 export const Main: FC = () => {
   const {

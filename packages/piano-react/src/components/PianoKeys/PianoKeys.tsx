@@ -1,17 +1,17 @@
-import React, { FC } from "react";
-import classnames from "classnames";
+import React, { FC } from 'react';
+import classnames from 'classnames';
 
-import { PianoKey } from "@stromland/piano-lib";
+import { PianoKey } from '@stromland/piano-lib';
 
-import "./PianoKeys.css";
+import './PianoKeys.css';
 
 interface KeyProps {
   pianoKey: PianoKey;
 }
 
 const Key: FC<KeyProps> = ({ pianoKey }) => {
-  const classes = classnames("key", {
-    "black-key": pianoKey.black,
+  const classes = classnames('key', {
+    'black-key': pianoKey.black,
     pressed: pianoKey.pressed,
   });
 
