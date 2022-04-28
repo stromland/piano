@@ -12,7 +12,6 @@
   "scripts": {
     "prebuild": "run-s -l clean lint",
     "build": "tsc",
-    "build:watch": "npm run build -- --watch",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
