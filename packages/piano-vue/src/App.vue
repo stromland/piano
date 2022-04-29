@@ -1,16 +1,45 @@
 <script setup lang="ts">
-import { Piano, PianoBoard } from '@stromland/piano-lib';
+import {
+  Piano,
+  PianoBoard,
+  type Note,
+  type ScaleType,
+} from '@stromland/piano-lib';
 import AppFooter from './components/AppFooter/AppFooter.vue';
 import PianoKeys from './components/PianoKeys/PianoKeys.vue';
-import type { PianoKey } from '@stromland/piano-lib/lib';
+import NoteSelector from './components/ScaleSelector/NoteSelector.vue';
+import { computed, reactive } from 'vue';
+import ScaleSelector from './components/ScaleSelector/ScaleSelector.vue';
 
-let keys: PianoKey[] = Piano.getPianoKeys(41);
-keys = PianoBoard.pressAllScaleKeys(keys, 'D#', 'major');
+type State = {
+  note: Note;
+  scale: ScaleType;
+};
+
+const state = reactive<State>({
+  note: 'C',
+  scale: 'major',
+});
+
+const keys = computed(() => {
+  return PianoBoard.pressAllScaleKeys(
+    Piano.getPianoKeys(41),
+    state.note,
+    state.scale
+  );
+});
+
+const selectNote = (note: Note) => (state.note = note);
+const selectScale = (scale: ScaleType) => (state.scale = scale);
 </script>
 
 <template>
   <main class="container">
     <PianoKeys :keys="keys" />
+    <div>
+      <ScaleSelector :select="selectScale" :selected="state.scale" />
+      <NoteSelector :select="selectNote" :selected="state.note" />
+    </div>
     <AppFooter />
   </main>
 </template>

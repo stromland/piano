@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Key from './PianoKey.vue';
 import type { PianoKey } from '@stromland/piano-lib';
+import { computed } from 'vue';
 
 const props = defineProps<{
   keys: PianoKey[];
@@ -8,16 +9,13 @@ const props = defineProps<{
   keyIndex: number;
 }>();
 
-const nextKey =
-  props.keys.length > props.keyIndex + 1
-    ? props.keys[props.keyIndex + 1]
-    : null;
+const nextKey = computed(() => props.keys[props.keyIndex + 1]);
 </script>
 
 <template>
-  <div v-if="!pianoKey.black" class="key-group">
-    <Key :pianoKey="pianoKey" />
-    <Key v-if="nextKey && nextKey.black" :pianoKey="nextKey" />
+  <div v-if="!props.pianoKey.black" class="key-group">
+    <Key :pianoKey="props.pianoKey" />
+    <Key v-if="nextKey?.black" :pianoKey="nextKey" />
   </div>
 </template>
 
