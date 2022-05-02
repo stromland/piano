@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PianoKey } from '@stromland/piano-lib';
+
 import PianoKeyGroup from './PianoKeyGroup.vue';
 
 type Props = {

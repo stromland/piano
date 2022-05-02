@@ -10,9 +10,9 @@ export interface ChordSpec {
 }
 
 export enum Inversion {
-  ROOT,
-  FIRST,
-  SECOND,
+  ROOT = 'Root',
+  FIRST = 'First',
+  SECOND = 'Second',
 }
 
 interface TriadChordSpecs {
@@ -44,12 +44,10 @@ export class TriadChord {
           keyIndexes: spec.keyIndexes.map((it) => it + startKey),
         })
       )
-      .find(
-        (chord) =>
-          chord.keyIndexes.reduce<boolean>((all, key) => {
-            return all && scaleKeys.includes(key);
-          }, true)
-        // every(chord.keyIndexes, (key) => scaleKeys.includes(key))
+      .find((chord) =>
+        chord.keyIndexes.reduce<boolean>((all, key) => {
+          return all && scaleKeys.includes(key);
+        }, true)
       );
   }
 

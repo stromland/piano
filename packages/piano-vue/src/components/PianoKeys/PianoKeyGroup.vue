@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import Key from './PianoKey.vue';
 import type { PianoKey } from '@stromland/piano-lib';
 import { computed } from 'vue';
 
-const props = defineProps<{
+import Key from './PianoKey.vue';
+
+type Props = {
   keys: PianoKey[];
   pianoKey: PianoKey;
   keyIndex: number;
-}>();
+};
+
+const props = defineProps<Props>();
 
 const nextKey = computed(() => props.keys[props.keyIndex + 1]);
 </script>

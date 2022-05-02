@@ -1,11 +1,11 @@
+import { PianoKey } from '../models/PianoKey';
 import { Note, Piano } from './Piano';
 import { Scale, ScaleType } from './Scale';
-import { PianoKey } from '../models/PianoKey';
 import { TriadChord, Chord, Inversion } from './TriadChord';
 
 export enum PressType {
-  SCALE,
-  CHORD,
+  SCALE = 'Scale',
+  CHORD = 'Chord',
 }
 
 export class PianoBoard {

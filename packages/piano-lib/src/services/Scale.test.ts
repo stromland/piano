@@ -1,5 +1,5 @@
-import { Scale, ScaleType } from './Scale';
 import { Piano, Note } from './Piano';
+import { Scale, ScaleType } from './Scale';
 
 interface Test {
   note: Note;
