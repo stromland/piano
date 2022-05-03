@@ -1,6 +1,6 @@
 export type { PianoKey } from './models/PianoKey';
 export type { Note } from './services/Piano';
-export type { ScaleType } from './services/Scale';
+export type { ScaleType, Scales } from './services/Scale';
 export type { Chord, ChordSpec } from './services/TriadChord';
 
 export * from './services/Piano';

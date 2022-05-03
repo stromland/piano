@@ -1,4 +1,4 @@
-interface Scales {
+export interface Scales {
   major: number[];
   minor: number[];
   harmonicMinor: number[];
