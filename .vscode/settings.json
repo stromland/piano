@@ -1,7 +1,8 @@
 {
   "conventionalCommits.scopes": [
     "lib",
+    "react",
+    "root",
     "vue",
-    "root"
   ]
 }

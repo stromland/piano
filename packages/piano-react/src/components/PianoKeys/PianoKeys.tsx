@@ -1,9 +1,7 @@
-import React, { FC } from 'react';
-import classnames from 'classnames';
-
-import { PianoKey } from '@stromland/piano-lib';
-
 import './PianoKeys.css';
+import { PianoKey } from '@stromland/piano-lib';
+import classnames from 'classnames';
+import React, { FC } from 'react';
 
 interface KeyProps {
   pianoKey: PianoKey;

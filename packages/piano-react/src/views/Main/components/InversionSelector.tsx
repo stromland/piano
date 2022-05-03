@@ -1,9 +1,7 @@
-import React, { FC } from 'react';
-
-import { ToggleButton } from 'components/ToggleButton/ToggleButton';
-import { Inversion } from '@stromland/piano-lib';
-
 import style from './Selector.module.css';
+import { Inversion } from '@stromland/piano-lib';
+import { ToggleButton } from 'components/ToggleButton/ToggleButton';
+import React, { FC } from 'react';
 
 interface InversionSelectorProps {
   inversion: Inversion;

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   PianoKey,
   Note,
@@ -9,6 +8,7 @@ import {
   Chord,
   Inversion,
 } from '@stromland/piano-lib';
+import { useState } from 'react';
 
 interface PianoBoardState {
   note: Note;

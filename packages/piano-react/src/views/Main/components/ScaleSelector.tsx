@@ -1,8 +1,7 @@
-import React, { FC } from 'react';
+import style from './Selector.module.css';
 import { ScaleType, Scale } from '@stromland/piano-lib';
 import { ToggleButton } from 'components/ToggleButton/ToggleButton';
-
-import style from './Selector.module.css';
+import React, { FC } from 'react';
 
 interface ScaleSelectorProps {
   scale: ScaleType;

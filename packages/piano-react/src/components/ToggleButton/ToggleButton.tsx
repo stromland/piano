@@ -1,7 +1,6 @@
-import React, { FC } from 'react';
-import classnames from 'classnames';
-
 import './ToggleButton.css';
+import classnames from 'classnames';
+import React, { FC } from 'react';
 
 interface ToggleButtonProps {
   pressed: boolean;
