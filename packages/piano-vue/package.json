@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "homepage": "http://stromland.github.io/piano",
   "scripts": {
-    "start": "vite --base=/piano",
-    "build": "vue-tsc --noEmit && vite build --base=/piano",
+    "start": "vite --base=/piano/",
+    "build": "vue-tsc --noEmit && vite build --base=/piano/",
     "preview": "vite preview --port 5050",
     "test:unit": "vitest --environment jsdom",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
