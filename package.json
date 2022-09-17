@@ -10,10 +10,6 @@
     "packages/piano-react",
     "packages/piano-vue"
   ],
-  "scripts": {
-    "build": "npm run build --workspaces",
-    "test": "npm run test --workspaces --if-present"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stromland/piano.git"
