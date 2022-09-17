@@ -22,4 +22,5 @@ jobs:
     - name: Upload vue-version artifact
       uses: actions/upload-artifact@v1
       with:
+        name: github-pages
         path: ./packages/piano-vue/dist
