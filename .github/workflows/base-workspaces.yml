@@ -3,7 +3,7 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  workspaces:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
     - run: npm run test --workspaces --if-present
 
     - name: Upload vue-version artifact
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-pages-artifact@v1
       with:
         name: github-pages
         path: ./packages/piano-vue/dist
