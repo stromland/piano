@@ -2,8 +2,11 @@
 
 <h2 align="center">Learn, enjoy and understand piano</h2>
 <p align="center">
-  <a href="https://github.com/stromland/piano/actions/workflows/deploy-github-pages.yaml">
-    <img alt="Github actions" src="https://github.com/stromland/piano/actions/workflows/deploy-github-pages.yaml/badge.svg">
+  <a href="https://github.com/stromland/piano/actions/workflows/deploy-github-pages.yml">
+    <img alt="Github actions" src="https://github.com/stromland/piano/actions/workflows/deploy-github-pages.yml/badge.svg">
+  </a>
+  <a href="https://github.com/stromland/piano/actions/workflows/build-workspaces.yml">
+    <img alt="Github actions" src="https://github.com/stromland/piano/actions/workflows/build-workspaces.yml/badge.svg">
   </a>
 </p>
 

@@ -1,5 +1,8 @@
 name: Build workspaces
 on:
+  push:
+    branches-ignore:
+      - "main"
   workflow_call:
 
 jobs:
