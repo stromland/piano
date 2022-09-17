@@ -1,7 +1,9 @@
 {
   "name": "@stromland/piano-vue",
-  "version": "0.0.0",
+  "version": "0.3.1",
   "homepage": "http://stromland.github.io/piano",
+  "author": "Espen Strømland",
+  "license": "MIT",
   "scripts": {
     "start": "vite --base=/piano/",
     "build": "vue-tsc --noEmit && vite build --base=/piano/",
@@ -35,7 +37,12 @@
   },
   "prettier": {
     "singleQuote": true,
-    "importOrder": ["^react/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+    "importOrder": [
+      "^react/(.*)$",
+      "^@server/(.*)$",
+      "^@ui/(.*)$",
+      "^[./]"
+    ],
     "importOrderSeparation": true,
     "importOrderSortSpecifiers": true
   }

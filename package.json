@@ -1,11 +1,10 @@
 {
   "name": "@stromland/piano",
-  "version": "0.0.0",
+  "version": "0.3.1",
   "private": true,
   "homepage": "http://stromland.github.io/piano",
-  "author": {
-    "name": "Espen Strømland"
-  },
+  "author": "Espen Strømland",
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],
