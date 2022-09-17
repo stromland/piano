@@ -1,3 +1,4 @@
+name: Build workspaces
 on:
   push:
     branches:
@@ -21,5 +22,5 @@ jobs:
         cache: 'npm'
         
     - run: npm ci
-    - run: npm run build -w packages/piano-vue
-    - run: npm run test -w packages/piano-vue
+    - run: npm run build --workspaces
+    - run: npm run test --workspaces --if-present

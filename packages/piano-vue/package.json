@@ -13,7 +13,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@stromland/piano-lib": "1.0.0",
+    "@stromland/piano-lib": "../piano-lib",
     "vue": "3.2.33"
   },
   "devDependencies": {

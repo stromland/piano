@@ -6,11 +6,10 @@
   "author": "Espen Strømland",
   "license": "MIT",
   "workspaces": [
-    "packages/*"
+    "packages/piano-lib",
+    "packages/piano-react",
+    "packages/piano-vue"
   ],
-  "scripts": {
-    "postinstall": "npm run build -w packages/piano-lib"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stromland/piano.git"
