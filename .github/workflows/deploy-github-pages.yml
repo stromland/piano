@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    uses: './.github/workflows/base-workspaces.yml'
+    uses: './.github/workflows/build-workspaces.yml'
   deploy:
     needs: build
     runs-on: ubuntu-latest
