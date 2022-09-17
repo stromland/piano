@@ -1,0 +1,11 @@
+{
+  "conventionalCommits.scopes": [
+    "lib",
+    "react",
+    "root",
+    "vue",
+  ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///workspaces/piano/.github/workflows/deploy.yml"
+  }
+}

@@ -1,50 +1,21 @@
 {
-  "name": "piano",
+  "name": "@stromland/piano",
   "version": "0.3.1",
   "private": true,
   "homepage": "http://stromland.github.io/piano",
-  "author": {
-    "name": "Espen Strømland"
-  },
-  "dependencies": {
-    "classnames": "2.2.6",
-    "lodash": "4.17.13",
-    "react": "16.8.6",
-    "react-dom": "16.8.6"
-  },
-  "devDependencies": {
-    "@types/classnames": "2.2.8",
-    "@types/jest": "24.0.15",
-    "@types/lodash": "4.14.134",
-    "@types/react": "16.8.22",
-    "@types/react-dom": "16.8.4",
-    "@types/webmidi": "2.0.3",
-    "prettier": "1.18.2",
-    "react-scripts": "3.0.1",
-    "rimraf": "2.6.3",
-    "typescript": "3.5.2"
-  },
+  "author": "Espen Strømland",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "react-scripts start",
-    "prebuild": "npm run clean",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "clean": "rimraf build"
+    "postinstall": "npm run build -w packages/piano-lib"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stromland/piano.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "bugs": {
+    "url": "https://github.com/stromland/piano/issues"
   }
 }

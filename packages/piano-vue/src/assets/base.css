@@ -1,0 +1,36 @@
+:root {
+  --primary: #ef476f;
+  --primary-dark: #cc395b;
+  --primary-hover: #da395f;
+  --secondary: #118ab2;
+  --secondary-dark: #0c6d8d;
+  --secondary-hover: #1080a5;
+  --accent: #ffd166;
+  --accent-dark: #b39143;
+  --accent-hover: #e7bb52;
+  --success: #06d6a0;
+  --success-dark: #049770;
+  --success-hover: #04be8d;
+  --background: #073b4c;
+  --label-text: #032530;
+  --text: #1f2d3d;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  height: 100%;
+  min-height: 600px;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: var(--background);
+}
+
+#app {
+  height: 100%;
+  display: flex;
+}
