@@ -9,6 +9,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "postinstall": "npm run build -w packages/piano-lib"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stromland/piano.git"
