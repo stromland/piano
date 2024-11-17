@@ -1,6 +1,6 @@
 {
   "name": "@stromland/piano-react",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "homepage": "http://stromland.github.io/piano",
   "author": "Espen Strømland",
@@ -41,7 +41,9 @@
     "vite": "5.4.11"
   },
   "prettier": {
-    "plugins": ["@trivago/prettier-plugin-sort-imports"],
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
     "singleQuote": true,
     "importOrder": [
       "^react/(.*)$",
