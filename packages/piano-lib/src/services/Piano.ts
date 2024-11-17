@@ -1,4 +1,4 @@
-import { PianoKey } from '../models/PianoKey';
+import type { PianoKey } from '@/models/PianoKey';
 
 export const PIANO_NOTES = [
   'C',
@@ -15,37 +15,39 @@ export const PIANO_NOTES = [
   'B',
 ] as const;
 
-export type Note = typeof PIANO_NOTES[number];
+export type Note = (typeof PIANO_NOTES)[number];
 
-export class Piano {
-  public static keys: PianoKey[] = PIANO_NOTES.map((note) => ({
-    note,
-    black: note.length === 2,
-    pressed: false,
-  }));
+export const Piano = {
+  keys: PIANO_NOTES.map(
+    (note): PianoKey => ({
+      note,
+      black: note.length === 2,
+      pressed: false,
+    }),
+  ),
 
-  public static getPianoKeyIndex(note: Note): number {
+  getPianoKeyIndex(note: Note): number {
     return this.keys.findIndex((it) => it.note === note);
-  }
+  },
 
-  public static getNoteFromIndex(index: number): Note {
+  getNoteFromIndex(index: number): Note {
     return PIANO_NOTES[index % 12];
-  }
+  },
 
-  public static getPianoKeySets(sets: number): PianoKey[] {
+  getPianoKeySets(sets: number): PianoKey[] {
     return Array(sets)
       .fill(this.keys)
       .reduce((allKeys, keys) => [...allKeys, ...keys]);
-  }
+  },
 
-  public static getPianoKeys(keys: number): PianoKey[] {
+  getPianoKeys(keys: number): PianoKey[] {
     const sets = Math.ceil(keys / this.keys.length);
     return this.getPianoKeySets(sets).slice(0, keys);
-  }
+  },
 
-  public static pressKeys(keys: PianoKey[], keysToPress: number[]): PianoKey[] {
+  pressKeys(keys: PianoKey[], keysToPress: number[]): PianoKey[] {
     return keys.map((key, index) =>
-      keysToPress.includes(index) ? { ...key, pressed: true } : key
+      keysToPress.includes(index) ? { ...key, pressed: true } : key,
     );
-  }
-}
+  },
+};
