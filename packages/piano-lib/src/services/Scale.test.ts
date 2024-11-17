@@ -1,4 +1,6 @@
-import { Piano, Note } from './Piano';
+import { describe, expect, test } from 'vitest';
+
+import { Note, Piano } from './Piano';
 import { Scale, ScaleType } from './Scale';
 
 interface Test {
@@ -22,7 +24,7 @@ describe('Scale', () => {
         const keys = Scale.getScaleKeyIndexes(index, scale);
         expect(keys.length).toBe(8);
         expect(keys).toStrictEqual(expected);
-      }
+      },
     );
   });
 });

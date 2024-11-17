@@ -1,4 +1,4 @@
-import { PianoKey } from '../models/PianoKey';
+import type { PianoKey } from '@/models/PianoKey';
 
 export interface Chord extends ChordSpec {
   note: string;
@@ -23,18 +23,18 @@ interface TriadChordSpecs {
   [key: string]: ChordSpec;
 }
 
-export class TriadChord {
-  private static triadChordSpecs: TriadChordSpecs = {
+export const TriadChord = {
+  triadChordSpecs: {
     major: { suffix: '', keyIndexes: [0, 4, 7] },
     minor: { suffix: 'm', keyIndexes: [0, 3, 7] },
     diminished: { suffix: 'dim', keyIndexes: [0, 3, 6] },
     augmented: { suffix: 'aug', keyIndexes: [0, 4, 8] },
-  };
+  } as TriadChordSpecs,
 
-  public static findChord(
+  findChord(
     pianoKeys: PianoKey[],
     scaleKeys: number[],
-    startKey: number
+    startKey: number,
   ): Chord | undefined {
     return Object.values<ChordSpec>(this.triadChordSpecs)
       .map(
@@ -42,19 +42,16 @@ export class TriadChord {
           note: pianoKeys[startKey].note,
           suffix: spec.suffix,
           keyIndexes: spec.keyIndexes.map((it) => it + startKey),
-        })
+        }),
       )
       .find((chord) =>
         chord.keyIndexes.reduce<boolean>((all, key) => {
           return all && scaleKeys.includes(key);
-        }, true)
+        }, true),
       );
-  }
+  },
 
-  public static getTriadInversion(
-    chord: Chord,
-    inversion: Inversion
-  ): number[] {
+  getTriadInversion(chord: Chord, inversion: Inversion): number[] {
     const shiftIndexes = (x: number): number[] =>
       Array(x)
         .fill(12)
@@ -70,5 +67,5 @@ export class TriadChord {
       case Inversion.SECOND:
         return shiftIndexes(2);
     }
-  }
-}
+  },
+};

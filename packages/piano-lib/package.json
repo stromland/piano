@@ -4,6 +4,7 @@
   "description": "",
   "author": "Espen Strømland",
   "license": "MIT",
+  "type": "module",
   "main": "./lib/index.js",
   "types": "./lib",
   "files": [
@@ -12,32 +13,39 @@
   "scripts": {
     "prebuild": "run-s -l clean lint",
     "build": "tsc",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
-    "lint": "eslint --ext .ts ./src",
-    "lint:fix": "eslint --fix --ext .ts ./src",
+    "test": "vitest",
+    "test:coverage": "npm run test -- --coverage",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write src",
     "clean": "rimraf lib *.tgz coverage"
   },
   "devDependencies": {
-    "@babel/cli": "7.17.6",
-    "@babel/core": "7.17.9",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-typescript": "7.16.7",
-    "@types/jest": "27.4.1",
-    "@types/node": "16.11.21",
-    "@typescript-eslint/eslint-plugin": "5.21.0",
-    "@typescript-eslint/parser": "5.21.0",
-    "eslint": "8.14.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "jest": "28.0.2",
+    "@eslint/js": "9.15.0",
+    "@trivago/prettier-plugin-sort-imports": "4.3.0",
+    "@types/node": "20.17.6",
+    "@vitest/coverage-v8": "2.1.5",
+    "eslint": "9.14.0",
+    "globals": "15.12.0",
     "npm-run-all": "4.1.5",
-    "prettier": "2.6.2",
-    "rimraf": "3.0.2",
-    "typescript": "4.6.3"
+    "prettier": "3.3.3",
+    "rimraf": "6.0.1",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.14.0",
+    "vitest": "2.1.5"
   },
   "prettier": {
-    "singleQuote": true
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "singleQuote": true,
+    "importOrder": [
+      "^react/(.*)$",
+      "^@server/(.*)$",
+      "^@ui/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
   }
 }
