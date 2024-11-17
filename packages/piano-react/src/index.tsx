@@ -1,7 +1,7 @@
-import './index.css';
-import React from 'react';
+import { Main } from '@/views/Main/Main';
 import { createRoot } from 'react-dom/client';
-import { Main } from 'views/Main/Main';
+
+import './index.css';
 
 const elementId = 'root';
 const container = document.getElementById(elementId);

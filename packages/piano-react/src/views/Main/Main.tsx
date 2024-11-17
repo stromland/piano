@@ -1,3 +1,7 @@
+import { Footer } from '@/components/Footer/Footer';
+import { PianoKeys } from '@/components/PianoKeys/PianoKeys';
+import { FC } from 'react';
+
 import styles from './Main.module.css';
 import { ChordSelector } from './components/ChordSelector';
 import { InversionSelector } from './components/InversionSelector';
@@ -5,9 +9,6 @@ import { NoteSelector } from './components/NoteSelector';
 import { ScaleSelector } from './components/ScaleSelector';
 import { TypeSelector } from './components/TypeSelector';
 import { usePianoBoard } from './hooks/PianoBoardHook';
-import { Footer } from 'components/Footer/Footer';
-import { PianoKeys } from 'components/PianoKeys/PianoKeys';
-import React, { FC } from 'react';
 
 export const Main: FC = () => {
   const {

@@ -1,7 +1,8 @@
-import style from './Selector.module.css';
+import { ToggleButton } from '@/components/ToggleButton/ToggleButton';
 import { PressType } from '@stromland/piano-lib';
-import { ToggleButton } from 'components/ToggleButton/ToggleButton';
-import React, { FC } from 'react';
+import { FC } from 'react';
+
+import style from './Selector.module.css';
 
 interface TypeSelectorProps {
   type: PressType;

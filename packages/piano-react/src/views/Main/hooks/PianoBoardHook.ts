@@ -1,12 +1,12 @@
 import {
-  PianoKey,
-  Note,
-  Piano,
-  ScaleType,
-  PianoBoard,
-  PressType,
   Chord,
   Inversion,
+  Note,
+  Piano,
+  PianoBoard,
+  PianoKey,
+  PressType,
+  ScaleType,
 } from '@stromland/piano-lib';
 import { useState } from 'react';
 
@@ -19,7 +19,6 @@ interface PianoBoardState {
   keys: PianoKey[];
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function usePianoBoard(keys = 41) {
   const [state, setState] = useState<PianoBoardState>({
     type: PressType.SCALE,
