@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import ToggleButton from '../ToggleButton.vue';
 import { Scale, type ScaleType } from '@stromland/piano-lib';
+
+import ToggleButton from '../ToggleButton.vue';
 
 type Props = {
   select: (scale: ScaleType) => void;
@@ -13,6 +14,8 @@ const scaleNames: Record<ScaleType, string> = {
   major: 'Major',
   minor: 'Minor',
   harmonicMinor: 'Harmonic minor',
+  pentatonicMajor: 'Pentatonic major',
+  pentatonicMinor: 'Pentatonic minor',
 };
 </script>
 

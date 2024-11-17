@@ -13,13 +13,16 @@ type Props = {
 const props = defineProps<Props>();
 
 const namedChords = computed(() => {
-  return props.chords.reduce((acc, chord) => {
-    const name = getChordName(chord);
-    if (name) {
-      acc[name] = chord;
-    }
-    return acc;
-  }, {} as Record<string, Chord>);
+  return props.chords.reduce(
+    (acc, chord) => {
+      const name = getChordName(chord);
+      if (name) {
+        acc[name] = chord;
+      }
+      return acc;
+    },
+    {} as Record<string, Chord>,
+  );
 });
 
 function getChordName(chord?: Chord): string | undefined {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import GitHubLogo from '@/assets/GitHub-Mark-Light-32px.png';
+// import GitHubLogo from '@/assets/GitHub-Mark-Light-32px.png';
 </script>
 
 <template>
   <div className="footer">
     <a href="https://github.com/stromland/piano" target="blank">
-      <img :src="GitHubLogo" alt="GitHub Logo" />
+      <!-- <img :src="GitHubLogo" alt="GitHub Logo" /> -->
     </a>
   </div>
 </template>

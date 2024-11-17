@@ -39,7 +39,7 @@ export function usePiano() {
       return PianoBoard.pressChordKeys(
         state.keys,
         state.chord,
-        state.inversion
+        state.inversion,
       );
     }
     return state.keys;

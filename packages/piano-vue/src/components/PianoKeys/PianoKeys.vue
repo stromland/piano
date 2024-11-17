@@ -16,8 +16,8 @@ const props = defineProps<Props>();
       v-for="(key, index) in props.keys"
       :key="index"
       :keys="props.keys"
-      :pianoKey="key"
-      :keyIndex="index"
+      :piano-key="key"
+      :key-index="index"
     />
   </div>
 </template>
