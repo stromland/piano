@@ -8,7 +8,7 @@ const props = defineProps<Props>();
 
 <template>
   <button class="btn" :class="{ 'btn-active': props.pressed }">
-    <slot></slot>
+    <slot />
   </button>
 </template>
 

@@ -17,8 +17,8 @@ const nextKey = computed(() => props.keys[props.keyIndex + 1]);
 
 <template>
   <div v-if="!props.pianoKey.black" class="key-group">
-    <Key :pianoKey="props.pianoKey" />
-    <Key v-if="nextKey?.black" :pianoKey="nextKey" />
+    <Key :piano-key="props.pianoKey" />
+    <Key v-if="nextKey?.black" :piano-key="nextKey" />
   </div>
 </template>
 

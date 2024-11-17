@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { PIANO_NOTES, type Note } from '@stromland/piano-lib';
+import { type Note, PIANO_NOTES } from '@stromland/piano-lib';
+
 import ToggleButton from '../ToggleButton.vue';
 
 type Props = {
