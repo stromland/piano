@@ -1,7 +1,8 @@
+import { ToggleButton } from '@/components/ToggleButton/ToggleButton';
+import { Note, PIANO_NOTES } from '@stromland/piano-lib';
+import { FC } from 'react';
+
 import styles from './Selector.module.css';
-import { PIANO_NOTES, Note } from '@stromland/piano-lib';
-import { ToggleButton } from 'components/ToggleButton/ToggleButton';
-import React, { FC } from 'react';
 
 interface NoteSelectorProps {
   selectedNote: Note;

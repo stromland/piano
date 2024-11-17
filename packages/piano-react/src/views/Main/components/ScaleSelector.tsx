@@ -1,7 +1,8 @@
+import { ToggleButton } from '@/components/ToggleButton/ToggleButton';
+import { Scale, ScaleType } from '@stromland/piano-lib';
+import { FC } from 'react';
+
 import style from './Selector.module.css';
-import { ScaleType, Scale } from '@stromland/piano-lib';
-import { ToggleButton } from 'components/ToggleButton/ToggleButton';
-import React, { FC } from 'react';
 
 interface ScaleSelectorProps {
   scale: ScaleType;
@@ -16,6 +17,7 @@ export const ScaleSelector: FC<ScaleSelectorProps> = ({
     <div className={style.container}>
       {Object.keys(Scale.scales).map((key) => (
         <ToggleButton
+          key={key}
           pressed={scale === key}
           onClick={() => handleSelectScale(key as ScaleType)}
         >
