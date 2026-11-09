@@ -35,15 +35,17 @@ const model = defineModel<T>({ required: true });
 }
 
 .segment {
-  flex: 1 1 0;
-  min-width: 78px;
+  /* Sized by the label, so a long one like Progression still fits. */
+  flex: 1 1 auto;
+  min-width: 58px;
   min-height: var(--tap-size);
-  padding: 0 8px;
+  padding: 0 10px;
   border: 0;
   border-radius: 11px;
   background: transparent;
   font-size: 14px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .segment.selected {

@@ -18,6 +18,29 @@ export type TriadQuality = keyof typeof TRIADS;
 
 const TRIAD_QUALITIES = Object.keys(TRIADS) as TriadQuality[];
 
+interface SeventhSpec {
+  suffix: string;
+  /** Semitones above the chord root. */
+  intervals: readonly [number, number, number, number];
+}
+
+export const SEVENTHS = {
+  dominant7: { suffix: '7', intervals: [0, 4, 7, 10] },
+  major7: { suffix: 'maj7', intervals: [0, 4, 7, 11] },
+  minor7: { suffix: 'm7', intervals: [0, 3, 7, 10] },
+  halfDiminished7: { suffix: 'm7b5', intervals: [0, 3, 6, 10] },
+  diminished7: { suffix: 'dim7', intervals: [0, 3, 6, 9] },
+} as const satisfies Record<string, SeventhSpec>;
+
+/** Every chord a progression can hold: the triads, then the seventh chords. */
+export const CHORD_QUALITIES = { ...TRIADS, ...SEVENTHS };
+
+export type ChordQuality = keyof typeof CHORD_QUALITIES;
+
+export const CHORD_QUALITY_TYPES = Object.keys(
+  CHORD_QUALITIES,
+) as ChordQuality[];
+
 export interface Chord {
   /** ASCII name such as `'Ebm'`; see `formatNoteName`. */
   name: string;

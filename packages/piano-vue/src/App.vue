@@ -3,10 +3,12 @@ import { computed, nextTick, useTemplateRef, watch } from 'vue';
 
 import { INVERSIONS, type Mode, formatNoteName } from '@stromland/piano-lib';
 
+import ChordPicker from './components/ChordPicker.vue';
 import ChordSelector from './components/ChordSelector.vue';
 import ControlSection from './components/ControlSection.vue';
 import NoteSelector from './components/NoteSelector.vue';
 import PianoKeyboard from './components/PianoKeyboard.vue';
+import ProgressionSteps from './components/ProgressionSteps.vue';
 import ScaleSelector from './components/ScaleSelector.vue';
 import SegmentedControl from './components/SegmentedControl.vue';
 import SelectionSummary from './components/SelectionSummary.vue';
@@ -15,6 +17,7 @@ import { INVERSION_LABELS, usePiano } from './composables/usePiano';
 const MODE_OPTIONS: { value: Mode; label: string }[] = [
   { value: 'scale', label: 'Scale' },
   { value: 'chord', label: 'Chord' },
+  { value: 'progression', label: 'Progression' },
 ];
 
 const INVERSION_OPTIONS = INVERSIONS.map((value) => ({
@@ -22,7 +25,8 @@ const INVERSION_OPTIONS = INVERSIONS.map((value) => ({
   label: INVERSION_LABELS[value],
 }));
 
-const { selection, board, rootNames, summary } = usePiano();
+const { selection, board, rootNames, summary, addChord, removeChord } =
+  usePiano();
 
 // The chord controls appear at the bottom, which is below the fold on a phone.
 const chordControls = useTemplateRef('chordControls');
@@ -47,6 +51,7 @@ const keyboardLabel = computed(() => {
       <span class="wordmark">Piano</span>
       <SegmentedControl
         v-model="selection.mode"
+        class="modes"
         label="Show"
         :options="MODE_OPTIONS"
       />
@@ -87,12 +92,26 @@ const keyboardLabel = computed(() => {
       </div>
 
       <div class="container controls">
-        <ControlSection title="Root note">
-          <NoteSelector v-model="selection.root" :names="rootNames" />
-        </ControlSection>
-        <ControlSection title="Scale">
-          <ScaleSelector v-model="selection.scale" />
-        </ControlSection>
+        <template v-if="selection.mode === 'progression'">
+          <ControlSection title="Progression">
+            <ProgressionSteps
+              v-model="selection.step"
+              :steps="board.progression.steps"
+              @remove="removeChord"
+            />
+          </ControlSection>
+          <ControlSection title="Add chord">
+            <ChordPicker @add="addChord" />
+          </ControlSection>
+        </template>
+        <template v-else>
+          <ControlSection title="Root note">
+            <NoteSelector v-model="selection.root" :names="rootNames" />
+          </ControlSection>
+          <ControlSection title="Scale">
+            <ScaleSelector v-model="selection.scale" />
+          </ControlSection>
+        </template>
         <ControlSection
           v-if="selection.mode === 'chord'"
           ref="chordControls"
@@ -125,6 +144,18 @@ const keyboardLabel = computed(() => {
   justify-content: space-between;
   gap: 12px;
   padding-block: max(12px, env(safe-area-inset-top)) 12px;
+}
+
+/* The three modes need their own row on the narrowest phones. */
+@media (max-width: 359px) {
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .modes {
+    flex: 1 1 100%;
+    order: 1;
+  }
 }
 
 .wordmark {

@@ -20,6 +20,10 @@ Pick a root note and a scale to see it on the keyboard, or switch to chords to
 see the triads of that scale and their inversions. Notes are spelled the way
 the key calls for: E♭ major has flats, E major has sharps.
 
+In progression mode, enter a sequence of triads and seventh chords and the app
+picks the inversion of each one so the left hand moves as little as possible
+from chord to chord, then lets you step through them on the keyboard.
+
 ## Packages
 
 | Package                           | What it is                                                                  |

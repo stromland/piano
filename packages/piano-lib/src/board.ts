@@ -12,13 +12,19 @@ import {
 } from './keyboard.js';
 import { toPitchClass } from './notes.js';
 import {
+  type ProgressionChord,
+  type ProgressionStep,
+  type VoicedProgression,
+  voiceProgression,
+} from './progression.js';
+import {
   type ScaleNote,
   type ScaleType,
   getScaleKeyIndexes,
   getScaleNotes,
 } from './scales.js';
 
-export const MODES = ['scale', 'chord'] as const;
+export const MODES = ['scale', 'chord', 'progression'] as const;
 
 export type Mode = (typeof MODES)[number];
 
@@ -30,6 +36,10 @@ export interface Selection {
   /** Position in `Board.chords`; clamped if the scale has fewer chords. */
   chordIndex: number;
   inversion: Inversion;
+  /** The chords entered in progression mode, in playing order. */
+  progression: ProgressionChord[];
+  /** Position in `progression`; clamped if there are fewer chords. */
+  step: number;
 }
 
 export interface BoardNote {
@@ -44,8 +54,47 @@ export interface Board {
   chords: Chord[];
   /** The selected triad, whichever mode is active. */
   chord: Chord | undefined;
+  /** The progression, voiced for the least left-hand movement. */
+  progression: VoicedProgression;
+  /** The selected step of the progression, whichever mode is active. */
+  step: ProgressionStep | undefined;
   /** What is pressed, lowest first, without the repeated octave of a scale. */
   notes: BoardNote[];
+}
+
+const clamp = (index: number, length: number) =>
+  Math.min(Math.max(0, index), length - 1);
+
+/** What the selected mode presses, how it names the keys and which is root. */
+function getPressed(
+  selection: Selection,
+  root: number,
+  scaleNames: ReadonlyMap<number, string>,
+  chord: Chord | undefined,
+  step: ProgressionStep | undefined,
+): { pressed: number[]; names: ReadonlyMap<number, string>; root?: number } {
+  switch (selection.mode) {
+    case 'scale':
+      return {
+        pressed: getScaleKeyIndexes(root, selection.scale),
+        names: scaleNames,
+        root,
+      };
+    case 'chord':
+      return {
+        pressed: invertTriad(chord?.keyIndexes ?? [], selection.inversion),
+        names: scaleNames,
+        root: chord?.root.pitchClass,
+      };
+    case 'progression':
+      return {
+        pressed: step?.keyIndexes ?? [],
+        names: new Map(
+          step?.notes.map((note) => [note.pitchClass, note.name]) ?? [],
+        ),
+        root: step?.chord.root,
+      };
+  }
 }
 
 /** Everything needed to draw the keyboard and its controls for a selection. */
@@ -58,33 +107,31 @@ export function getBoard(
   const names = new Map(scaleNotes.map((note) => [note.pitchClass, note.name]));
 
   const chords = getScaleChords(root, selection.scale);
-  const chordIndex = Math.min(
-    Math.max(0, selection.chordIndex),
-    chords.length - 1,
-  );
-  const chord = chords[chordIndex];
+  const chord = chords[clamp(selection.chordIndex, chords.length)];
 
-  const showChord = selection.mode === 'chord';
-  const rootPitchClass = showChord ? chord?.root.pitchClass : root;
-  const pressed = showChord
-    ? invertTriad(chord?.keyIndexes ?? [], selection.inversion)
-    : getScaleKeyIndexes(root, selection.scale);
+  const progression = voiceProgression(selection.progression);
+  const step =
+    progression.steps[clamp(selection.step, progression.steps.length)];
 
-  const sounding = showChord
-    ? pressed.map(toPitchClass)
-    : scaleNotes.map((note) => note.pitchClass);
+  const pressing = getPressed(selection, root, names, chord, step);
+  const sounding =
+    selection.mode === 'scale'
+      ? scaleNotes.map((note) => note.pitchClass)
+      : pressing.pressed.map(toPitchClass);
 
   return {
-    keys: pressKeys(createKeyboard(keyCount), pressed, {
-      names,
-      rootPitchClass,
+    keys: pressKeys(createKeyboard(keyCount), pressing.pressed, {
+      names: pressing.names,
+      rootPitchClass: pressing.root,
     }),
     scaleNotes,
     chords,
     chord,
+    progression,
+    step,
     notes: sounding.map((pitchClass) => ({
-      name: names.get(pitchClass) ?? '',
-      root: pitchClass === rootPitchClass,
+      name: pressing.names.get(pitchClass) ?? '',
+      root: pitchClass === pressing.root,
     })),
   };
 }

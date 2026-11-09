@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { type Board, type Selection, getBoard } from './board.js';
+import type { ProgressionChord } from './progression.js';
 import { SCALE_TYPES } from './scales.js';
 
 const selection = (overrides: Partial<Selection> = {}): Selection => ({
@@ -9,6 +10,8 @@ const selection = (overrides: Partial<Selection> = {}): Selection => ({
   scale: 'major',
   chordIndex: 0,
   inversion: 'root',
+  progression: [],
+  step: 0,
   ...overrides,
 });
 
@@ -111,6 +114,63 @@ describe('getBoard', () => {
     it('falls back to the first chord for a negative index', () => {
       const board = getBoard(selection({ mode: 'chord', chordIndex: -2 }));
       expect(board.chord?.name).toBe('C');
+    });
+  });
+
+  describe('in progression mode', () => {
+    const amFC: ProgressionChord[] = [
+      { root: 9, quality: 'minor' },
+      { root: 5, quality: 'major' },
+      { root: 0, quality: 'major' },
+    ];
+    const progression = (step: number) =>
+      getBoard(selection({ mode: 'progression', progression: amFC, step }));
+
+    it('voices the whole progression', () => {
+      const board = progression(0);
+      expect(board.progression.steps.map((step) => step.name)).toEqual([
+        'Am',
+        'F',
+        'C',
+      ]);
+      expect(board.progression.total).toBe(4);
+    });
+
+    it('presses the voicing of the selected step', () => {
+      const board = progression(1);
+      expect(board.step?.name).toBe('F');
+      expect(pressed(board)).toEqual([17, 21, 24]);
+    });
+
+    it('names the keys after the chord and flags its root', () => {
+      const board = progression(2);
+      expect(labels(board)).toEqual(['E', 'G', 'C']);
+      expect(board.notes).toEqual([
+        { name: 'E', root: false },
+        { name: 'G', root: false },
+        { name: 'C', root: true },
+      ]);
+    });
+
+    it('spells the notes the way the chord does, not the scale', () => {
+      const board = getBoard(
+        selection({
+          mode: 'progression',
+          progression: [{ root: 1, quality: 'major' }],
+        }),
+      );
+      expect(labels(board)).toEqual(['F', 'Ab', 'Db']);
+    });
+
+    it('falls back to the last step when there are fewer', () => {
+      expect(progression(9).step?.name).toBe('C');
+    });
+
+    it('presses nothing before any chord is added', () => {
+      const board = getBoard(selection({ mode: 'progression' }));
+      expect(board.step).toBeUndefined();
+      expect(pressed(board)).toEqual([]);
+      expect(board.notes).toEqual([]);
     });
   });
 
