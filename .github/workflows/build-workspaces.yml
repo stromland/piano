@@ -1,28 +1,50 @@
 name: Build workspaces
+
 on:
   push:
-    branches-ignore:
-      - "main"
+    branches:
+      - '**'
+  pull_request:
   workflow_call:
+    inputs:
+      upload-pages-artifact:
+        description: Upload the built site so it can be deployed to GitHub Pages
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
 
 jobs:
   workspaces:
+    # Branches in this repository are already built on push, so only build
+    # pull requests that come from a fork.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Use Node.js 22
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: 'npm'
-        
-    - run: npm ci
-    - run: npm run build --workspaces
-    - run: npm run test:coverage --workspaces --if-present
+      - uses: actions/checkout@v7
 
-    - name: Upload vue-version artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./packages/piano-vue/dist
+      - name: Use Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run test:coverage
+      - run: npm run build
+
+      - name: Check that the library can be imported from Node
+        run: node --eval "import('@stromland/piano-lib')"
+
+      - name: Upload the site
+        if: inputs.upload-pages-artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./packages/piano-vue/dist

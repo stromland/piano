@@ -1,9 +1,21 @@
-export type { PianoKey } from './models/PianoKey';
-export type { Note } from './services/Piano';
-export type { ScaleType, Scales } from './services/Scale';
-export type { Chord, ChordSpec } from './services/TriadChord';
-
-export * from './services/Piano';
-export * from './services/PianoBoard';
-export * from './services/Scale';
-export * from './services/TriadChord';
+export { MODES, getBoard } from './board.js';
+export type { Board, BoardNote, Mode, Selection } from './board.js';
+export { INVERSIONS, TRIADS, getScaleChords, invertTriad } from './chords.js';
+export type { Chord, Inversion, TriadQuality } from './chords.js';
+export { DEFAULT_KEY_COUNT, createKeyboard, pressKeys } from './keyboard.js';
+export type { PianoKey, PressOptions } from './keyboard.js';
+export {
+  NOTES_PER_OCTAVE,
+  formatNoteName,
+  isBlackKey,
+  naturalNoteName,
+  toPitchClass,
+} from './notes.js';
+export {
+  SCALES,
+  SCALE_TYPES,
+  getRootNames,
+  getScaleKeyIndexes,
+  getScaleNotes,
+} from './scales.js';
+export type { ScaleNote, ScaleType } from './scales.js';
