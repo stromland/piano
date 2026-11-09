@@ -7,7 +7,6 @@
   "license": "MIT",
   "workspaces": [
     "packages/piano-lib",
-    "packages/piano-react",
     "packages/piano-vue"
   ],
   "repository": {
