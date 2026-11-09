@@ -2,7 +2,8 @@
   "name": "@stromland/piano",
   "version": "0.4.3",
   "private": true,
-  "homepage": "http://stromland.github.io/piano",
+  "type": "module",
+  "homepage": "https://stromland.github.io/piano",
   "author": "Espen Strømland",
   "license": "MIT",
   "workspaces": [
@@ -15,5 +16,47 @@
   },
   "bugs": {
     "url": "https://github.com/stromland/piano/issues"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @stromland/piano-vue",
+    "build": "npm run build --workspaces",
+    "preview": "npm run preview -w @stromland/piano-vue",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test --workspaces",
+    "test:coverage": "npm run test:coverage --workspaces",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@trivago/prettier-plugin-sort-imports": "6.0.2",
+    "@vitest/coverage-v8": "5.1.0",
+    "eslint": "10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-vue": "10.12.0",
+    "globals": "17.14.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.2",
+    "vitest": "5.1.0"
+  },
+  "prettier": {
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "singleQuote": true,
+    "importOrder": [
+      "<THIRD_PARTY_MODULES>",
+      "^@stromland/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
   }
 }

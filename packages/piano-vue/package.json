@@ -1,48 +1,34 @@
 {
   "name": "@stromland/piano-vue",
   "version": "0.4.3",
-  "homepage": "http://stromland.github.io/piano",
+  "private": true,
+  "homepage": "https://stromland.github.io/piano",
   "author": "Espen Strømland",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "vite --base=/piano/",
-    "build": "vue-tsc -b && vite build --base=/piano/",
-    "preview": "vite preview --port 5050 --base=/piano/",
-    "format": "prettier src --write",
-    "lint": "eslint"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vue-tsc -b && vite build",
+    "typecheck": "vue-tsc -b",
+    "preview": "vite preview --port 5050",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@stromland/piano-lib": "../piano-lib",
-    "vue": "3.5.13"
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/space-grotesk": "5.3.0",
+    "@stromland/piano-lib": "*",
+    "vue": "3.5.45"
   },
   "devDependencies": {
-    "@eslint/js": "9.15.0",
-    "@trivago/prettier-plugin-sort-imports": "4.3.0",
-    "@types/node": "20.17.6",
-    "@vitejs/plugin-vue": "5.2.0",
-    "@vue/tsconfig": "0.6.0",
-    "eslint": "9.15.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-vue": "9.31.0",
-    "prettier": "3.3.3",
-    "typescript": "5.6.3",
-    "typescript-eslint": "8.14.0",
-    "vite": "5.4.11",
-    "vue-tsc": "2.1.10"
-  },
-  "prettier": {
-    "plugins": [
-      "@trivago/prettier-plugin-sort-imports"
-    ],
-    "singleQuote": true,
-    "importOrder": [
-      "^react/(.*)$",
-      "^@server/(.*)$",
-      "^@ui/(.*)$",
-      "^[./]"
-    ],
-    "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "@types/node": "24.19.2",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vue/test-utils": "2.5.1",
+    "@vue/tsconfig": "0.9.1",
+    "happy-dom": "21.0.4",
+    "vite": "8.3.7",
+    "vue-tsc": "3.3.14"
   }
 }
