@@ -6,7 +6,7 @@ import {
   toPitchClass,
 } from './notes.js';
 
-type KeySignature = 'major' | 'minor';
+type Tonality = 'major' | 'minor';
 
 interface ScaleSpec {
   name: string;
@@ -15,7 +15,7 @@ interface ScaleSpec {
   /** Which of those seven degrees the scale actually contains. */
   degrees: readonly number[];
   /** Decides whether a black-key root is spelled as a sharp or a flat. */
-  keySignature: KeySignature;
+  tonality: Tonality;
 }
 
 const MAJOR_STEPS = [2, 2, 1, 2, 2, 2, 1] as const;
@@ -23,7 +23,7 @@ const MINOR_STEPS = [2, 1, 2, 2, 1, 2, 2] as const;
 const HARMONIC_MINOR_STEPS = [2, 1, 2, 2, 1, 3, 1] as const;
 const ALL_DEGREES = [0, 1, 2, 3, 4, 5, 6] as const;
 
-const KEY_SIGNATURE_STEPS: Record<KeySignature, readonly number[]> = {
+const TONALITY_STEPS: Record<Tonality, readonly number[]> = {
   major: MAJOR_STEPS,
   minor: MINOR_STEPS,
 };
@@ -33,31 +33,31 @@ export const SCALES = {
     name: 'Major',
     steps: MAJOR_STEPS,
     degrees: ALL_DEGREES,
-    keySignature: 'major',
+    tonality: 'major',
   },
   minor: {
     name: 'Minor',
     steps: MINOR_STEPS,
     degrees: ALL_DEGREES,
-    keySignature: 'minor',
+    tonality: 'minor',
   },
   harmonicMinor: {
     name: 'Harmonic minor',
     steps: HARMONIC_MINOR_STEPS,
     degrees: ALL_DEGREES,
-    keySignature: 'minor',
+    tonality: 'minor',
   },
   pentatonicMajor: {
     name: 'Pentatonic major',
     steps: MAJOR_STEPS,
     degrees: [0, 1, 2, 4, 5],
-    keySignature: 'major',
+    tonality: 'major',
   },
   pentatonicMinor: {
     name: 'Pentatonic minor',
     steps: MINOR_STEPS,
     degrees: [0, 2, 3, 4, 6],
-    keySignature: 'minor',
+    tonality: 'minor',
   },
 } as const satisfies Record<string, ScaleSpec>;
 
@@ -106,10 +106,10 @@ function spellFrom(
  * and flats when it is a tie: E♭ major rather than D♯ major, but C♯ minor
  * rather than D♭ minor.
  */
-function pickRootLetter(root: number, keySignature: KeySignature): number {
+function pickRootLetter(root: number, tonality: Tonality): number {
   const candidates = LETTERS.map((_, letter) => {
     const accidental = accidentalFor(root, letter);
-    const cost = spellFrom(root, letter, KEY_SIGNATURE_STEPS[keySignature])
+    const cost = spellFrom(root, letter, TONALITY_STEPS[tonality])
       .map((note) => Math.abs(note.accidental))
       .reduce((sum, count) => sum + count, 0);
     return { letter, accidental, cost };
@@ -123,7 +123,7 @@ function pickRootLetter(root: number, keySignature: KeySignature): number {
 export function getScaleNotes(root: number, type: ScaleType): ScaleNote[] {
   const scale: ScaleSpec = SCALES[type];
   const pitchClass = toPitchClass(root);
-  const rootLetter = pickRootLetter(pitchClass, scale.keySignature);
+  const rootLetter = pickRootLetter(pitchClass, scale.tonality);
   const notes = spellFrom(pitchClass, rootLetter, scale.steps);
   return scale.degrees.flatMap((degree) => {
     const note = notes[degree];

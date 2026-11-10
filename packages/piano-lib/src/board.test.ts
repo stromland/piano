@@ -4,7 +4,7 @@ import { type Board, type Selection, getBoard } from './board.js';
 import { SCALE_TYPES } from './scales.js';
 
 const selection = (overrides: Partial<Selection> = {}): Selection => ({
-  mode: 'scale',
+  view: 'scale',
   root: 0,
   scale: 'major',
   chordIndex: 0,
@@ -19,7 +19,7 @@ const labels = (board: Board) =>
   board.keys.filter((key) => key.pressed).map((key) => key.label);
 
 describe('getBoard', () => {
-  describe('in scale mode', () => {
+  describe('in the scale view', () => {
     const board = getBoard(selection({ root: 3 }));
 
     it('presses one octave of the scale', () => {
@@ -70,9 +70,9 @@ describe('getBoard', () => {
     });
   });
 
-  describe('in chord mode', () => {
+  describe('in the chord view', () => {
     it('presses the selected chord', () => {
-      const board = getBoard(selection({ mode: 'chord', chordIndex: 1 }));
+      const board = getBoard(selection({ view: 'chord', chordIndex: 1 }));
       expect(board.chord?.name).toBe('Dm');
       expect(pressed(board)).toEqual([2, 5, 9]);
     });
@@ -80,7 +80,7 @@ describe('getBoard', () => {
     it('applies the inversion and lists the notes lowest first', () => {
       const board = getBoard(
         selection({
-          mode: 'chord',
+          view: 'chord',
           root: 3,
           chordIndex: 1,
           inversion: 'first',
@@ -95,7 +95,7 @@ describe('getBoard', () => {
     });
 
     it('flags the root of the chord rather than of the scale', () => {
-      const board = getBoard(selection({ mode: 'chord', chordIndex: 4 }));
+      const board = getBoard(selection({ view: 'chord', chordIndex: 4 }));
       expect(
         board.keys.filter((key) => key.root).map((key) => key.label),
       ).toEqual(['G']);
@@ -103,13 +103,13 @@ describe('getBoard', () => {
 
     it('falls back to the last chord when the scale has fewer', () => {
       const board = getBoard(
-        selection({ mode: 'chord', scale: 'pentatonicMajor', chordIndex: 6 }),
+        selection({ view: 'chord', scale: 'pentatonicMajor', chordIndex: 6 }),
       );
       expect(board.chord?.name).toBe('Am');
     });
 
     it('falls back to the first chord for a negative index', () => {
-      const board = getBoard(selection({ mode: 'chord', chordIndex: -2 }));
+      const board = getBoard(selection({ view: 'chord', chordIndex: -2 }));
       expect(board.chord?.name).toBe('C');
     });
   });
@@ -121,7 +121,7 @@ describe('getBoard', () => {
         for (let chordIndex = 0; chordIndex < count; chordIndex++) {
           const board = getBoard(
             selection({
-              mode: 'chord',
+              view: 'chord',
               root,
               scale,
               chordIndex,

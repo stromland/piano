@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, useTemplateRef, watch } from 'vue';
 
-import { INVERSIONS, type Mode, formatNoteName } from '@stromland/piano-lib';
+import { INVERSIONS, type View, formatNoteName } from '@stromland/piano-lib';
 
 import ChordSelector from './components/ChordSelector.vue';
 import ControlSection from './components/ControlSection.vue';
@@ -12,7 +12,7 @@ import SegmentedControl from './components/SegmentedControl.vue';
 import SelectionSummary from './components/SelectionSummary.vue';
 import { INVERSION_LABELS, usePiano } from './composables/usePiano';
 
-const MODE_OPTIONS: { value: Mode; label: string }[] = [
+const VIEW_OPTIONS: { value: View; label: string }[] = [
   { value: 'scale', label: 'Scale' },
   { value: 'chord', label: 'Chord' },
 ];
@@ -27,7 +27,7 @@ const { selection, board, rootNames, summary } = usePiano();
 // The chord controls appear at the bottom, which is below the fold on a phone.
 const chordControls = useTemplateRef('chordControls');
 watch(
-  () => selection.mode,
+  () => selection.view,
   async () => {
     await nextTick();
     chordControls.value?.$el.scrollIntoView({ block: 'nearest' });
@@ -46,9 +46,9 @@ const keyboardLabel = computed(() => {
     <header class="container header">
       <span class="wordmark">Piano</span>
       <SegmentedControl
-        v-model="selection.mode"
+        v-model="selection.view"
         label="Show"
-        :options="MODE_OPTIONS"
+        :options="VIEW_OPTIONS"
       />
       <a
         class="source"
@@ -94,7 +94,7 @@ const keyboardLabel = computed(() => {
           <ScaleSelector v-model="selection.scale" />
         </ControlSection>
         <ControlSection
-          v-if="selection.mode === 'chord'"
+          v-if="selection.view === 'chord'"
           ref="chordControls"
           title="Chord"
         >

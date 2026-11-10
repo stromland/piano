@@ -42,7 +42,7 @@ describe('App', () => {
     expect(app.findAll('button').map((it) => it.text())).toContain('C♯');
   });
 
-  it('keeps the chord controls out of the way in scale mode', async () => {
+  it('keeps the chord controls out of the way in the scale view', async () => {
     expect(app.text()).not.toContain('Root position');
 
     await button('Chord').trigger('click');

@@ -18,12 +18,12 @@ import {
   getScaleNotes,
 } from './scales.js';
 
-export const MODES = ['scale', 'chord'] as const;
+export const VIEWS = ['scale', 'chord'] as const;
 
-export type Mode = (typeof MODES)[number];
+export type View = (typeof VIEWS)[number];
 
 export interface Selection {
-  mode: Mode;
+  view: View;
   /** Pitch class of the root of the scale: 0 = C … 11 = B. */
   root: number;
   scale: ScaleType;
@@ -42,7 +42,7 @@ export interface Board {
   scaleNotes: ScaleNote[];
   /** The triads of the scale. */
   chords: Chord[];
-  /** The selected triad, whichever mode is active. */
+  /** The selected triad, whichever view is active. */
   chord: Chord | undefined;
   /** What is pressed, lowest first, without the repeated octave of a scale. */
   notes: BoardNote[];
@@ -64,7 +64,7 @@ export function getBoard(
   );
   const chord = chords[chordIndex];
 
-  const showChord = selection.mode === 'chord';
+  const showChord = selection.view === 'chord';
   const rootPitchClass = showChord ? chord?.root.pitchClass : root;
   const pressed = showChord
     ? invertTriad(chord?.keyIndexes ?? [], selection.inversion)

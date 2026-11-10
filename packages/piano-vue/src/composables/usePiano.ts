@@ -17,7 +17,7 @@ export const INVERSION_LABELS: Record<Inversion, string> = {
 
 export function usePiano() {
   const selection = reactive<Selection>({
-    mode: 'scale',
+    view: 'scale',
     root: 0,
     scale: 'major',
     chordIndex: 0,
@@ -46,7 +46,7 @@ export function usePiano() {
 
   const summary = computed(() => {
     const { chord } = board.value;
-    return selection.mode === 'chord' && chord
+    return selection.view === 'chord' && chord
       ? {
           overline: `Chord in ${scaleName.value}`,
           title: formatNoteName(chord.name),

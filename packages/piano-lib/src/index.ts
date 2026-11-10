@@ -1,5 +1,5 @@
-export { MODES, getBoard } from './board.js';
-export type { Board, BoardNote, Mode, Selection } from './board.js';
+export { VIEWS, getBoard } from './board.js';
+export type { Board, BoardNote, Selection, View } from './board.js';
 export { INVERSIONS, TRIADS, getScaleChords, invertTriad } from './chords.js';
 export type { Chord, Inversion, TriadQuality } from './chords.js';
 export { DEFAULT_KEY_COUNT, createKeyboard, pressKeys } from './keyboard.js';
