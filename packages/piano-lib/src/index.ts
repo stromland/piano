@@ -18,6 +18,15 @@ export type {
   ChordType,
   Inversion,
 } from './chords.js';
+export {
+  HARMONIC_FUNCTIONS,
+  TONALITIES,
+  findKeysWithChord,
+  getKeyChords,
+  getKeyName,
+  romanNumeral,
+} from './keys.js';
+export type { HarmonicFunction, KeyChord, KeyWithChord } from './keys.js';
 export { DEFAULT_KEY_COUNT, createKeyboard, pressKeys } from './keyboard.js';
 export type { PianoKey, PressOptions } from './keyboard.js';
 export {

@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { computed, nextTick, useTemplateRef, watch } from 'vue';
 
-import { type View, formatNoteName } from '@stromland/piano-lib';
+import {
+  type ChordSize,
+  type Tonality,
+  type View,
+  formatNoteName,
+} from '@stromland/piano-lib';
 
 import ChordTypeSelector from './components/ChordTypeSelector.vue';
 import ControlSection from './components/ControlSection.vue';
+import KeyChordSelector from './components/KeyChordSelector.vue';
 import NoteSelector from './components/NoteSelector.vue';
 import PianoKeyboard from './components/PianoKeyboard.vue';
 import ScaleSelector from './components/ScaleSelector.vue';
@@ -15,10 +21,29 @@ import { INVERSION_SHORT_LABELS, usePiano } from './composables/usePiano';
 const VIEW_OPTIONS: { value: View; label: string }[] = [
   { value: 'scale', label: 'Scale' },
   { value: 'chord', label: 'Chord' },
+  { value: 'key', label: 'Key' },
 ];
 
-const { selection, board, rootNames, inversions, inversion, summary } =
-  usePiano();
+const TONALITY_OPTIONS: { value: Tonality; label: string }[] = [
+  { value: 'major', label: 'Major' },
+  { value: 'minor', label: 'Minor' },
+];
+
+const SIZE_OPTIONS: { value: ChordSize; label: string }[] = [
+  { value: 'triad', label: 'Triads' },
+  { value: 'seventh', label: 'Sevenths' },
+];
+
+const {
+  selection,
+  board,
+  rootNames,
+  keyName,
+  inversions,
+  inversion,
+  keyChord,
+  summary,
+} = usePiano();
 
 const inversionOptions = computed(() =>
   inversions.value.map((value) => ({
@@ -105,21 +130,44 @@ const keyboardLabel = computed(() => {
           <ScaleSelector v-model="selection.scale" />
         </ControlSection>
 
-        <template v-if="selection.view === 'chord'">
-          <ControlSection ref="viewControls" title="Chord type">
-            <ChordTypeSelector
-              v-model="selection.chordType"
-              :root="selection.root"
-            />
+        <ControlSection
+          v-if="selection.view === 'chord'"
+          ref="viewControls"
+          title="Chord type"
+        >
+          <ChordTypeSelector
+            v-model="selection.chordType"
+            :root="selection.root"
+          />
+        </ControlSection>
+
+        <template v-if="selection.view === 'key'">
+          <ControlSection ref="viewControls" title="Key">
+            <div class="pair">
+              <SegmentedControl
+                v-model="selection.tonality"
+                label="Major or minor"
+                :options="TONALITY_OPTIONS"
+              />
+              <SegmentedControl
+                v-model="selection.chordSize"
+                label="Chord size"
+                :options="SIZE_OPTIONS"
+              />
+            </div>
           </ControlSection>
-          <ControlSection title="Inversion">
-            <SegmentedControl
-              v-model="inversion"
-              label="Inversion"
-              :options="inversionOptions"
-            />
+          <ControlSection :title="`Chords in ${keyName}`">
+            <KeyChordSelector v-model="keyChord" :chords="board.keyChords" />
           </ControlSection>
         </template>
+
+        <ControlSection v-if="selection.view !== 'scale'" title="Inversion">
+          <SegmentedControl
+            v-model="inversion"
+            label="Inversion"
+            :options="inversionOptions"
+          />
+        </ControlSection>
       </div>
     </main>
   </div>
@@ -174,6 +222,12 @@ const keyboardLabel = computed(() => {
     top: 0;
     background: var(--background);
   }
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
 }
 
 .controls {

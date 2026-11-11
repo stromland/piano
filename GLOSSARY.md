@@ -94,7 +94,8 @@ A chord's degree in a key, upper case for major and lower case for minor, with
 
 **Function**:
 The role a chord plays in a key: tonic (rest), subdominant (moving away) or
-dominant (tension that pulls back to the tonic).
+dominant (tension that pulls back to the tonic). The VII of a minor key, a
+whole step below the tonic, is called the subtonic.
 
 **Borrowed chord**:
 A chord that is used in a key but not built from its own scale; in this app,

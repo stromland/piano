@@ -18,6 +18,13 @@ describe('App', () => {
     if (!match) throw new Error(`No chord type called "${name}"`);
     return match;
   };
+  const keyChord = (numeral: string) => {
+    const match = app
+      .findAll('button')
+      .find((it) => it.attributes('aria-label')?.startsWith(`${numeral}, `));
+    if (!match) throw new Error(`No chord in the key called "${numeral}"`);
+    return match;
+  };
   const title = () => app.get('h1').text();
   // A white key contains the black key next to it, so read only its own label.
   const labels = (keys: string) =>
@@ -119,6 +126,36 @@ describe('App', () => {
     await chordType('Major').trigger('click');
     expect(app.text()).not.toContain('3rd');
     expect(pressedKeys()).toEqual(['G', 'C', 'E']);
+  });
+
+  it('shows the chords of a key with roman numerals', async () => {
+    await button('Key').trigger('click');
+    expect(title()).toBe('C');
+    expect(app.text()).toContain('Chords in C major');
+
+    await keyChord('V').trigger('click');
+    expect(title()).toBe('G');
+    expect(app.text()).toContain('C major · Dominant');
+    expect(pressedKeys()).toEqual(['G', 'B', 'D']);
+    expect(labels('.key.root')).toEqual(['G']);
+  });
+
+  it('borrows V and vii° from harmonic minor in a minor key', async () => {
+    await button('Key').trigger('click');
+    await button('D').trigger('click');
+    await button('Minor').trigger('click');
+    await button('Sevenths').trigger('click');
+    expect(app.text()).toContain('Borrowed from harmonic minor');
+
+    await keyChord('V7').trigger('click');
+    expect(title()).toBe('A7');
+    expect(pressedKeys()).toEqual(['A', 'C♯', 'E', 'G']);
+
+    // A major key has fewer chords, so the last one is selected instead.
+    await keyChord('vii°7').trigger('click');
+    await button('Major').trigger('click');
+    expect(title()).toBe('C♯m7♭5');
+    expect(pressedButtons()).toContain('viiø7C♯m7♭5Dominant');
   });
 
   it('describes the keyboard for screen readers', async () => {

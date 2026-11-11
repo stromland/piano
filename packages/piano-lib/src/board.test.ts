@@ -8,6 +8,9 @@ const selection = (overrides: Partial<Selection> = {}): Selection => ({
   root: 0,
   scale: 'major',
   chordType: 'major',
+  tonality: 'major',
+  chordSize: 'triad',
+  keyChord: 0,
   inversion: 'root',
   ...overrides,
 });
@@ -111,6 +114,63 @@ describe('getBoard', () => {
         board.keys.filter((key) => key.root).map((key) => key.label),
       ).toEqual(['A']);
     });
+  });
+
+  describe('in the key view', () => {
+    it('presses the selected chord of the key from its own root', () => {
+      const board = getBoard(
+        selection({
+          view: 'key',
+          root: 2,
+          tonality: 'minor',
+          chordSize: 'seventh',
+          keyChord: 7,
+        }),
+      );
+      expect(board.keyChords).toHaveLength(9);
+      expect(board.keyChord?.numeral).toBe('V7');
+      expect(board.chord?.name).toBe('A7');
+      expect(pressed(board)).toEqual([9, 13, 16, 19]);
+      expect(labels(board)).toEqual(['A', 'C#', 'E', 'G']);
+    });
+
+    it('flags the root of the chord rather than the tonic', () => {
+      const board = getBoard(selection({ view: 'key', keyChord: 4 }));
+      expect(board.notes.filter((note) => note.root)).toEqual([
+        { name: 'G', degree: '1', root: true },
+      ]);
+    });
+
+    it('falls back to the last chord when the key has fewer', () => {
+      const board = getBoard(selection({ view: 'key', keyChord: 8 }));
+      expect(board.keyChord?.numeral).toBe('vii°');
+      expect(
+        getBoard(selection({ view: 'key', keyChord: -1 })).chord?.name,
+      ).toBe('C');
+    });
+  });
+
+  it('fits every chord of every key in every inversion', () => {
+    for (const tonality of ['major', 'minor'] as const) {
+      for (let root = 0; root < 12; root++) {
+        for (let keyChord = 0; keyChord < 9; keyChord++) {
+          const board = getBoard(
+            selection({
+              view: 'key',
+              root,
+              tonality,
+              chordSize: 'seventh',
+              keyChord,
+              inversion: 'third',
+            }),
+          );
+          expect(
+            pressed(board),
+            `${tonality} ${root} ${keyChord}`,
+          ).toHaveLength(4);
+        }
+      }
+    }
   });
 
   it('fits every chord in every inversion on the default keyboard', () => {

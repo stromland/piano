@@ -2,6 +2,7 @@ import { computed, reactive } from 'vue';
 
 import {
   CHORD_TYPES,
+  HARMONIC_FUNCTIONS,
   type Inversion,
   SCALES,
   type Selection,
@@ -9,6 +10,7 @@ import {
   getBoard,
   getChordRootNames,
   getInversions,
+  getKeyName,
   getRootNames,
 } from '@stromland/piano-lib';
 
@@ -33,17 +35,26 @@ export function usePiano() {
     root: 0,
     scale: 'major',
     chordType: 'major',
+    tonality: 'major',
+    chordSize: 'triad',
+    keyChord: 0,
     inversion: 'root',
   });
 
   const board = computed(() => getBoard(selection));
 
   /** What the twelve keys are called as the root of what is selected. */
-  const rootNames = computed(() =>
-    (selection.view === 'chord'
-      ? getChordRootNames(selection.chordType)
-      : getRootNames(selection.scale)
-    ).map(formatNoteName),
+  const rootNames = computed(() => {
+    const names = {
+      scale: () => getRootNames(selection.scale),
+      chord: () => getChordRootNames(selection.chordType),
+      key: () => getRootNames(selection.tonality),
+    }[selection.view]();
+    return names.map(formatNoteName);
+  });
+
+  const keyName = computed(() =>
+    formatNoteName(getKeyName(selection.root, selection.tonality)),
   );
 
   /** The inversions the selected chord has, as it may have fewer than asked for. */
@@ -60,8 +71,27 @@ export function usePiano() {
     },
   });
 
+  /** The selected chord of the key, or its last one if it has fewer. */
+  const keyChord = computed<number>({
+    get: () =>
+      Math.min(
+        Math.max(0, selection.keyChord),
+        board.value.keyChords.length - 1,
+      ),
+    set: (value) => {
+      selection.keyChord = value;
+    },
+  });
+
   const summary = computed(() => {
-    const { chord, tones } = board.value;
+    const { chord, keyChord, tones } = board.value;
+    if (selection.view === 'key' && chord && keyChord) {
+      return {
+        overline: `${keyName.value} · ${HARMONIC_FUNCTIONS[keyChord.function]}`,
+        title: formatNoteName(chord.name),
+        detail: `${keyChord.numeral} · ${INVERSION_LABELS[inversion.value]}`,
+      };
+    }
     if (selection.view === 'chord' && chord) {
       return {
         overline: `Chord · ${CHORD_TYPES[chord.type].name}`,
@@ -76,5 +106,14 @@ export function usePiano() {
     return { overline: 'Scale', title: `${root} ${scale}`, detail: '' };
   });
 
-  return { selection, board, rootNames, inversions, inversion, summary };
+  return {
+    selection,
+    board,
+    rootNames,
+    keyName,
+    inversions,
+    inversion,
+    keyChord,
+    summary,
+  };
 }
