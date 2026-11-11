@@ -41,6 +41,7 @@ export function usePiano() {
     chordSize: 'triad',
     keyChord: 0,
     inversion: 'root',
+    octave: 0,
   });
   useSelectionUrl(selection);
 

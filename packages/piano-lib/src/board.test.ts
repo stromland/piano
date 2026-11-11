@@ -12,6 +12,7 @@ const selection = (overrides: Partial<Selection> = {}): Selection => ({
   chordSize: 'triad',
   keyChord: 0,
   inversion: 'root',
+  octave: 0,
   ...overrides,
 });
 
@@ -25,8 +26,8 @@ describe('getBoard', () => {
   describe('in the scale view', () => {
     const board = getBoard(selection({ root: 3 }));
 
-    it('presses one octave of the scale', () => {
-      expect(pressed(board)).toEqual([3, 5, 7, 8, 10, 12, 14, 15]);
+    it('presses one octave of the scale, from middle C', () => {
+      expect(pressed(board)).toEqual([15, 17, 19, 20, 22, 24, 26, 27]);
       expect(board.pressed).toEqual(pressed(board));
     });
 
@@ -46,7 +47,7 @@ describe('getBoard', () => {
     it('flags the root at both ends of the octave', () => {
       expect(
         board.keys.filter((key) => key.root).map((key) => key.index),
-      ).toEqual([3, 15]);
+      ).toEqual([15, 27]);
     });
 
     it('lists the notes of the scale once each, with their degrees', () => {
@@ -78,7 +79,7 @@ describe('getBoard', () => {
         selection({ view: 'chord', root: 2, chordType: 'minor7' }),
       );
       expect(board.chord?.name).toBe('Dm7');
-      expect(pressed(board)).toEqual([2, 5, 9, 12]);
+      expect(pressed(board)).toEqual([14, 17, 21, 24]);
     });
 
     it('applies the inversion and lists the notes lowest first', () => {
@@ -90,7 +91,7 @@ describe('getBoard', () => {
           inversion: 'third',
         }),
       );
-      expect(pressed(board)).toEqual([17, 19, 23, 26]);
+      expect(pressed(board)).toEqual([29, 31, 35, 38]);
       expect(board.notes).toEqual([
         { name: 'F', degree: 'b7', root: false },
         { name: 'G', degree: '1', root: true },
@@ -130,7 +131,7 @@ describe('getBoard', () => {
       expect(board.keyChords).toHaveLength(9);
       expect(board.keyChord?.numeral).toBe('V7');
       expect(board.chord?.name).toBe('A7');
-      expect(pressed(board)).toEqual([9, 13, 16, 19]);
+      expect(pressed(board)).toEqual([21, 25, 28, 31]);
       expect(labels(board)).toEqual(['A', 'C#', 'E', 'G']);
     });
 
@@ -187,6 +188,44 @@ describe('getBoard', () => {
         }
       }
     }
+  });
+
+  describe('moving the notes an octave', () => {
+    it('moves them down and up from middle C', () => {
+      expect(
+        pressed(getBoard(selection({ view: 'chord', octave: -1 }))),
+      ).toEqual([0, 4, 7]);
+      expect(
+        pressed(getBoard(selection({ view: 'chord', octave: 2 }))),
+      ).toEqual([36, 40, 43]);
+      expect(getBoard(selection({ octave: 1 })).notes[0]?.name).toBe('C');
+    });
+
+    it('goes one octave down and up as far as the notes fit', () => {
+      expect(getBoard(selection()).octaves).toEqual({ lowest: -1, highest: 2 });
+      const high = selection({
+        view: 'chord',
+        root: 11,
+        chordType: 'dominant7',
+        inversion: 'third',
+      });
+      expect(getBoard(high).octaves).toEqual({ lowest: -1, highest: 0 });
+    });
+
+    it('shows the nearest octave that fits when the selected one does not', () => {
+      const board = getBoard(
+        selection({
+          view: 'chord',
+          root: 11,
+          chordType: 'dominant7',
+          inversion: 'third',
+          octave: 2,
+        }),
+      );
+      expect(board.octave).toBe(0);
+      expect(pressed(board)).toEqual([33, 35, 39, 42]);
+      expect(getBoard(selection({ octave: -3 })).octave).toBe(-1);
+    });
   });
 
   it('copes with a keyboard too short for the selection', () => {

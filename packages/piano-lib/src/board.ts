@@ -8,12 +8,13 @@ import {
 } from './chords.js';
 import {
   DEFAULT_KEY_COUNT,
+  MIDDLE_C,
   type PianoKey,
   createKeyboard,
   pressKeys,
 } from './keyboard.js';
 import { type KeyChord, getKeyChords } from './keys.js';
-import { toPitchClass } from './notes.js';
+import { NOTES_PER_OCTAVE, toPitchClass } from './notes.js';
 import {
   type ScaleNote,
   type ScaleType,
@@ -39,6 +40,11 @@ export interface Selection {
   keyChord: number;
   /** Counts as the chord's last inversion if it has fewer. */
   inversion: Inversion;
+  /**
+   * Octaves to move the notes up (or down, below zero) from middle C, where
+   * they start. Counts as the nearest octave that fits on the keyboard.
+   */
+  octave: number;
 }
 
 export interface BoardNote {
@@ -62,6 +68,10 @@ export interface Board {
   keyChords: KeyChord[];
   /** The selected chord of the key, in the key view. */
   keyChord: KeyChord | undefined;
+  /** Octaves the notes are moved from middle C: the selected one if it fits. */
+  octave: number;
+  /** How far the notes can be moved: one octave down, and up while they fit. */
+  octaves: { lowest: number; highest: number };
 }
 
 /** Everything needed to draw the keyboard and its controls for a selection. */
@@ -104,6 +114,15 @@ export function getBoard(
     pressed = getScaleKeyIndexes(root, selection.scale);
   }
 
+  const octaves = getOctaves(pressed, keyCount);
+  const octave = Math.min(
+    Math.max(selection.octave, octaves.lowest),
+    octaves.highest,
+  );
+  pressed = pressed.map(
+    (index) => index + MIDDLE_C + octave * NOTES_PER_OCTAVE,
+  );
+
   const names = new Map(tones.map((note) => [note.pitchClass, note.name]));
   const sounding =
     selection.view === 'scale'
@@ -129,5 +148,21 @@ export function getBoard(
     chord,
     keyChords,
     keyChord,
+    octave,
+    octaves,
   };
+}
+
+/**
+ * How many octaves `pressed`, put at middle C, can move: one down, and up as
+ * far as they fit on a keyboard of `keyCount` keys. A keyboard too short for
+ * them gets the lowest.
+ */
+function getOctaves(pressed: readonly number[], keyCount: number) {
+  if (pressed.length === 0) return { lowest: 0, highest: 0 };
+  const lowestKey = MIDDLE_C + Math.min(...pressed);
+  const highestKey = MIDDLE_C + Math.max(...pressed);
+  const lowest = Math.max(-1, -Math.floor(lowestKey / NOTES_PER_OCTAVE));
+  const highest = Math.floor((keyCount - 1 - highestKey) / NOTES_PER_OCTAVE);
+  return { lowest, highest: Math.max(lowest, highest) };
 }

@@ -3,8 +3,16 @@ import { useId } from 'vue';
 
 import type { Explanation } from '../composables/useExplanation';
 import type { PlayStyle } from '../composables/useSound';
+import OctaveStepper from './OctaveStepper.vue';
 
-defineProps<{ explanation: Explanation }>();
+defineProps<{
+  explanation: Explanation;
+  /** How far the notes can be moved down and up. */
+  octaves: { lowest: number; highest: number };
+}>();
+
+/** Octaves the notes are moved from where they start. */
+const octave = defineModel<number>('octave', { required: true });
 
 defineEmits<{
   listen: [style: PlayStyle];
@@ -44,6 +52,15 @@ const headingId = useId();
           {{ option.label }}
         </button>
       </div>
+    </div>
+
+    <div class="block">
+      <h3 class="label">Octave</h3>
+      <OctaveStepper
+        v-model="octave"
+        :lowest="octaves.lowest"
+        :highest="octaves.highest"
+      />
     </div>
 
     <div class="block">

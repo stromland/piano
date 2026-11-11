@@ -50,6 +50,10 @@ const {
 
 /** The explanation replaces the controls, and stays open across views. */
 const explaining = ref(false);
+// Closing it puts the notes back where they started.
+watch(explaining, (open) => {
+  if (!open) selection.octave = 0;
+});
 const explanation = useExplanation(
   selection,
   board,
@@ -58,6 +62,15 @@ const explanation = useExplanation(
 
 const { play } = useSound();
 const listen = (style: PlayStyle) => play(board.value.pressed, style);
+
+/** Moves the notes an octave and plays them, so you hear them go up or down. */
+const octave = computed({
+  get: () => board.value.octave,
+  set: (value: number) => {
+    selection.octave = value;
+    listen(selection.view === 'scale' ? 'oneByOne' : 'together');
+  },
+});
 
 const inversionOptions = computed(() =>
   inversions.value.map((value) => ({
@@ -169,7 +182,9 @@ const keyboardLabel = computed(() => {
 
       <div v-if="explaining" class="container controls">
         <ExplainPanel
+          v-model:octave="octave"
           :explanation="explanation"
+          :octaves="board.octaves"
           @listen="listen"
           @select="keyChord = $event"
         />

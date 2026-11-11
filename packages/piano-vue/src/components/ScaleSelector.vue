@@ -28,7 +28,7 @@ const groups = (Object.keys(SCALE_GROUPS) as ScaleGroup[]).map((group) => ({
       :aria-label="title"
     >
       <h3 class="title">{{ title }}</h3>
-      <div class="scales">
+      <div class="scales" :class="{ paired: group === 'majorAndMinor' }">
         <ChoiceChip
           v-for="type in types"
           :key="type"
@@ -72,5 +72,11 @@ const groups = (Object.keys(SCALE_GROUPS) as ScaleGroup[]).map((group) => ({
 .scale {
   flex: 1 1 auto;
   padding-inline: 14px;
+}
+
+/* Major, minor and its two variants: four of a size, two by two. */
+.paired {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 </style>

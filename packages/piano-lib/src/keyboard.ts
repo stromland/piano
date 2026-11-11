@@ -14,6 +14,9 @@ export interface PianoKey {
 /** Four octaves from C to C. */
 export const DEFAULT_KEY_COUNT = 49;
 
+/** Where middle C sits: the keyboard starts on the C an octave below it. */
+export const MIDDLE_C = 12;
+
 /** An unpressed keyboard starting at C. */
 export function createKeyboard(keyCount = DEFAULT_KEY_COUNT): PianoKey[] {
   return Array.from({ length: Math.max(0, keyCount) }, (_, index) => ({

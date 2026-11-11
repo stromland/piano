@@ -27,7 +27,7 @@ together in a key. Pick a root note, then:
   minor.
 
 **Explain** tells you what you are looking at, how it is built and where it is
-used, and lets you hear it. Notes are spelled the way the key calls for: E♭
+used, and lets you hear it, moved an octave down or up if you like. Notes are spelled the way the key calls for: E♭
 major has flats, E major has sharps. The address bar keeps the selection, so a
 page can be bookmarked or shared.
 
