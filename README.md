@@ -31,6 +31,9 @@ used, and lets you hear it, moved an octave down or up if you like. Notes are sp
 major has flats, E major has sharps. The address bar keeps the selection, so a
 page can be bookmarked or shared.
 
+The app can be installed to the home screen or desktop, and works offline once
+it has been opened.
+
 The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
 
 ## Packages
