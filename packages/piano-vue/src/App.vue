@@ -1,36 +1,39 @@
 <script setup lang="ts">
 import { computed, nextTick, useTemplateRef, watch } from 'vue';
 
-import { INVERSIONS, type View, formatNoteName } from '@stromland/piano-lib';
+import { type View, formatNoteName } from '@stromland/piano-lib';
 
-import ChordSelector from './components/ChordSelector.vue';
+import ChordTypeSelector from './components/ChordTypeSelector.vue';
 import ControlSection from './components/ControlSection.vue';
 import NoteSelector from './components/NoteSelector.vue';
 import PianoKeyboard from './components/PianoKeyboard.vue';
 import ScaleSelector from './components/ScaleSelector.vue';
 import SegmentedControl from './components/SegmentedControl.vue';
 import SelectionSummary from './components/SelectionSummary.vue';
-import { INVERSION_LABELS, usePiano } from './composables/usePiano';
+import { INVERSION_SHORT_LABELS, usePiano } from './composables/usePiano';
 
 const VIEW_OPTIONS: { value: View; label: string }[] = [
   { value: 'scale', label: 'Scale' },
   { value: 'chord', label: 'Chord' },
 ];
 
-const INVERSION_OPTIONS = INVERSIONS.map((value) => ({
-  value,
-  label: INVERSION_LABELS[value],
-}));
+const { selection, board, rootNames, inversions, inversion, summary } =
+  usePiano();
 
-const { selection, board, rootNames, summary } = usePiano();
+const inversionOptions = computed(() =>
+  inversions.value.map((value) => ({
+    value,
+    label: INVERSION_SHORT_LABELS[value],
+  })),
+);
 
-// The chord controls appear at the bottom, which is below the fold on a phone.
-const chordControls = useTemplateRef('chordControls');
+// The controls of a view start below the fold on a phone, so bring them up.
+const viewControls = useTemplateRef('viewControls');
 watch(
   () => selection.view,
   async () => {
     await nextTick();
-    chordControls.value?.$el.scrollIntoView({ block: 'nearest' });
+    viewControls.value?.$el.scrollIntoView({ block: 'nearest' });
   },
 );
 
@@ -45,11 +48,6 @@ const keyboardLabel = computed(() => {
   <div class="page">
     <header class="container header">
       <span class="wordmark">Piano</span>
-      <SegmentedControl
-        v-model="selection.view"
-        label="Show"
-        :options="VIEW_OPTIONS"
-      />
       <a
         class="source"
         href="https://github.com/stromland/piano"
@@ -76,6 +74,14 @@ const keyboardLabel = computed(() => {
       </a>
     </header>
 
+    <nav class="container views">
+      <SegmentedControl
+        v-model="selection.view"
+        label="Show"
+        :options="VIEW_OPTIONS"
+      />
+    </nav>
+
     <main>
       <div class="stage">
         <SelectionSummary
@@ -90,24 +96,30 @@ const keyboardLabel = computed(() => {
         <ControlSection title="Root note">
           <NoteSelector v-model="selection.root" :names="rootNames" />
         </ControlSection>
-        <ControlSection title="Scale">
+
+        <ControlSection
+          v-if="selection.view === 'scale'"
+          ref="viewControls"
+          title="Scale"
+        >
           <ScaleSelector v-model="selection.scale" />
         </ControlSection>
-        <ControlSection
-          v-if="selection.view === 'chord'"
-          ref="chordControls"
-          title="Chord"
-        >
-          <ChordSelector
-            v-model="selection.chordIndex"
-            :chords="board.chords"
-          />
-          <SegmentedControl
-            v-model="selection.inversion"
-            label="Inversion"
-            :options="INVERSION_OPTIONS"
-          />
-        </ControlSection>
+
+        <template v-if="selection.view === 'chord'">
+          <ControlSection ref="viewControls" title="Chord type">
+            <ChordTypeSelector
+              v-model="selection.chordType"
+              :root="selection.root"
+            />
+          </ControlSection>
+          <ControlSection title="Inversion">
+            <SegmentedControl
+              v-model="inversion"
+              label="Inversion"
+              :options="inversionOptions"
+            />
+          </ControlSection>
+        </template>
       </div>
     </main>
   </div>
@@ -124,7 +136,7 @@ const keyboardLabel = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding-block: max(12px, env(safe-area-inset-top)) 12px;
+  padding-block: max(12px, env(safe-area-inset-top)) 8px;
 }
 
 .wordmark {
@@ -150,6 +162,10 @@ const keyboardLabel = computed(() => {
   }
 }
 
+.views {
+  padding-bottom: 12px;
+}
+
 /* Keeps the keyboard in view while scrolling through the controls on a phone. */
 @media (min-height: 560px) {
   .stage {
@@ -163,7 +179,7 @@ const keyboardLabel = computed(() => {
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
   padding-block: 18px 24px;
 }
 </style>

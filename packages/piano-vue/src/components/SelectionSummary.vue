@@ -26,7 +26,8 @@ defineProps<{
         class="note"
         :class="{ root: note.root }"
       >
-        {{ formatNoteName(note.name) }}
+        <span class="name">{{ formatNoteName(note.name) }}</span>
+        <span class="degree">{{ formatNoteName(note.degree) }}</span>
       </li>
     </ul>
   </div>
@@ -81,16 +82,25 @@ defineProps<{
 
 .note {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  height: 28px;
-  padding: 0 8px;
+  gap: 1px;
+  min-width: 40px;
+  padding: 4px 8px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
-  font-size: 14px;
   font-weight: 600;
+  line-height: 1.2;
+}
+
+.name {
+  font-size: 14px;
+}
+
+.degree {
+  font-size: 11px;
 }
 
 .note.root {

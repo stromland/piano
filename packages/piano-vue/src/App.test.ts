@@ -11,6 +11,13 @@ describe('App', () => {
     if (!match) throw new Error(`No button called "${name}"`);
     return match;
   };
+  const chordType = (name: string) => {
+    const match = app
+      .findAll('button')
+      .find((it) => it.attributes('aria-label')?.endsWith(`, ${name}`));
+    if (!match) throw new Error(`No chord type called "${name}"`);
+    return match;
+  };
   const title = () => app.get('h1').text();
   // A white key contains the black key next to it, so read only its own label.
   const labels = (keys: string) =>
@@ -27,6 +34,15 @@ describe('App', () => {
     expect(title()).toBe('C major');
     expect(pressedKeys()).toEqual(['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C']);
     expect(pressedButtons()).toEqual(['Scale', 'C', 'Major']);
+    expect(app.findAll('.note .degree').map((it) => it.text())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+    ]);
   });
 
   it('highlights the root of the scale', () => {
@@ -63,30 +79,46 @@ describe('App', () => {
     expect(app.text()).toContain('Root position');
   });
 
-  it('shows the selected chord and its inversion', async () => {
+  it('shows the chord of the selected type on the root note', async () => {
     await button('Chord').trigger('click');
     expect(title()).toBe('C');
     expect(pressedKeys()).toEqual(['C', 'E', 'G']);
 
-    await button('Dm').trigger('click');
-    await button('1st inversion').trigger('click');
-    expect(title()).toBe('Dm');
-    expect(pressedKeys()).toEqual(['F', 'A', 'D']);
+    await button('D').trigger('click');
+    await chordType('Minor 7th').trigger('click');
+    await button('1st').trigger('click');
+    expect(title()).toBe('Dm7');
+    expect(pressedKeys()).toEqual(['F', 'A', 'C', 'D']);
     expect(labels('.key.root')).toEqual(['D']);
   });
 
-  it('goes back to the first chord when the scale changes', async () => {
+  it('spells the root the way the chord type calls for', async () => {
     await button('Chord').trigger('click');
-    await button('Am').trigger('click');
-    expect(title()).toBe('Am');
+    expect(button('D♭').exists()).toBe(true);
 
-    // 'A' is the root note button, so this moves to A major.
+    await chordType('Minor').trigger('click');
+    await button('C♯').trigger('click');
+    expect(title()).toBe('C♯m');
+  });
+
+  it('keeps the root note when the view changes', async () => {
     await button('A').trigger('click');
+    await button('Chord').trigger('click');
     expect(title()).toBe('A');
 
-    await button('Bm').trigger('click');
-    await button('Minor').trigger('click');
-    expect(title()).toBe('Am');
+    await button('Scale').trigger('click');
+    expect(title()).toBe('A major');
+  });
+
+  it('offers a third inversion only for seventh chords', async () => {
+    await button('Chord').trigger('click');
+    await chordType('Dominant 7th').trigger('click');
+    await button('3rd').trigger('click');
+    expect(pressedKeys()).toEqual(['B♭', 'C', 'E', 'G']);
+
+    await chordType('Major').trigger('click');
+    expect(app.text()).not.toContain('3rd');
+    expect(pressedKeys()).toEqual(['G', 'C', 'E']);
   });
 
   it('describes the keyboard for screen readers', async () => {

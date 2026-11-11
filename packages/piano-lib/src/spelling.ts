@@ -1,14 +1,16 @@
-import {
-  LETTERS,
-  LETTER_PITCH_CLASSES,
-  accidentalFor,
-  spellNote,
-  toPitchClass,
-} from './notes.js';
+import { LETTERS, accidentalFor, spellNote, toPitchClass } from './notes.js';
 
 /** Semitone steps of the major and natural minor scales. */
 export const MAJOR_STEPS = [2, 2, 1, 2, 2, 2, 1] as const;
 export const MINOR_STEPS = [2, 1, 2, 2, 1, 2, 2] as const;
+
+/** Whether a key is major or minor. */
+export type Tonality = 'major' | 'minor';
+
+export const TONALITY_STEPS: Record<Tonality, readonly number[]> = {
+  major: MAJOR_STEPS,
+  minor: MINOR_STEPS,
+};
 
 export interface SpelledNote {
   /** 0 = C … 11 = B. */
@@ -102,7 +104,10 @@ export function spellRoot(root: number, steps: readonly number[]): string {
  */
 export function degreeName(interval: number, letterStep: number): string {
   const major =
-    (LETTER_PITCH_CLASSES[letterStep % LETTERS.length] ?? 0) +
+    MAJOR_STEPS.slice(0, letterStep % LETTERS.length).reduce(
+      (sum, step) => sum + step,
+      0,
+    ) +
     Math.floor(letterStep / LETTERS.length) * 12;
   const difference = interval - major;
   const sign = difference > 0 ? '#' : 'b';

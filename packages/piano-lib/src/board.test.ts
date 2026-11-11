@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 import { type Board, type Selection, getBoard } from './board.js';
-import { SCALE_TYPES } from './scales.js';
+import { CHORD_TYPE_IDS, INVERSIONS } from './chords.js';
 
 const selection = (overrides: Partial<Selection> = {}): Selection => ({
   view: 'scale',
   root: 0,
   scale: 'major',
-  chordIndex: 0,
+  chordType: 'major',
   inversion: 'root',
   ...overrides,
 });
@@ -24,6 +24,7 @@ describe('getBoard', () => {
 
     it('presses one octave of the scale', () => {
       expect(pressed(board)).toEqual([3, 5, 7, 8, 10, 12, 14, 15]);
+      expect(board.pressed).toEqual(pressed(board));
     });
 
     it('labels the pressed keys the way the scale spells them', () => {
@@ -45,93 +46,84 @@ describe('getBoard', () => {
       ).toEqual([3, 15]);
     });
 
-    it('lists the notes of the scale once each', () => {
-      expect(board.notes).toEqual([
-        { name: 'Eb', root: true },
-        { name: 'F', root: false },
-        { name: 'G', root: false },
-        { name: 'Ab', root: false },
-        { name: 'Bb', root: false },
-        { name: 'C', root: false },
-        { name: 'D', root: false },
+    it('lists the notes of the scale once each, with their degrees', () => {
+      expect(board.notes.map((note) => `${note.name} ${note.degree}`)).toEqual([
+        'Eb 1',
+        'F 2',
+        'G 3',
+        'Ab 4',
+        'Bb 5',
+        'C 6',
+        'D 7',
       ]);
-    });
-
-    it('still offers the chords of the scale', () => {
-      expect(board.chords.map((chord) => chord.name)).toEqual([
-        'Eb',
-        'Fm',
-        'Gm',
-        'Ab',
-        'Bb',
-        'Cm',
-        'Ddim',
+      expect(board.notes.map((note) => note.root)).toEqual([
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
       ]);
+      expect(board.chord).toBeUndefined();
     });
   });
 
   describe('in the chord view', () => {
-    it('presses the selected chord', () => {
-      const board = getBoard(selection({ view: 'chord', chordIndex: 1 }));
-      expect(board.chord?.name).toBe('Dm');
-      expect(pressed(board)).toEqual([2, 5, 9]);
+    it('presses the selected chord on the root note', () => {
+      const board = getBoard(
+        selection({ view: 'chord', root: 2, chordType: 'minor7' }),
+      );
+      expect(board.chord?.name).toBe('Dm7');
+      expect(pressed(board)).toEqual([2, 5, 9, 12]);
     });
 
     it('applies the inversion and lists the notes lowest first', () => {
       const board = getBoard(
         selection({
           view: 'chord',
-          root: 3,
-          chordIndex: 1,
-          inversion: 'first',
+          root: 7,
+          chordType: 'dominant7',
+          inversion: 'third',
         }),
       );
-      expect(pressed(board)).toEqual([8, 12, 17]);
+      expect(pressed(board)).toEqual([17, 19, 23, 26]);
       expect(board.notes).toEqual([
-        { name: 'Ab', root: false },
-        { name: 'C', root: false },
-        { name: 'F', root: true },
+        { name: 'F', degree: 'b7', root: false },
+        { name: 'G', degree: '1', root: true },
+        { name: 'B', degree: '3', root: false },
+        { name: 'D', degree: '5', root: false },
       ]);
     });
 
-    it('flags the root of the chord rather than of the scale', () => {
-      const board = getBoard(selection({ view: 'chord', chordIndex: 4 }));
+    it('lists the chord in root position as its tones', () => {
+      const board = getBoard(
+        selection({ view: 'chord', chordType: 'major', inversion: 'second' }),
+      );
+      expect(board.tones.map((note) => note.name)).toEqual(['C', 'E', 'G']);
+    });
+
+    it('flags the root of the chord', () => {
+      const board = getBoard(
+        selection({ view: 'chord', root: 9, chordType: 'minor' }),
+      );
       expect(
         board.keys.filter((key) => key.root).map((key) => key.label),
-      ).toEqual(['G']);
-    });
-
-    it('falls back to the last chord when the scale has fewer', () => {
-      const board = getBoard(
-        selection({ view: 'chord', scale: 'pentatonicMajor', chordIndex: 6 }),
-      );
-      expect(board.chord?.name).toBe('Am');
-    });
-
-    it('falls back to the first chord for a negative index', () => {
-      const board = getBoard(selection({ view: 'chord', chordIndex: -2 }));
-      expect(board.chord?.name).toBe('C');
+      ).toEqual(['A']);
     });
   });
 
   it('fits every chord in every inversion on the default keyboard', () => {
-    for (const scale of SCALE_TYPES) {
+    for (const chordType of CHORD_TYPE_IDS) {
       for (let root = 0; root < 12; root++) {
-        const count = getBoard(selection({ root, scale })).chords.length;
-        for (let chordIndex = 0; chordIndex < count; chordIndex++) {
+        for (const inversion of INVERSIONS) {
           const board = getBoard(
-            selection({
-              view: 'chord',
-              root,
-              scale,
-              chordIndex,
-              inversion: 'second',
-            }),
+            selection({ view: 'chord', root, chordType, inversion }),
           );
           expect(
             pressed(board),
-            `${scale} ${root} #${chordIndex}`,
-          ).toHaveLength(3);
+            `${chordType} ${root} ${inversion}`,
+          ).toHaveLength(board.tones.length);
         }
       }
     }
@@ -139,6 +131,7 @@ describe('getBoard', () => {
 
   it('copes with a keyboard too short for the selection', () => {
     expect(pressed(getBoard(selection({ root: 11 }), 12))).toEqual([11]);
+    expect(getBoard(selection({ root: 11 }), 12).pressed).toEqual([11]);
     expect(getBoard(selection(), 0).keys).toEqual([]);
   });
 });

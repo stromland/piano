@@ -4,6 +4,7 @@ import {
   MINOR_STEPS,
   degreeName,
   pickRootLetter,
+  spellRoot,
   spellSevenNotes,
 } from './spelling.js';
 
@@ -118,26 +119,20 @@ export function getScaleNotes(root: number, type: ScaleType): ScaleNote[] {
   const pitchClass = toPitchClass(root);
   const rootLetter = pickRootLetter(pitchClass, scale.spelling);
   const notes = spellSevenNotes(pitchClass, rootLetter, scale.steps);
-  return scale.degrees.flatMap((degree) => {
-    const note = notes[degree];
-    return note
-      ? [
-          {
-            pitchClass: note.pitchClass,
-            interval: note.interval,
-            name: note.name,
-            degree: degreeName(note.interval, note.letterStep),
-          },
-        ]
-      : [];
-  });
+  return notes
+    .filter((_, degree) => scale.degrees.includes(degree))
+    .map((note) => ({
+      pitchClass: note.pitchClass,
+      interval: note.interval,
+      name: note.name,
+      degree: degreeName(note.interval, note.letterStep),
+    }));
 }
 
 /** What each of the twelve keys is called when it is the root of `type`. */
 export function getRootNames(type: ScaleType): string[] {
-  return Array.from(
-    { length: NOTES_PER_OCTAVE },
-    (_, root) => getScaleNotes(root, type)[0]?.name ?? '',
+  return Array.from({ length: NOTES_PER_OCTAVE }, (_, root) =>
+    spellRoot(root, SCALES[type].spelling),
   );
 }
 
