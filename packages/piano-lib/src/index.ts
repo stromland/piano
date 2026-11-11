@@ -27,7 +27,12 @@ export {
   romanNumeral,
 } from './keys.js';
 export type { HarmonicFunction, KeyChord, KeyWithChord } from './keys.js';
-export { DEFAULT_KEY_COUNT, createKeyboard, pressKeys } from './keyboard.js';
+export {
+  DEFAULT_KEY_COUNT,
+  MIDDLE_C,
+  createKeyboard,
+  pressKeys,
+} from './keyboard.js';
 export type { PianoKey, PressOptions } from './keyboard.js';
 export {
   NOTES_PER_OCTAVE,

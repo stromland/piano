@@ -13,6 +13,7 @@ const selection = (overrides: Partial<Selection> = {}): Selection => ({
   chordSize: 'triad',
   keyChord: 0,
   inversion: 'root',
+  octave: 0,
   ...overrides,
 });
 

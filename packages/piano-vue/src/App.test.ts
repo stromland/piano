@@ -193,6 +193,33 @@ describe('App', () => {
       expect(app.text()).toContain('Sus chords are not built from a key');
     });
 
+    it('moves the notes an octave at a time, back to the start on close', async () => {
+      // The keys are in keyboard order, each black key after its white one.
+      const lowestPressed = () =>
+        app.findAll('.key').findIndex((it) => it.classes('pressed'));
+      const octave = (name: string) =>
+        app.get(`button[aria-label="Octave ${name}"]`);
+      const shown = () => app.get('output').text();
+      expect(lowestPressed()).toBe(12);
+
+      await explain().trigger('click');
+      expect(shown()).toBe('0');
+      await octave('up').trigger('click');
+      expect(lowestPressed()).toBe(24);
+      expect(shown()).toBe('+1');
+
+      await octave('down').trigger('click');
+      await octave('down').trigger('click');
+      expect(lowestPressed()).toBe(0);
+      expect(shown()).toBe('−1');
+      expect(octave('down').attributes()).toHaveProperty('disabled');
+
+      await explain().trigger('click');
+      expect(lowestPressed()).toBe(12);
+      await explain().trigger('click');
+      expect(shown()).toBe('0');
+    });
+
     it('moves on to a chord that usually follows', async () => {
       await button('Key').trigger('click');
       await keyChord('V').trigger('click');
