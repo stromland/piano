@@ -31,6 +31,9 @@ used, and lets you hear it, moved an octave down or up if you like. Notes are sp
 major has flats, E major has sharps. The address bar keeps the selection, so a
 page can be bookmarked or shared.
 
+The app can be installed to the home screen or desktop, and works offline once
+it has been opened.
+
 The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
 
 ## Packages
@@ -62,6 +65,14 @@ show up right away and nothing has to be built first.
 | `npm run build`     | Builds the library and the app                       |
 | `npm run preview`   | Serves the built app at http://localhost:5050/piano/ |
 | `npm run check`     | Everything CI runs                                   |
+
+## App icons
+
+The icons in `packages/piano-vue/public` are made from
+[`images/app-icon.svg`](images/app-icon.svg) and, for the maskable icon and the
+Apple touch icon, [`images/app-icon-maskable.svg`](images/app-icon-maskable.svg),
+which keeps the keys inside the safe zone. Export new PNGs at the same sizes if
+the SVGs change.
 
 ## Releasing
 
