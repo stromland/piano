@@ -34,6 +34,7 @@ describe('App', () => {
     app.findAll('button[aria-pressed="true"]').map((it) => it.text());
 
   beforeEach(() => {
+    window.history.replaceState(null, '', '/');
     app = mount(App);
   });
 
@@ -200,6 +201,28 @@ describe('App', () => {
 
       await button('IC').trigger('click');
       expect(title()).toBe('C');
+    });
+  });
+
+  describe('the address bar', () => {
+    it('keeps the selection in it', async () => {
+      await button('Key').trigger('click');
+      await button('E♭').trigger('click');
+      await keyChord('V').trigger('click');
+      expect(decodeURIComponent(window.location.search)).toBe(
+        '?view=key&root=e-flat&key=major&chords=triads&chord=V&inversion=root',
+      );
+    });
+
+    it('starts from the selection it holds', () => {
+      window.history.replaceState(
+        null,
+        '',
+        '/?view=chord&root=b-flat&chord=minor7&inversion=first',
+      );
+      app = mount(App);
+      expect(title()).toBe('B♭m7');
+      expect(pressedKeys()).toEqual(['D♭', 'F', 'A♭', 'B♭']);
     });
   });
 

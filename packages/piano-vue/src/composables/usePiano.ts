@@ -14,6 +14,8 @@ import {
   getRootNames,
 } from '@stromland/piano-lib';
 
+import { useSelectionUrl } from './useSelectionUrl';
+
 export const INVERSION_LABELS: Record<Inversion, string> = {
   root: 'Root position',
   first: '1st inversion',
@@ -40,6 +42,7 @@ export function usePiano() {
     keyChord: 0,
     inversion: 'root',
   });
+  useSelectionUrl(selection);
 
   const board = computed(() => getBoard(selection));
 
