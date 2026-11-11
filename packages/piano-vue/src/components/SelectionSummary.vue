@@ -11,13 +11,16 @@ defineProps<{
 </script>
 
 <template>
-  <div class="summary" aria-live="polite">
-    <div>
-      <p class="overline">{{ overline }}</p>
-      <div class="heading">
-        <h1 class="title">{{ title }}</h1>
-        <span v-if="detail" class="detail">{{ detail }}</span>
+  <div class="summary">
+    <div class="top">
+      <div aria-live="polite">
+        <p class="overline">{{ overline }}</p>
+        <div class="heading">
+          <h1 class="title">{{ title }}</h1>
+          <span v-if="detail" class="detail">{{ detail }}</span>
+        </div>
       </div>
+      <slot />
     </div>
     <ul class="notes" aria-label="Notes">
       <li
@@ -26,7 +29,8 @@ defineProps<{
         class="note"
         :class="{ root: note.root }"
       >
-        {{ formatNoteName(note.name) }}
+        <span class="name">{{ formatNoteName(note.name) }}</span>
+        <span class="degree">{{ formatNoteName(note.degree) }}</span>
       </li>
     </ul>
   </div>
@@ -38,6 +42,13 @@ defineProps<{
   flex-direction: column;
   gap: 8px;
   padding-block: 4px 14px;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .overline {
@@ -81,16 +92,25 @@ defineProps<{
 
 .note {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  height: 28px;
-  padding: 0 8px;
+  gap: 1px;
+  min-width: 40px;
+  padding: 4px 8px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
-  font-size: 14px;
   font-weight: 600;
+  line-height: 1.2;
+}
+
+.name {
+  font-size: 14px;
+}
+
+.degree {
+  font-size: 11px;
 }
 
 .note.root {

@@ -11,6 +11,20 @@ describe('App', () => {
     if (!match) throw new Error(`No button called "${name}"`);
     return match;
   };
+  const chordType = (name: string) => {
+    const match = app
+      .findAll('button')
+      .find((it) => it.attributes('aria-label')?.endsWith(`, ${name}`));
+    if (!match) throw new Error(`No chord type called "${name}"`);
+    return match;
+  };
+  const keyChord = (numeral: string) => {
+    const match = app
+      .findAll('button')
+      .find((it) => it.attributes('aria-label')?.startsWith(`${numeral}, `));
+    if (!match) throw new Error(`No chord in the key called "${numeral}"`);
+    return match;
+  };
   const title = () => app.get('h1').text();
   // A white key contains the black key next to it, so read only its own label.
   const labels = (keys: string) =>
@@ -20,6 +34,7 @@ describe('App', () => {
     app.findAll('button[aria-pressed="true"]').map((it) => it.text());
 
   beforeEach(() => {
+    window.history.replaceState(null, '', '/');
     app = mount(App);
   });
 
@@ -27,6 +42,15 @@ describe('App', () => {
     expect(title()).toBe('C major');
     expect(pressedKeys()).toEqual(['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C']);
     expect(pressedButtons()).toEqual(['Scale', 'C', 'Major']);
+    expect(app.findAll('.note .degree').map((it) => it.text())).toEqual([
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+    ]);
   });
 
   it('highlights the root of the scale', () => {
@@ -42,37 +66,164 @@ describe('App', () => {
     expect(app.findAll('button').map((it) => it.text())).toContain('C♯');
   });
 
-  it('keeps the chord controls out of the way in scale mode', async () => {
+  it('offers the scales in groups', async () => {
+    const groups = app
+      .findAll('[role="group"][aria-label]')
+      .map((it) => it.attributes('aria-label'));
+    expect(groups).toEqual(
+      expect.arrayContaining(['Major and minor', 'Modes', 'Pentatonic']),
+    );
+
+    await button('D').trigger('click');
+    await button('Dorian').trigger('click');
+    expect(title()).toBe('D Dorian');
+    expect(pressedKeys()).toEqual(['D', 'E', 'F', 'G', 'A', 'B', 'C', 'D']);
+  });
+
+  it('keeps the chord controls out of the way in the scale view', async () => {
     expect(app.text()).not.toContain('Root position');
 
     await button('Chord').trigger('click');
     expect(app.text()).toContain('Root position');
   });
 
-  it('shows the selected chord and its inversion', async () => {
+  it('shows the chord of the selected type on the root note', async () => {
     await button('Chord').trigger('click');
     expect(title()).toBe('C');
     expect(pressedKeys()).toEqual(['C', 'E', 'G']);
 
-    await button('Dm').trigger('click');
-    await button('1st inversion').trigger('click');
-    expect(title()).toBe('Dm');
-    expect(pressedKeys()).toEqual(['F', 'A', 'D']);
+    await button('D').trigger('click');
+    await chordType('Minor 7th').trigger('click');
+    await button('1st').trigger('click');
+    expect(title()).toBe('Dm7');
+    expect(pressedKeys()).toEqual(['F', 'A', 'C', 'D']);
     expect(labels('.key.root')).toEqual(['D']);
   });
 
-  it('goes back to the first chord when the scale changes', async () => {
+  it('spells the root the way the chord type calls for', async () => {
     await button('Chord').trigger('click');
-    await button('Am').trigger('click');
-    expect(title()).toBe('Am');
+    expect(button('D♭').exists()).toBe(true);
 
-    // 'A' is the root note button, so this moves to A major.
+    await chordType('Minor').trigger('click');
+    await button('C♯').trigger('click');
+    expect(title()).toBe('C♯m');
+  });
+
+  it('keeps the root note when the view changes', async () => {
     await button('A').trigger('click');
+    await button('Chord').trigger('click');
     expect(title()).toBe('A');
 
-    await button('Bm').trigger('click');
+    await button('Scale').trigger('click');
+    expect(title()).toBe('A major');
+  });
+
+  it('offers a third inversion only for seventh chords', async () => {
+    await button('Chord').trigger('click');
+    await chordType('Dominant 7th').trigger('click');
+    await button('3rd').trigger('click');
+    expect(pressedKeys()).toEqual(['B♭', 'C', 'E', 'G']);
+
+    await chordType('Major').trigger('click');
+    expect(app.text()).not.toContain('3rd');
+    expect(pressedKeys()).toEqual(['G', 'C', 'E']);
+  });
+
+  it('shows the chords of a key with roman numerals', async () => {
+    await button('Key').trigger('click');
+    expect(title()).toBe('C');
+    expect(app.text()).toContain('Chords in C major');
+
+    await keyChord('V').trigger('click');
+    expect(title()).toBe('G');
+    expect(app.text()).toContain('C major · Dominant');
+    expect(pressedKeys()).toEqual(['G', 'B', 'D']);
+    expect(labels('.key.root')).toEqual(['G']);
+  });
+
+  it('borrows V and vii° from harmonic minor in a minor key', async () => {
+    await button('Key').trigger('click');
+    await button('D').trigger('click');
     await button('Minor').trigger('click');
-    expect(title()).toBe('Am');
+    await button('Sevenths').trigger('click');
+    expect(app.text()).toContain('Borrowed from harmonic minor');
+
+    await keyChord('V7').trigger('click');
+    expect(title()).toBe('A7');
+    expect(pressedKeys()).toEqual(['A', 'C♯', 'E', 'G']);
+
+    // A major key has fewer chords, so the last one is selected instead.
+    await keyChord('vii°7').trigger('click');
+    await button('Major').trigger('click');
+    expect(title()).toBe('C♯m7♭5');
+    expect(pressedButtons()).toContain('viiø7C♯m7♭5Dominant');
+  });
+
+  describe('Explain', () => {
+    const explain = () => app.get('button.explain-toggle');
+
+    it('swaps the controls for an explanation of the scale', async () => {
+      await explain().trigger('click');
+      expect(app.text()).not.toContain('Root note');
+      expect(app.text()).toContain('W W H W W W H');
+      expect(app.text()).toContain('Relative minor: A minor');
+      expect(app.findAll('.tone').map((it) => it.text())).toContain(
+        'E3Major 3rd',
+      );
+
+      await explain().trigger('click');
+      expect(app.text()).toContain('Root note');
+    });
+
+    it('stays open when the view changes', async () => {
+      await explain().trigger('click');
+      await button('Chord').trigger('click');
+      expect(app.text()).toContain('Bright and stable');
+      expect(app.text()).toContain('Found in these keys');
+      expect(app.findAll('.tiles .tile').map((it) => it.text())).toContain(
+        'IC major',
+      );
+    });
+
+    it('says why a sus chord is found in no key', async () => {
+      await button('Chord').trigger('click');
+      await chordType('Sus4').trigger('click');
+      await explain().trigger('click');
+      expect(app.text()).not.toContain('Found in these keys');
+      expect(app.text()).toContain('Sus chords are not built from a key');
+    });
+
+    it('moves on to a chord that usually follows', async () => {
+      await button('Key').trigger('click');
+      await keyChord('V').trigger('click');
+      await explain().trigger('click');
+      expect(app.get('.explain .heading').text()).toBe('V in C major');
+
+      await button('IC').trigger('click');
+      expect(title()).toBe('C');
+    });
+  });
+
+  describe('the address bar', () => {
+    it('keeps the selection in it', async () => {
+      await button('Key').trigger('click');
+      await button('E♭').trigger('click');
+      await keyChord('V').trigger('click');
+      expect(decodeURIComponent(window.location.search)).toBe(
+        '?view=key&root=e-flat&key=major&chords=triads&chord=V&inversion=root',
+      );
+    });
+
+    it('starts from the selection it holds', () => {
+      window.history.replaceState(
+        null,
+        '',
+        '/?view=chord&root=b-flat&chord=minor7&inversion=first',
+      );
+      app = mount(App);
+      expect(title()).toBe('B♭m7');
+      expect(pressedKeys()).toEqual(['D♭', 'F', 'A♭', 'B♭']);
+    });
   });
 
   it('describes the keyboard for screen readers', async () => {

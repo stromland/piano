@@ -1,36 +1,78 @@
 <script setup lang="ts">
-import { computed, nextTick, useTemplateRef, watch } from 'vue';
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 
-import { INVERSIONS, type Mode, formatNoteName } from '@stromland/piano-lib';
+import {
+  type ChordSize,
+  type Tonality,
+  type View,
+  formatNoteName,
+} from '@stromland/piano-lib';
 
-import ChordSelector from './components/ChordSelector.vue';
+import ChordTypeSelector from './components/ChordTypeSelector.vue';
 import ControlSection from './components/ControlSection.vue';
+import ExplainPanel from './components/ExplainPanel.vue';
+import KeyChordSelector from './components/KeyChordSelector.vue';
 import NoteSelector from './components/NoteSelector.vue';
 import PianoKeyboard from './components/PianoKeyboard.vue';
 import ScaleSelector from './components/ScaleSelector.vue';
 import SegmentedControl from './components/SegmentedControl.vue';
 import SelectionSummary from './components/SelectionSummary.vue';
-import { INVERSION_LABELS, usePiano } from './composables/usePiano';
+import { useExplanation } from './composables/useExplanation';
+import { INVERSION_SHORT_LABELS, usePiano } from './composables/usePiano';
+import { type PlayStyle, useSound } from './composables/useSound';
 
-const MODE_OPTIONS: { value: Mode; label: string }[] = [
+const VIEW_OPTIONS: { value: View; label: string }[] = [
   { value: 'scale', label: 'Scale' },
   { value: 'chord', label: 'Chord' },
+  { value: 'key', label: 'Key' },
 ];
 
-const INVERSION_OPTIONS = INVERSIONS.map((value) => ({
-  value,
-  label: INVERSION_LABELS[value],
-}));
+const TONALITY_OPTIONS: { value: Tonality; label: string }[] = [
+  { value: 'major', label: 'Major' },
+  { value: 'minor', label: 'Minor' },
+];
 
-const { selection, board, rootNames, summary } = usePiano();
+const SIZE_OPTIONS: { value: ChordSize; label: string }[] = [
+  { value: 'triad', label: 'Triads' },
+  { value: 'seventh', label: 'Sevenths' },
+];
 
-// The chord controls appear at the bottom, which is below the fold on a phone.
-const chordControls = useTemplateRef('chordControls');
+const {
+  selection,
+  board,
+  rootNames,
+  keyName,
+  inversions,
+  inversion,
+  keyChord,
+  summary,
+} = usePiano();
+
+/** The explanation replaces the controls, and stays open across views. */
+const explaining = ref(false);
+const explanation = useExplanation(
+  selection,
+  board,
+  computed(() => summary.value.title),
+);
+
+const { play } = useSound();
+const listen = (style: PlayStyle) => play(board.value.pressed, style);
+
+const inversionOptions = computed(() =>
+  inversions.value.map((value) => ({
+    value,
+    label: INVERSION_SHORT_LABELS[value],
+  })),
+);
+
+// The controls of a view start below the fold on a phone, so bring them up.
+const viewControls = useTemplateRef('viewControls');
 watch(
-  () => selection.mode,
+  () => selection.view,
   async () => {
     await nextTick();
-    chordControls.value?.$el.scrollIntoView({ block: 'nearest' });
+    viewControls.value?.$el.scrollIntoView({ block: 'nearest' });
   },
 );
 
@@ -45,11 +87,6 @@ const keyboardLabel = computed(() => {
   <div class="page">
     <header class="container header">
       <span class="wordmark">Piano</span>
-      <SegmentedControl
-        v-model="selection.mode"
-        label="Show"
-        :options="MODE_OPTIONS"
-      />
       <a
         class="source"
         href="https://github.com/stromland/piano"
@@ -76,36 +113,117 @@ const keyboardLabel = computed(() => {
       </a>
     </header>
 
+    <nav class="container views">
+      <SegmentedControl
+        v-model="selection.view"
+        label="Show"
+        :options="VIEW_OPTIONS"
+      />
+    </nav>
+
     <main>
       <div class="stage">
         <SelectionSummary
           class="container"
           v-bind="summary"
           :notes="board.notes"
-        />
+        >
+          <button
+            type="button"
+            class="explain-toggle"
+            :aria-pressed="explaining"
+            @click="explaining = !explaining"
+          >
+            <svg
+              v-if="explaining"
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+            <svg
+              v-else
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 11v6M12 7.5v.5" />
+            </svg>
+            {{ explaining ? 'Close' : 'Explain' }}
+          </button>
+        </SelectionSummary>
         <PianoKeyboard :keys="board.keys" :label="keyboardLabel" />
       </div>
 
-      <div class="container controls">
+      <div v-if="explaining" class="container controls">
+        <ExplainPanel
+          :explanation="explanation"
+          @listen="listen"
+          @select="keyChord = $event"
+        />
+      </div>
+
+      <div v-else class="container controls">
         <ControlSection title="Root note">
           <NoteSelector v-model="selection.root" :names="rootNames" />
         </ControlSection>
-        <ControlSection title="Scale">
+
+        <ControlSection
+          v-if="selection.view === 'scale'"
+          ref="viewControls"
+          title="Scale"
+        >
           <ScaleSelector v-model="selection.scale" />
         </ControlSection>
+
         <ControlSection
-          v-if="selection.mode === 'chord'"
-          ref="chordControls"
-          title="Chord"
+          v-if="selection.view === 'chord'"
+          ref="viewControls"
+          title="Chord type"
         >
-          <ChordSelector
-            v-model="selection.chordIndex"
-            :chords="board.chords"
+          <ChordTypeSelector
+            v-model="selection.chordType"
+            :root="selection.root"
           />
+        </ControlSection>
+
+        <template v-if="selection.view === 'key'">
+          <ControlSection ref="viewControls" title="Key">
+            <div class="pair">
+              <SegmentedControl
+                v-model="selection.tonality"
+                label="Major or minor"
+                :options="TONALITY_OPTIONS"
+              />
+              <SegmentedControl
+                v-model="selection.chordSize"
+                label="Chord size"
+                :options="SIZE_OPTIONS"
+              />
+            </div>
+          </ControlSection>
+          <ControlSection :title="`Chords in ${keyName}`">
+            <KeyChordSelector v-model="keyChord" :chords="board.keyChords" />
+          </ControlSection>
+        </template>
+
+        <ControlSection v-if="selection.view !== 'scale'" title="Inversion">
           <SegmentedControl
-            v-model="selection.inversion"
+            v-model="inversion"
             label="Inversion"
-            :options="INVERSION_OPTIONS"
+            :options="inversionOptions"
           />
         </ControlSection>
       </div>
@@ -124,7 +242,7 @@ const keyboardLabel = computed(() => {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding-block: max(12px, env(safe-area-inset-top)) 12px;
+  padding-block: max(12px, env(safe-area-inset-top)) 8px;
 }
 
 .wordmark {
@@ -150,6 +268,31 @@ const keyboardLabel = computed(() => {
   }
 }
 
+.explain-toggle {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap-size);
+  padding: 0 16px 0 12px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--root);
+  color: var(--root-ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (hover: hover) {
+  .explain-toggle:hover {
+    background: var(--root-strong);
+  }
+}
+
+.views {
+  padding-bottom: 12px;
+}
+
 /* Keeps the keyboard in view while scrolling through the controls on a phone. */
 @media (min-height: 560px) {
   .stage {
@@ -160,10 +303,16 @@ const keyboardLabel = computed(() => {
   }
 }
 
+.pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
   padding-block: 18px 24px;
 }
 </style>

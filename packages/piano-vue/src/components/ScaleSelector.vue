@@ -1,26 +1,68 @@
 <script setup lang="ts">
-import { SCALES, SCALE_TYPES, type ScaleType } from '@stromland/piano-lib';
+import {
+  SCALES,
+  SCALE_GROUPS,
+  SCALE_TYPES,
+  type ScaleGroup,
+  type ScaleType,
+} from '@stromland/piano-lib';
 
 import ChoiceChip from './ChoiceChip.vue';
 
 const model = defineModel<ScaleType>({ required: true });
+
+const groups = (Object.keys(SCALE_GROUPS) as ScaleGroup[]).map((group) => ({
+  group,
+  title: SCALE_GROUPS[group],
+  types: SCALE_TYPES.filter((type) => SCALES[type].group === group),
+}));
 </script>
 
 <template>
-  <div class="scales">
-    <ChoiceChip
-      v-for="type in SCALE_TYPES"
-      :key="type"
-      class="scale"
-      :selected="type === model"
-      @click="model = type"
+  <div class="groups">
+    <div
+      v-for="{ group, title, types } in groups"
+      :key="group"
+      class="group"
+      role="group"
+      :aria-label="title"
     >
-      {{ SCALES[type].name }}
-    </ChoiceChip>
+      <h3 class="title">{{ title }}</h3>
+      <div class="scales">
+        <ChoiceChip
+          v-for="type in types"
+          :key="type"
+          class="scale"
+          :selected="type === model"
+          @click="model = type"
+        >
+          {{ SCALES[type].name }}
+        </ChoiceChip>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .scales {
   display: flex;
   flex-wrap: wrap;

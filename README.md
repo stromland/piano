@@ -16,16 +16,29 @@
   </a>
 </h1>
 
-Pick a root note and a scale to see it on the keyboard, or switch to chords to
-see the triads of that scale and their inversions. Notes are spelled the way
-the key calls for: E♭ major has flats, E major has sharps.
+A reference for the keys of a scale or a chord, and for the chords that belong
+together in a key. Pick a root note, then:
+
+- **Scale** shows one of eleven scales: major and minor, the modes and the
+  pentatonic scales.
+- **Chord** shows any triad, sus chord or seventh chord, in every inversion.
+- **Key** shows the chords of a major or minor key with roman numerals and
+  their function, including the V and vii° minor keys borrow from harmonic
+  minor.
+
+**Explain** tells you what you are looking at, how it is built and where it is
+used, and lets you hear it. Notes are spelled the way the key calls for: E♭
+major has flats, E major has sharps. The address bar keeps the selection, so a
+page can be bookmarked or shared.
+
+The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
 
 ## Packages
 
-| Package                           | What it is                                                                  |
-| --------------------------------- | --------------------------------------------------------------------------- |
-| [`piano-lib`](packages/piano-lib) | The music theory – scales, chords and keyboard layout – as plain functions. |
-| [`piano-vue`](packages/piano-vue) | The web app, built with Vue and Vite.                                       |
+| Package                           | What it is                                                                        |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| [`piano-lib`](packages/piano-lib) | The music theory – scales, chords, keys and keyboard layout – as plain functions. |
+| [`piano-vue`](packages/piano-vue) | The web app, built with Vue and Vite.                                             |
 
 ## Development
 

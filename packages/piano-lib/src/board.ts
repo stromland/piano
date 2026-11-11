@@ -1,8 +1,10 @@
 import {
   type Chord,
+  type ChordSize,
+  type ChordType,
   type Inversion,
-  getScaleChords,
-  invertTriad,
+  getChord,
+  invertChord,
 } from './chords.js';
 import {
   DEFAULT_KEY_COUNT,
@@ -10,6 +12,7 @@ import {
   createKeyboard,
   pressKeys,
 } from './keyboard.js';
+import { type KeyChord, getKeyChords } from './keys.js';
 import { toPitchClass } from './notes.js';
 import {
   type ScaleNote,
@@ -17,35 +20,48 @@ import {
   getScaleKeyIndexes,
   getScaleNotes,
 } from './scales.js';
+import type { Tonality } from './spelling.js';
 
-export const MODES = ['scale', 'chord'] as const;
+export const VIEWS = ['scale', 'chord', 'key'] as const;
 
-export type Mode = (typeof MODES)[number];
+export type View = (typeof VIEWS)[number];
 
 export interface Selection {
-  mode: Mode;
-  /** Pitch class of the root of the scale: 0 = C … 11 = B. */
+  view: View;
+  /** Pitch class of the root note, shared by every view: 0 = C … 11 = B. */
   root: number;
   scale: ScaleType;
-  /** Position in `Board.chords`; clamped if the scale has fewer chords. */
-  chordIndex: number;
+  chordType: ChordType;
+  tonality: Tonality;
+  /** Whether the key view shows triads or seventh chords. */
+  chordSize: ChordSize;
+  /** Position in `Board.keyChords`; clamped if the key has fewer chords. */
+  keyChord: number;
+  /** Counts as the chord's last inversion if it has fewer. */
   inversion: Inversion;
 }
 
 export interface BoardNote {
   name: string;
+  /** Degree in the scale or chord, such as `'b3'`; see `formatNoteName`. */
+  degree: string;
   root: boolean;
 }
 
 export interface Board {
   keys: PianoKey[];
-  scaleNotes: ScaleNote[];
-  /** The triads of the scale. */
-  chords: Chord[];
-  /** The selected triad, whichever mode is active. */
-  chord: Chord | undefined;
+  /** The pressed key indexes, lowest first. */
+  pressed: number[];
   /** What is pressed, lowest first, without the repeated octave of a scale. */
   notes: BoardNote[];
+  /** The notes of the scale, or of the chord in root position. */
+  tones: ScaleNote[];
+  /** The selected chord in the chord and key views. */
+  chord: Chord | undefined;
+  /** The chords of the key, in the key view. */
+  keyChords: KeyChord[];
+  /** The selected chord of the key, in the key view. */
+  keyChord: KeyChord | undefined;
 }
 
 /** Everything needed to draw the keyboard and its controls for a selection. */
@@ -54,37 +70,64 @@ export function getBoard(
   keyCount = DEFAULT_KEY_COUNT,
 ): Board {
   const root = toPitchClass(selection.root);
-  const scaleNotes = getScaleNotes(root, selection.scale);
-  const names = new Map(scaleNotes.map((note) => [note.pitchClass, note.name]));
 
-  const chords = getScaleChords(root, selection.scale);
-  const chordIndex = Math.min(
-    Math.max(0, selection.chordIndex),
-    chords.length - 1,
-  );
-  const chord = chords[chordIndex];
+  let tones: ScaleNote[];
+  let chord: Chord | undefined;
+  let pressed: number[];
+  let keyChords: KeyChord[] = [];
+  let keyChord: KeyChord | undefined;
+  let rootPitchClass = root;
+  if (selection.view === 'chord') {
+    chord = getChord(root, selection.chordType);
+    tones = chord.notes;
+    pressed = invertChord(
+      tones.map((note) => root + note.interval),
+      selection.inversion,
+    );
+  } else if (selection.view === 'key') {
+    keyChords = getKeyChords(root, selection.tonality, selection.chordSize);
+    const position = Math.min(
+      Math.max(0, selection.keyChord),
+      keyChords.length - 1,
+    );
+    keyChord = keyChords[position];
+    chord = keyChord?.chord;
+    tones = chord?.notes ?? [];
+    const chordRoot = root + (keyChord?.interval ?? 0);
+    rootPitchClass = toPitchClass(chordRoot);
+    pressed = invertChord(
+      tones.map((note) => chordRoot + note.interval),
+      selection.inversion,
+    );
+  } else {
+    tones = getScaleNotes(root, selection.scale);
+    pressed = getScaleKeyIndexes(root, selection.scale);
+  }
 
-  const showChord = selection.mode === 'chord';
-  const rootPitchClass = showChord ? chord?.root.pitchClass : root;
-  const pressed = showChord
-    ? invertTriad(chord?.keyIndexes ?? [], selection.inversion)
-    : getScaleKeyIndexes(root, selection.scale);
-
-  const sounding = showChord
-    ? pressed.map(toPitchClass)
-    : scaleNotes.map((note) => note.pitchClass);
+  const names = new Map(tones.map((note) => [note.pitchClass, note.name]));
+  const sounding =
+    selection.view === 'scale'
+      ? tones.map((note) => note.pitchClass)
+      : pressed.map(toPitchClass);
 
   return {
     keys: pressKeys(createKeyboard(keyCount), pressed, {
       names,
       rootPitchClass,
     }),
-    scaleNotes,
-    chords,
+    pressed: pressed.filter((index) => index < keyCount),
+    notes: sounding
+      .flatMap((pitchClass) =>
+        tones.filter((note) => note.pitchClass === pitchClass),
+      )
+      .map((note) => ({
+        name: note.name,
+        degree: note.degree,
+        root: note.pitchClass === rootPitchClass,
+      })),
+    tones,
     chord,
-    notes: sounding.map((pitchClass) => ({
-      name: names.get(pitchClass) ?? '',
-      root: pitchClass === rootPitchClass,
-    })),
+    keyChords,
+    keyChord,
   };
 }

@@ -1,0 +1,48 @@
+import { describe, expect, it } from 'vitest';
+
+import {
+  MAJOR_STEPS,
+  MINOR_STEPS,
+  degreeName,
+  intervalName,
+  spellRoot,
+} from './spelling.js';
+
+describe('spellRoot', () => {
+  it.each([
+    [1, MAJOR_STEPS, 'Db'],
+    [1, MINOR_STEPS, 'C#'],
+    [6, MAJOR_STEPS, 'Gb'],
+    [6, MINOR_STEPS, 'F#'],
+    [8, MINOR_STEPS, 'G#'],
+    [10, MINOR_STEPS, 'Bb'],
+    [-1, MAJOR_STEPS, 'B'],
+  ])('names %i in a scale with these steps', (root, steps, expected) => {
+    expect(spellRoot(root, steps)).toBe(expected);
+  });
+});
+
+describe('degreeName', () => {
+  it.each([
+    [0, 0, '1'],
+    [3, 2, 'b3'],
+    [6, 3, '#4'],
+    [6, 4, 'b5'],
+    [9, 6, 'bb7'],
+    [14, 8, '9'],
+  ])('names %i semitones on letter step %i', (interval, step, expected) => {
+    expect(degreeName(interval, step)).toBe(expected);
+  });
+});
+
+describe('intervalName', () => {
+  it.each([
+    ['1', 'Root'],
+    ['b3', 'Minor 3rd'],
+    ['#4', 'Augmented 4th'],
+    ['bb7', 'Diminished 7th'],
+    ['9', '9'],
+  ])('names degree %s', (degree, expected) => {
+    expect(intervalName(degree)).toBe(expected);
+  });
+});
