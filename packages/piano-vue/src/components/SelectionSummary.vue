@@ -11,13 +11,16 @@ defineProps<{
 </script>
 
 <template>
-  <div class="summary" aria-live="polite">
-    <div>
-      <p class="overline">{{ overline }}</p>
-      <div class="heading">
-        <h1 class="title">{{ title }}</h1>
-        <span v-if="detail" class="detail">{{ detail }}</span>
+  <div class="summary">
+    <div class="top">
+      <div aria-live="polite">
+        <p class="overline">{{ overline }}</p>
+        <div class="heading">
+          <h1 class="title">{{ title }}</h1>
+          <span v-if="detail" class="detail">{{ detail }}</span>
+        </div>
       </div>
+      <slot />
     </div>
     <ul class="notes" aria-label="Notes">
       <li
@@ -39,6 +42,13 @@ defineProps<{
   flex-direction: column;
   gap: 8px;
   padding-block: 4px 14px;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .overline {

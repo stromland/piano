@@ -98,6 +98,29 @@ export function spellRoot(root: number, steps: readonly number[]): string {
   return spellNote(letter, accidentalFor(pitchClass, letter));
 }
 
+const INTERVAL_NAMES: Record<string, string> = {
+  '1': 'Root',
+  b2: 'Minor 2nd',
+  '2': 'Major 2nd',
+  b3: 'Minor 3rd',
+  '3': 'Major 3rd',
+  '4': 'Perfect 4th',
+  '#4': 'Augmented 4th',
+  b5: 'Diminished 5th',
+  '5': 'Perfect 5th',
+  '#5': 'Augmented 5th',
+  b6: 'Minor 6th',
+  '6': 'Major 6th',
+  bb7: 'Diminished 7th',
+  b7: 'Minor 7th',
+  '7': 'Major 7th',
+};
+
+/** `intervalName('b3')` → `'Minor 3rd'`, from the root up to a degree. */
+export function intervalName(degree: string): string {
+  return INTERVAL_NAMES[degree] ?? degree;
+}
+
 /**
  * Names a note by its degree, compared with the major scale: `'1'`, `'b3'`,
  * `'#4'`, `'bb7'`. ASCII like note names; see `formatNoteName`.

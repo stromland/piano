@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, useTemplateRef, watch } from 'vue';
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 
 import {
   type ChordSize,
@@ -10,13 +10,16 @@ import {
 
 import ChordTypeSelector from './components/ChordTypeSelector.vue';
 import ControlSection from './components/ControlSection.vue';
+import ExplainPanel from './components/ExplainPanel.vue';
 import KeyChordSelector from './components/KeyChordSelector.vue';
 import NoteSelector from './components/NoteSelector.vue';
 import PianoKeyboard from './components/PianoKeyboard.vue';
 import ScaleSelector from './components/ScaleSelector.vue';
 import SegmentedControl from './components/SegmentedControl.vue';
 import SelectionSummary from './components/SelectionSummary.vue';
+import { useExplanation } from './composables/useExplanation';
 import { INVERSION_SHORT_LABELS, usePiano } from './composables/usePiano';
+import { type PlayStyle, useSound } from './composables/useSound';
 
 const VIEW_OPTIONS: { value: View; label: string }[] = [
   { value: 'scale', label: 'Scale' },
@@ -44,6 +47,17 @@ const {
   keyChord,
   summary,
 } = usePiano();
+
+/** The explanation replaces the controls, and stays open across views. */
+const explaining = ref(false);
+const explanation = useExplanation(
+  selection,
+  board,
+  computed(() => summary.value.title),
+);
+
+const { play } = useSound();
+const listen = (style: PlayStyle) => play(board.value.pressed, style);
 
 const inversionOptions = computed(() =>
   inversions.value.map((value) => ({
@@ -113,11 +127,55 @@ const keyboardLabel = computed(() => {
           class="container"
           v-bind="summary"
           :notes="board.notes"
-        />
+        >
+          <button
+            type="button"
+            class="explain-toggle"
+            :aria-pressed="explaining"
+            @click="explaining = !explaining"
+          >
+            <svg
+              v-if="explaining"
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+            <svg
+              v-else
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 11v6M12 7.5v.5" />
+            </svg>
+            {{ explaining ? 'Close' : 'Explain' }}
+          </button>
+        </SelectionSummary>
         <PianoKeyboard :keys="board.keys" :label="keyboardLabel" />
       </div>
 
-      <div class="container controls">
+      <div v-if="explaining" class="container controls">
+        <ExplainPanel
+          :explanation="explanation"
+          @listen="listen"
+          @select="keyChord = $event"
+        />
+      </div>
+
+      <div v-else class="container controls">
         <ControlSection title="Root note">
           <NoteSelector v-model="selection.root" :names="rootNames" />
         </ControlSection>
@@ -207,6 +265,27 @@ const keyboardLabel = computed(() => {
 @media (hover: hover) {
   .source:hover {
     background: var(--surface);
+  }
+}
+
+.explain-toggle {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap-size);
+  padding: 0 16px 0 12px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--root);
+  color: var(--root-ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (hover: hover) {
+  .explain-toggle:hover {
+    background: var(--root-strong);
   }
 }
 

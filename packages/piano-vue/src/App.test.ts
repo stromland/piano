@@ -158,6 +158,51 @@ describe('App', () => {
     expect(pressedButtons()).toContain('viiø7C♯m7♭5Dominant');
   });
 
+  describe('Explain', () => {
+    const explain = () => app.get('button.explain-toggle');
+
+    it('swaps the controls for an explanation of the scale', async () => {
+      await explain().trigger('click');
+      expect(app.text()).not.toContain('Root note');
+      expect(app.text()).toContain('W W H W W W H');
+      expect(app.text()).toContain('Relative minor: A minor');
+      expect(app.findAll('.tone').map((it) => it.text())).toContain(
+        'E3Major 3rd',
+      );
+
+      await explain().trigger('click');
+      expect(app.text()).toContain('Root note');
+    });
+
+    it('stays open when the view changes', async () => {
+      await explain().trigger('click');
+      await button('Chord').trigger('click');
+      expect(app.text()).toContain('Bright and stable');
+      expect(app.text()).toContain('Found in these keys');
+      expect(app.findAll('.tiles .tile').map((it) => it.text())).toContain(
+        'IC major',
+      );
+    });
+
+    it('says why a sus chord is found in no key', async () => {
+      await button('Chord').trigger('click');
+      await chordType('Sus4').trigger('click');
+      await explain().trigger('click');
+      expect(app.text()).not.toContain('Found in these keys');
+      expect(app.text()).toContain('Sus chords are not built from a key');
+    });
+
+    it('moves on to a chord that usually follows', async () => {
+      await button('Key').trigger('click');
+      await keyChord('V').trigger('click');
+      await explain().trigger('click');
+      expect(app.get('.explain .heading').text()).toBe('V in C major');
+
+      await button('IC').trigger('click');
+      expect(title()).toBe('C');
+    });
+  });
+
   it('describes the keyboard for screen readers', async () => {
     await button('Chord').trigger('click');
     expect(app.get('[role="img"]').attributes('aria-label')).toBe(

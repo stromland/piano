@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { MAJOR_STEPS, MINOR_STEPS, degreeName, spellRoot } from './spelling.js';
+import {
+  MAJOR_STEPS,
+  MINOR_STEPS,
+  degreeName,
+  intervalName,
+  spellRoot,
+} from './spelling.js';
 
 describe('spellRoot', () => {
   it.each([
@@ -26,5 +32,17 @@ describe('degreeName', () => {
     [14, 8, '9'],
   ])('names %i semitones on letter step %i', (interval, step, expected) => {
     expect(degreeName(interval, step)).toBe(expected);
+  });
+});
+
+describe('intervalName', () => {
+  it.each([
+    ['1', 'Root'],
+    ['b3', 'Minor 3rd'],
+    ['#4', 'Augmented 4th'],
+    ['bb7', 'Diminished 7th'],
+    ['9', '9'],
+  ])('names degree %s', (degree, expected) => {
+    expect(intervalName(degree)).toBe(expected);
   });
 });

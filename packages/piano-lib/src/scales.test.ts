@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  SCALES,
   SCALE_TYPES,
   type ScaleType,
+  getRelatedKey,
   getRootNames,
   getScaleKeyIndexes,
   getScaleNotes,
+  getScaleSteps,
 } from './scales.js';
 
 const names = (root: number, type: ScaleType) =>
@@ -103,6 +106,45 @@ describe('getRootNames', () => {
   it('names every root in every scale', () => {
     for (const type of SCALE_TYPES) {
       expect(getRootNames(type).every((name) => name.length > 0)).toBe(true);
+    }
+  });
+});
+
+describe('getScaleSteps', () => {
+  it.each<[ScaleType, number[]]>([
+    ['major', [2, 2, 1, 2, 2, 2, 1]],
+    ['dorian', [2, 1, 2, 2, 2, 1, 2]],
+    ['harmonicMinor', [2, 1, 2, 2, 1, 3, 1]],
+    ['pentatonicMinor', [3, 2, 2, 3, 2]],
+  ])('steps through %s', (type, expected) => {
+    expect(getScaleSteps(type)).toEqual(expected);
+  });
+
+  it('adds up to an octave for every scale', () => {
+    for (const type of SCALE_TYPES) {
+      expect(getScaleSteps(type).reduce((sum, step) => sum + step, 0)).toBe(12);
+    }
+  });
+});
+
+describe('getRelatedKey', () => {
+  it.each<[number, ScaleType, ReturnType<typeof getRelatedKey>]>([
+    [0, 'major', { tonic: 9, tonality: 'minor', startsOn: 2 }],
+    [9, 'minor', { tonic: 0, tonality: 'major', startsOn: 5 }],
+    [2, 'dorian', { tonic: 0, tonality: 'major', startsOn: 1 }],
+    [11, 'locrian', { tonic: 0, tonality: 'major', startsOn: 6 }],
+    [1, 'mixolydian', { tonic: 6, tonality: 'major', startsOn: 4 }],
+    [0, 'harmonicMinor', undefined],
+    [0, 'pentatonicMajor', undefined],
+  ])('relates %i %s to a key', (root, type, expected) => {
+    expect(getRelatedKey(root, type)).toEqual(expected);
+  });
+});
+
+describe('SCALES', () => {
+  it('describes every scale', () => {
+    for (const type of SCALE_TYPES) {
+      expect(SCALES[type].description.length, type).toBeGreaterThan(20);
     }
   });
 });

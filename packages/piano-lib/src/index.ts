@@ -43,6 +43,9 @@ export {
   getRootNames,
   getScaleKeyIndexes,
   getScaleNotes,
+  getRelatedKey,
+  getScaleSteps,
 } from './scales.js';
-export type { ScaleGroup, ScaleNote, ScaleType } from './scales.js';
+export type { RelatedKey, ScaleGroup, ScaleNote, ScaleType } from './scales.js';
+export { intervalName } from './spelling.js';
 export type { Tonality } from './spelling.js';

@@ -27,31 +27,116 @@ export const HARMONIC_FUNCTIONS = {
 
 export type HarmonicFunction = keyof typeof HARMONIC_FUNCTIONS;
 
-const FUNCTIONS: Record<Tonality, readonly HarmonicFunction[]> = {
+interface DegreeSpec {
+  function: HarmonicFunction;
+  description: string;
+  /** Common next chords, by position in the key's chord list. */
+  next: readonly number[];
+}
+
+const DEGREES: Record<Tonality, readonly DegreeSpec[]> = {
   major: [
-    'tonic',
-    'subdominant',
-    'tonic',
-    'subdominant',
-    'dominant',
-    'tonic',
-    'dominant',
+    {
+      function: 'tonic',
+      description: 'Home. Most pieces start here and end here.',
+      next: [3, 4, 5],
+    },
+    {
+      function: 'subdominant',
+      description: 'Leads on to V. ii–V–I is the backbone of jazz harmony.',
+      next: [4, 6],
+    },
+    {
+      function: 'tonic',
+      description: 'Shares two notes with I: a softer stand-in for home.',
+      next: [5, 3],
+    },
+    {
+      function: 'subdominant',
+      description:
+        'Moves away from home without tension. IV–I is the "amen" ending.',
+      next: [4, 0, 1],
+    },
+    {
+      function: 'dominant',
+      description:
+        'Tension that wants to resolve to I. V–I is the strongest ending there is.',
+      next: [0, 5],
+    },
+    {
+      function: 'tonic',
+      description:
+        'The relative minor. It shares two notes with I and is the third chord of I–V–vi–IV.',
+      next: [1, 3],
+    },
+    {
+      function: 'dominant',
+      description:
+        'Holds the leading tone, so it pulls to I like V does, only more tensely.',
+      next: [0],
+    },
   ],
   minor: [
-    'tonic',
-    'subdominant',
-    'tonic',
-    'subdominant',
-    'dominant',
-    'subdominant',
-    'subtonic',
+    {
+      function: 'tonic',
+      description: 'Home, in minor. Most pieces start here and end here.',
+      next: [3, 5, 7],
+    },
+    {
+      function: 'subdominant',
+      description: 'Diminished and tense. It usually moves on to V.',
+      next: [7],
+    },
+    {
+      function: 'tonic',
+      description: 'The relative major: a minor key often visits it.',
+      next: [5, 3],
+    },
+    {
+      function: 'subdominant',
+      description: 'Moves away from home. iv–i gives a dark, soft ending.',
+      next: [7, 0],
+    },
+    {
+      function: 'dominant',
+      description:
+        'Built from the natural minor scale it has no leading tone, so it pulls home only weakly. Compare it with the borrowed V.',
+      next: [0, 5],
+    },
+    {
+      function: 'subdominant',
+      description:
+        'Often heads to V or iv. i–VI–VII–i is a common pop and rock move.',
+      next: [3, 1, 7],
+    },
+    {
+      function: 'subtonic',
+      description:
+        'A whole step below the tonic. Often leads to III, or straight back to i.',
+      next: [2, 0],
+    },
   ],
 };
 
-const HARMONIC_MINOR_STEPS = [2, 1, 2, 2, 1, 3, 1] as const;
-
 /** The degrees of harmonic minor that minor keys borrow: V and vii°. */
-const BORROWED_DEGREES = [4, 6] as const;
+const BORROWED: readonly (DegreeSpec & { degree: number })[] = [
+  {
+    degree: 4,
+    function: 'dominant',
+    description:
+      'Borrowed from harmonic minor. Its 3rd is the leading tone, a half step below the tonic, so it pulls home strongly. Most minor-key music uses this V rather than v.',
+    next: [0, 5],
+  },
+  {
+    degree: 6,
+    function: 'dominant',
+    description:
+      'Borrowed from harmonic minor. Like V it holds the leading tone, and it can stand in for V.',
+    next: [0],
+  },
+];
+
+const HARMONIC_MINOR_STEPS = [2, 1, 2, 2, 1, 3, 1] as const;
 
 const CHORD_LETTER_STEPS: Record<ChordSize, readonly number[]> = {
   triad: [0, 2, 4],
@@ -67,6 +152,10 @@ export interface KeyChord {
   borrowed: boolean;
   /** Semitones from the tonic up to the chord's root. */
   interval: number;
+  /** The chord's role in this key. */
+  description: string;
+  /** Chords that commonly follow, by position in the key's chord list. */
+  next: number[];
 }
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'] as const;
@@ -106,7 +195,7 @@ function stackChord(
   scale: SpelledNote[],
   degree: number,
   size: ChordSize,
-  harmonicFunction: HarmonicFunction,
+  spec: DegreeSpec,
   borrowed: boolean,
 ): KeyChord[] {
   // The scale from `degree`, going on into the next octave.
@@ -140,9 +229,11 @@ function stackChord(
         notes,
       },
       numeral: romanNumeral(degree, type),
-      function: harmonicFunction,
+      function: spec.function,
       borrowed,
       interval: rootInterval,
+      description: spec.description,
+      next: [...spec.next],
     },
   ];
 }
@@ -160,8 +251,8 @@ export function getKeyChords(
   const steps = TONALITY_STEPS[tonality];
   const rootLetter = pickRootLetter(pitchClass, steps);
   const scale = spellSevenNotes(pitchClass, rootLetter, steps);
-  const own = FUNCTIONS[tonality].flatMap((harmonicFunction, degree) =>
-    stackChord(scale, degree, size, harmonicFunction, false),
+  const own = DEGREES[tonality].flatMap((spec, degree) =>
+    stackChord(scale, degree, size, spec, false),
   );
   if (tonality === 'major') return own;
 
@@ -170,8 +261,8 @@ export function getKeyChords(
     rootLetter,
     HARMONIC_MINOR_STEPS,
   );
-  const borrowed = BORROWED_DEGREES.flatMap((degree) =>
-    stackChord(harmonic, degree, size, 'dominant', true),
+  const borrowed = BORROWED.flatMap((spec) =>
+    stackChord(harmonic, spec.degree, size, spec, true),
   );
   return [...own, ...borrowed];
 }

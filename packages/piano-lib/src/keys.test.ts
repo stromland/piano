@@ -97,6 +97,38 @@ describe('getKeyChords', () => {
   });
 });
 
+describe('the chords of a key', () => {
+  it('describe their role and where they usually go', () => {
+    const chords = getKeyChords(0, 'major', 'triad');
+    const five = chords[4];
+    expect(five?.description).toContain('resolve to I');
+    expect(five?.next.map((index) => chords[index]?.numeral)).toEqual([
+      'I',
+      'vi',
+    ]);
+  });
+
+  it('only point to chords the key has', () => {
+    for (const tonality of ['major', 'minor'] as const) {
+      const chords = getKeyChords(0, tonality, 'seventh');
+      for (const chord of chords) {
+        for (const index of chord.next) {
+          expect(chords[index], `${tonality} ${chord.numeral}`).toBeDefined();
+        }
+      }
+    }
+  });
+
+  it('point a minor key to the V it borrows', () => {
+    const chords = getKeyChords(9, 'minor', 'triad');
+    expect(chords[0]?.next.map((index) => chords[index]?.numeral)).toEqual([
+      'iv',
+      'VI',
+      'V',
+    ]);
+  });
+});
+
 describe('romanNumeral', () => {
   it.each([
     [0, 'major', 'I'],

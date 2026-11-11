@@ -30,6 +30,10 @@ interface ChordTypeSpec {
    * but C♯m7.
    */
   tonality: Tonality;
+  /** What the chord sounds like and how it is built. */
+  description: string;
+  /** Why no major or minor key has this chord, when none does. */
+  outsideKeys?: string;
 }
 
 const THIRDS = [0, 2, 4] as const;
@@ -43,6 +47,7 @@ export const CHORD_TYPES = {
     intervals: [0, 4, 7],
     letterSteps: THIRDS,
     tonality: 'major',
+    description: 'A major third with a minor third on top. Bright and stable.',
   },
   minor: {
     name: 'Minor',
@@ -51,6 +56,8 @@ export const CHORD_TYPES = {
     intervals: [0, 3, 7],
     letterSteps: THIRDS,
     tonality: 'minor',
+    description:
+      'A minor third with a major third on top. Darker, but still at rest.',
   },
   diminished: {
     name: 'Diminished',
@@ -59,6 +66,8 @@ export const CHORD_TYPES = {
     intervals: [0, 3, 6],
     letterSteps: THIRDS,
     tonality: 'minor',
+    description:
+      'Two minor thirds stacked. Tense and unstable: it wants to move on.',
   },
   augmented: {
     name: 'Augmented',
@@ -67,6 +76,10 @@ export const CHORD_TYPES = {
     intervals: [0, 4, 8],
     letterSteps: THIRDS,
     tonality: 'major',
+    description:
+      'Two major thirds stacked. Unresolved and dreamy; it usually leads on by moving one note a half step.',
+    outsideKeys:
+      'It is not one of the chords of a major or minor key. It appears as III+ in harmonic minor.',
   },
   sus2: {
     name: 'Sus2',
@@ -75,6 +88,10 @@ export const CHORD_TYPES = {
     intervals: [0, 2, 7],
     letterSteps: [0, 1, 4],
     tonality: 'major',
+    description:
+      'The 3rd is replaced by the 2nd, so it is neither major nor minor. Open and airy.',
+    outsideKeys:
+      'Sus chords are not built from a key. With no 3rd they fit in many keys, as a color on top of other chords.',
   },
   sus4: {
     name: 'Sus4',
@@ -83,6 +100,10 @@ export const CHORD_TYPES = {
     intervals: [0, 5, 7],
     letterSteps: [0, 3, 4],
     tonality: 'major',
+    description:
+      'The 3rd is replaced by the 4th, which wants to fall back down to the 3rd: Csus4 to C.',
+    outsideKeys:
+      'Sus chords are not built from a key. With no 3rd they fit in many keys, as a color on top of other chords.',
   },
   major7: {
     name: 'Major 7th',
@@ -91,6 +112,8 @@ export const CHORD_TYPES = {
     intervals: [0, 4, 7, 11],
     letterSteps: STACKED_THIRDS,
     tonality: 'major',
+    description:
+      'A major triad with a major 7th. Soft and jazzy; the I and IV chords of a major key.',
   },
   dominant7: {
     name: 'Dominant 7th',
@@ -99,6 +122,8 @@ export const CHORD_TYPES = {
     intervals: [0, 4, 7, 10],
     letterSteps: STACKED_THIRDS,
     tonality: 'major',
+    description:
+      'A major triad with a minor 7th. The strongest pull in harmony: it wants to resolve a fifth down, G7 to C.',
   },
   minor7: {
     name: 'Minor 7th',
@@ -107,6 +132,7 @@ export const CHORD_TYPES = {
     intervals: [0, 3, 7, 10],
     letterSteps: STACKED_THIRDS,
     tonality: 'minor',
+    description: 'A minor triad with a minor 7th. Mellow; the ii in ii–V–I.',
   },
   halfDiminished7: {
     name: 'Half-diminished',
@@ -115,6 +141,8 @@ export const CHORD_TYPES = {
     intervals: [0, 3, 6, 10],
     letterSteps: STACKED_THIRDS,
     tonality: 'minor',
+    description:
+      'A diminished triad with a minor 7th. The vii chord of a major key and the ii chord of a minor key.',
   },
   diminished7: {
     name: 'Diminished 7th',
@@ -123,6 +151,8 @@ export const CHORD_TYPES = {
     intervals: [0, 3, 6, 9],
     letterSteps: STACKED_THIRDS,
     tonality: 'minor',
+    description:
+      'Every note a minor third apart, so it sounds the same from any of its notes. Minor keys borrow it as vii°7, where it pulls hard to the tonic.',
   },
 } as const satisfies Record<string, ChordTypeSpec>;
 

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  CHORD_TYPES,
   CHORD_TYPE_IDS,
   type ChordType,
   findChordType,
@@ -109,5 +110,13 @@ describe('invertChord', () => {
     const result = invertChord(cMajor, 'root');
     expect(result).not.toBe(cMajor);
     expect(cMajor).toEqual([0, 4, 7]);
+  });
+});
+
+describe('CHORD_TYPES', () => {
+  it('describes every chord type', () => {
+    for (const type of CHORD_TYPE_IDS) {
+      expect(CHORD_TYPES[type].description.length, type).toBeGreaterThan(20);
+    }
   });
 });
