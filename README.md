@@ -66,14 +66,6 @@ show up right away and nothing has to be built first.
 | `npm run preview`   | Serves the built app at http://localhost:5050/piano/ |
 | `npm run check`     | Everything CI runs                                   |
 
-## App icons
-
-The app icons in `packages/piano-vue/public` are the keyboard from
-[`images/piano-logo.png`](images/piano-logo.png), the same picture as the
-favicon, centred on the app's background colour (`#073b4c`). The maskable icon
-and the Apple touch icon have no rounded corners and keep the keyboard inside
-the maskable safe zone (a circle with 40 % of the icon's width as its radius).
-
 ## Releasing
 
 ```sh
