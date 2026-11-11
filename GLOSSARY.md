@@ -27,6 +27,12 @@ The distance between two neighboring notes of a scale: a half step (H) is one
 piano key, a whole step (W) two.
 _Avoid_: Tone, semitone (in the app's text)
 
+**Octave**:
+The distance of twelve piano keys, from a note to the next one with the same
+pitch class. Moving a scale or chord up or down an octave keeps its notes and
+their names; only how high it sounds changes.
+_Avoid_: Register, transpose (transposing changes the root)
+
 **Root**:
 The note a scale or chord is built up from and named after.
 _Avoid_: Base note, root note (when it is a chord's)
