@@ -40,7 +40,9 @@ export function usePiano() {
   );
 
   const scaleName = computed(() => {
-    const scale = SCALES[selection.scale].name.toLowerCase();
+    const { name, group } = SCALES[selection.scale];
+    // Modes are proper names: D Dorian, but D minor.
+    const scale = group === 'modes' ? name : name.toLowerCase();
     return `${rootNames.value[selection.root]} ${scale}`;
   });
 

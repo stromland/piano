@@ -32,12 +32,24 @@ describe('getScaleNotes', () => {
     ['C pentatonic major', 0, 'pentatonicMajor', 'C D E G A'],
     ['Eb pentatonic major', 3, 'pentatonicMajor', 'Eb F G Bb C'],
     ['A pentatonic minor', 9, 'pentatonicMinor', 'A C D E G'],
+    ['A melodic minor', 9, 'melodicMinor', 'A B C D E F# G#'],
+    ['G# melodic minor', 8, 'melodicMinor', 'G# A# B C# D# E# F##'],
+    ['D Dorian', 2, 'dorian', 'D E F G A B C'],
+    ['C# Dorian', 1, 'dorian', 'C# D# E F# G# A# B'],
+    ['E Phrygian', 4, 'phrygian', 'E F G A B C D'],
+    ['F Lydian', 5, 'lydian', 'F G A B C D E'],
+    ['Gb Lydian', 6, 'lydian', 'Gb Ab Bb C Db Eb F'],
+    ['G Mixolydian', 7, 'mixolydian', 'G A B C D E F'],
+    ['B Locrian', 11, 'locrian', 'B C D E F G A'],
   ])('spells %s', (_, root, type, expected) => {
     expect(names(root, type)).toBe(expected);
   });
 
   it('uses every letter exactly once in a seven-note scale', () => {
-    for (const type of ['major', 'minor', 'harmonicMinor'] as const) {
+    const sevenNotes = SCALE_TYPES.filter(
+      (type) => !type.startsWith('pentatonic'),
+    );
+    for (const type of sevenNotes) {
       for (let root = 0; root < 12; root++) {
         const letters = getScaleNotes(root, type).map((note) => note.name[0]);
         expect(new Set(letters).size, `${type} from ${root}`).toBe(7);
@@ -47,12 +59,27 @@ describe('getScaleNotes', () => {
 
   it('reports pitch class and distance from the root', () => {
     expect(getScaleNotes(9, 'pentatonicMinor')).toEqual([
-      { pitchClass: 9, interval: 0, name: 'A' },
-      { pitchClass: 0, interval: 3, name: 'C' },
-      { pitchClass: 2, interval: 5, name: 'D' },
-      { pitchClass: 4, interval: 7, name: 'E' },
-      { pitchClass: 7, interval: 10, name: 'G' },
+      { pitchClass: 9, interval: 0, name: 'A', degree: '1' },
+      { pitchClass: 0, interval: 3, name: 'C', degree: 'b3' },
+      { pitchClass: 2, interval: 5, name: 'D', degree: '4' },
+      { pitchClass: 4, interval: 7, name: 'E', degree: '5' },
+      { pitchClass: 7, interval: 10, name: 'G', degree: 'b7' },
     ]);
+  });
+
+  it.each<[ScaleType, string]>([
+    ['major', '1 2 3 4 5 6 7'],
+    ['harmonicMinor', '1 2 b3 4 5 b6 7'],
+    ['dorian', '1 2 b3 4 5 6 b7'],
+    ['phrygian', '1 b2 b3 4 5 b6 b7'],
+    ['lydian', '1 2 3 #4 5 6 7'],
+    ['locrian', '1 b2 b3 4 b5 b6 b7'],
+    ['pentatonicMajor', '1 2 3 5 6'],
+  ])('names the degrees of %s', (type, expected) => {
+    for (let root = 0; root < 12; root++) {
+      const degrees = getScaleNotes(root, type).map((note) => note.degree);
+      expect(degrees.join(' '), `${type} from ${root}`).toBe(expected);
+    }
   });
 
   it('treats a key index in any octave as its pitch class', () => {
@@ -89,6 +116,7 @@ describe('getScaleKeyIndexes', () => {
     [0, 'harmonicMinor', [0, 2, 3, 5, 7, 8, 11, 12]],
     [0, 'pentatonicMajor', [0, 2, 4, 7, 9, 12]],
     [9, 'pentatonicMinor', [9, 12, 14, 16, 19, 21]],
+    [2, 'dorian', [2, 4, 5, 7, 9, 11, 12, 14]],
   ])('from key %i in %s', (root, type, expected) => {
     expect(getScaleKeyIndexes(root, type)).toEqual(expected);
   });

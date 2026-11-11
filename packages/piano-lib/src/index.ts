@@ -13,9 +13,10 @@ export {
 } from './notes.js';
 export {
   SCALES,
+  SCALE_GROUPS,
   SCALE_TYPES,
   getRootNames,
   getScaleKeyIndexes,
   getScaleNotes,
 } from './scales.js';
-export type { ScaleNote, ScaleType } from './scales.js';
+export type { ScaleGroup, ScaleNote, ScaleType } from './scales.js';

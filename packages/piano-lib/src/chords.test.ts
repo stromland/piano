@@ -25,7 +25,7 @@ describe('getScaleChords', () => {
     expect(dMinor).toEqual({
       name: 'Dm',
       quality: 'minor',
-      root: { pitchClass: 2, interval: 2, name: 'D' },
+      root: { pitchClass: 2, interval: 2, name: 'D', degree: '2' },
       keyIndexes: [2, 5, 9],
     });
   });

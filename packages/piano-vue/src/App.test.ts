@@ -42,6 +42,20 @@ describe('App', () => {
     expect(app.findAll('button').map((it) => it.text())).toContain('C♯');
   });
 
+  it('offers the scales in groups', async () => {
+    const groups = app
+      .findAll('[role="group"][aria-label]')
+      .map((it) => it.attributes('aria-label'));
+    expect(groups).toEqual(
+      expect.arrayContaining(['Major and minor', 'Modes', 'Pentatonic']),
+    );
+
+    await button('D').trigger('click');
+    await button('Dorian').trigger('click');
+    expect(title()).toBe('D Dorian');
+    expect(pressedKeys()).toEqual(['D', 'E', 'F', 'G', 'A', 'B', 'C', 'D']);
+  });
+
   it('keeps the chord controls out of the way in the scale view', async () => {
     expect(app.text()).not.toContain('Root position');
 
