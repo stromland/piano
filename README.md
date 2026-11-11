@@ -68,11 +68,11 @@ show up right away and nothing has to be built first.
 
 ## App icons
 
-The favicon and the app icons in `packages/piano-vue/public` are the keyboard
-from [`images/piano-logo.png`](images/piano-logo.png), centred on white. The
-maskable icon and the Apple touch icon have no rounded corners and keep the
-keyboard inside the maskable safe zone (a circle with 40 % of the icon's width
-as its radius).
+The app icons in `packages/piano-vue/public` are the keyboard from
+[`images/piano-logo.png`](images/piano-logo.png), the same picture as the
+favicon, centred on the app's background colour (`#073b4c`). The maskable icon
+and the Apple touch icon have no rounded corners and keep the keyboard inside
+the maskable safe zone (a circle with 40 % of the icon's width as its radius).
 
 ## Releasing
 
