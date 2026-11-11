@@ -17,6 +17,16 @@ How a pitch class is spelled in a given context, with a letter and any
 accidentals: the same piano key is F♯ in D major and G♭ in D♭ major.
 _Avoid_: Note label
 
+**Interval**:
+The distance from one note to another, named by degree and size: minor 3rd,
+perfect 5th, major 7th.
+_Avoid_: Gap
+
+**Step**:
+The distance between two neighboring notes of a scale: a half step (H) is one
+piano key, a whole step (W) two.
+_Avoid_: Tone, semitone (in the app's text)
+
 **Root**:
 The note a scale or chord is built up from and named after.
 _Avoid_: Base note, root note (when it is a chord's)
