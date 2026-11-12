@@ -40,7 +40,8 @@ export default defineConfig({
         // The fonts are bundled as woff2 files and have to be cached too, but
         // only the Latin ones: the app has no Greek, Cyrillic or Vietnamese
         // text, and the browser only downloads a subset when text needs it.
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // The mp3 files are the piano recordings.
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,mp3}'],
         globIgnores: [
           '**/*-{cyrillic,cyrillic-ext,greek,greek-ext,vietnamese}-*.woff2',
         ],

@@ -27,7 +27,8 @@ together in a key. Pick a root note, then:
   minor.
 
 **Explain** tells you what you are looking at, how it is built and where it is
-used, and lets you hear it, moved an octave down or up if you like. Notes are spelled the way the key calls for: E♭
+used, and lets you hear it on a recorded grand piano, moved an octave down or
+up if you like. Notes are spelled the way the key calls for: E♭
 major has flats, E major has sharps. The address bar keeps the selection, so a
 page can be bookmarked or shared.
 
@@ -35,6 +36,10 @@ The app can be installed to the home screen or desktop, and works offline once
 it has been opened.
 
 The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
+
+The piano sound is the
+[Salamander Grand Piano](packages/piano-vue/public/samples/README.md) by
+Alexander Holm, licensed under CC BY 3.0.
 
 ## Packages
 
