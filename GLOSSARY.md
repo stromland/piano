@@ -136,7 +136,15 @@ A short line above or below a staff for a note that lies beyond its five
 lines.
 _Avoid_: 8va (a sign that moves notes an octave instead of drawing the lines)
 
+**Key signature**:
+The sharps or flats written once at the start of a staff, right after the
+clef, that hold for every note of their letter in every octave. A scale takes
+the key signature of the major or minor scale it is written from: a mode that
+of the major scale it shares its notes with, harmonic and melodic minor that
+of natural minor. A chord on its own has none.
+_Avoid_: Faste fortegn (in the app's text), key (a key signature is not a key)
+
 **Accidental**:
-A sharp, flat, double sharp, double flat or natural written in front of a note
-on the staff, as the note name spells it.
-_Avoid_: Key signature (the accidentals written once at the start of a staff)
+A sharp, flat, double sharp, double flat or natural written in front of a
+single note, where its name differs from what the key signature says.
+_Avoid_: Løse fortegn (in the app's text), key signature
