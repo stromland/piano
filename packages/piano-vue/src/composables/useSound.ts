@@ -8,9 +8,6 @@ const FIRST_KEY_MIDI = 48;
 /** Seconds from one note of a scale to the next. */
 const STEP = 0.3;
 
-/** Seconds between the notes of a chord: a slight strum, so it sounds played. */
-const STRUM = 0.02;
-
 /** How long a chord, or the last note of a scale, is held before letting go. */
 const HOLD = 2.2;
 
@@ -173,7 +170,8 @@ export function useSound() {
     const start = audio.currentTime + 0.03;
 
     voices = sequence.map((key, position) => {
-      const at = start + position * (together ? STRUM : STEP);
+      // A chord's keys all sound at once; each recording has its own attack.
+      const at = together ? start : start + position * STEP;
       const last = position === sequence.length - 1;
       // A scale is played legato: each key is let go as the next one sounds.
       const hold = together || last ? HOLD : STEP * 1.3;

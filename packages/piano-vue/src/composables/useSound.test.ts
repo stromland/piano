@@ -153,8 +153,8 @@ describe('useSound', () => {
     ]);
     expect(started[1]?.playbackRate).toBeCloseTo(2 ** (1 / 12));
     expect(started[2]?.playbackRate).toBeCloseTo(2 ** (1 / 12));
-    const times = started.map((it) => it.at);
-    expect(Math.max(...times) - Math.min(...times)).toBeLessThan(0.1);
+    // All at once, not strummed.
+    expect(new Set(started.map((it) => it.at)).size).toBe(1);
     // Nothing was sounding yet, so nothing was silenced.
     expect(damped).toEqual([]);
 
