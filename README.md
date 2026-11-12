@@ -35,6 +35,12 @@ page can be bookmarked or shared.
 The app can be installed to the home screen or desktop, and works offline once
 it has been opened.
 
+**Settings**, behind the gear, shows the version the app was built from, links
+to the source code and lists the license of everything that comes with the
+app. The version comes from the git tags (`git describe --tags`), and the
+licenses of the bundled packages from Vite's `build.license`, so both are only
+complete in a build.
+
 The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
 
 The piano sound is the
