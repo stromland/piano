@@ -234,3 +234,87 @@ describe('getBoard', () => {
     expect(getBoard(selection(), 0).keys).toEqual([]);
   });
 });
+
+describe('getBoard staff', () => {
+  const marks = (board: Board) =>
+    board.staff.keySignature.map((mark) => mark.accidental);
+
+  it('writes a scale with its key signature and the repeated root', () => {
+    const board = getBoard(selection({ root: 3 }));
+    expect(marks(board)).toEqual([-1, -1, -1]);
+    expect(board.staff.chord).toBe(false);
+    expect(board.staff.notes.map((note) => note.name)).toEqual([
+      'Eb',
+      'F',
+      'G',
+      'Ab',
+      'Bb',
+      'C',
+      'D',
+      'Eb',
+    ]);
+    expect(
+      board.staff.notes.every((note) => note.accidental === undefined),
+    ).toBe(true);
+  });
+
+  it('gives a mode the key signature of its major scale', () => {
+    const board = getBoard(selection({ root: 2, scale: 'dorian' }));
+    expect(marks(board)).toEqual([]);
+  });
+
+  it('writes the raised 7th of harmonic minor as an accidental', () => {
+    const board = getBoard(selection({ root: 9, scale: 'harmonicMinor' }));
+    expect(marks(board)).toEqual([]);
+    expect(
+      board.staff.notes
+        .filter((note) => note.accidental !== undefined)
+        .map((note) => note.name),
+    ).toEqual(['G#']);
+  });
+
+  it('writes a chord of a key with the key signature, stacked', () => {
+    // The borrowed V7 of D minor: A7.
+    const board = getBoard(
+      selection({
+        view: 'key',
+        root: 2,
+        tonality: 'minor',
+        chordSize: 'seventh',
+        keyChord: 7,
+      }),
+    );
+    expect(board.staff.chord).toBe(true);
+    expect(marks(board)).toEqual([-1]);
+    expect(
+      board.staff.notes.map((note) => `${note.name}${note.accidental ?? ''}`),
+    ).toEqual(['A', 'C#1', 'E', 'G']);
+  });
+
+  it('writes a chord on its own without a key signature', () => {
+    const board = getBoard(selection({ view: 'chord', root: 2 }));
+    expect(marks(board)).toEqual([]);
+    expect(board.staff.notes.map((note) => note.accidental)).toEqual([
+      undefined,
+      1,
+      undefined,
+    ]);
+  });
+
+  it('follows the inversion and the octave', () => {
+    const board = getBoard(
+      selection({ view: 'chord', inversion: 'first', octave: -1 }),
+    );
+    expect(
+      board.staff.notes.map((note) => `${note.name} ${note.clef}`),
+    ).toEqual(['E bass', 'G bass', 'C treble']);
+  });
+
+  it('keeps the same height whichever octave the notes are in', () => {
+    const tops = [-1, 0, 1, 2].map(
+      (octave) => getBoard(selection({ octave })).staff.top,
+    );
+    expect(new Set(tops).size).toBe(1);
+    expect(tops[0]).toBe(21);
+  });
+});

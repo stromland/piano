@@ -241,6 +241,8 @@ const keyboardLabel = computed(() => {
           <ExplainPanel
             v-model:octave="octave"
             :explanation="explanation"
+            :staff="board.staff"
+            :title="summary.title"
             :octaves="board.octaves"
             @listen="listen"
             @select="keyChord = $event"

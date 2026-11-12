@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { useId } from 'vue';
 
+import type { Staff } from '@stromland/piano-lib';
+
 import type { Explanation } from '../composables/useExplanation';
 import type { PlayStyle } from '../composables/useSound';
+import GrandStaff from './GrandStaff.vue';
 import OctaveStepper from './OctaveStepper.vue';
 
 defineProps<{
   explanation: Explanation;
+  /** The notes on a grand staff, right below the keyboard. */
+  staff: Staff;
+  /** What the notes are, such as `'D major'`. */
+  title: string;
   /** How far the notes can be moved down and up. */
   octaves: { lowest: number; highest: number };
 }>();
@@ -25,6 +32,10 @@ const headingId = useId();
 
 <template>
   <section class="explain" :aria-labelledby="headingId">
+    <div class="block">
+      <h3 class="label">Staff</h3>
+      <GrandStaff :staff="staff" :title="title" />
+    </div>
     <div class="block">
       <h2 :id="headingId" class="heading">{{ explanation.heading }}</h2>
       <p

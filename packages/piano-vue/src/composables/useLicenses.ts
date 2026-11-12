@@ -1,6 +1,7 @@
 import { onMounted, ref } from 'vue';
 
 import repositoryLicense from '../../../../LICENSE?raw';
+import bravuraLicense from '../notation/OFL.txt?raw';
 
 export interface License {
   name: string;
@@ -21,7 +22,7 @@ interface BundledPackage {
 
 /**
  * The licenses of what is not an npm package, so Vite cannot list it: the app
- * itself and the piano recordings.
+ * itself, the piano recordings and the music font the staff is drawn with.
  */
 export const OWN_LICENSES: readonly License[] = [
   {
@@ -39,6 +40,13 @@ export const OWN_LICENSES: readonly License[] = [
       'Salamander Grand Piano by Alexander Holm, licensed under the Creative Commons Attribution 3.0 Unported license: https://creativecommons.org/licenses/by/3.0/',
       'The recordings used here have been shortened to four seconds with a fade-out and mixed down to mono.',
     ].join('\n\n'),
+  },
+  {
+    name: 'Bravura',
+    license: 'OFL-1.1',
+    about:
+      'Steinberg Media Technologies · the clefs, notes and accidentals of the staff',
+    text: bravuraLicense.trim(),
   },
 ];
 

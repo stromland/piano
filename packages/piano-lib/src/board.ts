@@ -16,12 +16,19 @@ import {
 import { type KeyChord, getKeyChords } from './keys.js';
 import { NOTES_PER_OCTAVE, toPitchClass } from './notes.js';
 import {
+  SCALES,
   type ScaleNote,
   type ScaleType,
   getScaleKeyIndexes,
   getScaleNotes,
 } from './scales.js';
-import type { Tonality } from './spelling.js';
+import { TONALITY_STEPS, type Tonality } from './spelling.js';
+import {
+  type KeySignature,
+  type Staff,
+  getKeySignature,
+  getStaff,
+} from './staff.js';
 
 export const VIEWS = ['scale', 'chord', 'key'] as const;
 
@@ -72,6 +79,8 @@ export interface Board {
   octave: number;
   /** How far the notes can be moved: one octave down, and up while they fit. */
   octaves: { lowest: number; highest: number };
+  /** What is pressed, written on a grand staff. */
+  staff: Staff;
 }
 
 /** Everything needed to draw the keyboard and its controls for a selection. */
@@ -87,6 +96,7 @@ export function getBoard(
   let keyChords: KeyChord[] = [];
   let keyChord: KeyChord | undefined;
   let rootPitchClass = root;
+  let keySignature: KeySignature | undefined;
   if (selection.view === 'chord') {
     chord = getChord(root, selection.chordType);
     tones = chord.notes;
@@ -96,6 +106,7 @@ export function getBoard(
     );
   } else if (selection.view === 'key') {
     keyChords = getKeyChords(root, selection.tonality, selection.chordSize);
+    keySignature = getKeySignature(root, TONALITY_STEPS[selection.tonality]);
     const position = Math.min(
       Math.max(0, selection.keyChord),
       keyChords.length - 1,
@@ -112,6 +123,7 @@ export function getBoard(
   } else {
     tones = getScaleNotes(root, selection.scale);
     pressed = getScaleKeyIndexes(root, selection.scale);
+    keySignature = getKeySignature(root, SCALES[selection.scale].spelling);
   }
 
   const octaves = getOctaves(pressed, keyCount);
@@ -119,11 +131,16 @@ export function getBoard(
     Math.max(selection.octave, octaves.lowest),
     octaves.highest,
   );
-  pressed = pressed.map(
-    (index) => index + MIDDLE_C + octave * NOTES_PER_OCTAVE,
-  );
+  const atOctave = (moved: number) =>
+    pressed.map((index) => index + MIDDLE_C + moved * NOTES_PER_OCTAVE);
+  const highest = atOctave(octaves.highest);
+  pressed = atOctave(octave);
 
   const names = new Map(tones.map((note) => [note.pitchClass, note.name]));
+  const named = (keys: readonly number[]) =>
+    keys
+      .filter((index) => index < keyCount)
+      .map((key) => ({ key, name: names.get(toPitchClass(key)) ?? '' }));
   const sounding =
     selection.view === 'scale'
       ? tones.map((note) => note.pitchClass)
@@ -150,6 +167,11 @@ export function getBoard(
     keyChord,
     octave,
     octaves,
+    staff: getStaff(named(pressed), {
+      chord: selection.view !== 'scale',
+      keySignature,
+      highest: named(highest),
+    }),
   };
 }
 

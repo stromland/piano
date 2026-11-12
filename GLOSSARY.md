@@ -107,3 +107,44 @@ whole step below the tonic, is called the subtonic.
 A chord that is used in a key but not built from its own scale; in this app,
 the V and vii° that minor keys take from harmonic minor.
 _Avoid_: Altered chord, chromatic chord
+
+## Notation
+
+**Staff**:
+The five lines notes are written on, read with a clef; each line and each
+space between them is one letter higher than the one below.
+_Avoid_: Notation system, stave, notesystem
+
+**Clef**:
+The sign at the start of a staff that tells which letter each line is: the
+treble clef puts G above middle C on the second line, the bass clef puts F
+below middle C on the fourth line.
+_Avoid_: G clef, F clef (in the app's text)
+
+**Grand staff**:
+A treble staff above a bass staff, joined so that middle C sits between them,
+as piano music is written. Notes below middle C go on the bass staff.
+_Avoid_: Piano staff, system
+
+**Middle C**:
+The C nearest the middle of the piano, where the notes start before they are
+moved an octave. On the grand staff it sits on a ledger line of its own
+between the two staves.
+
+**Ledger line**:
+A short line above or below a staff for a note that lies beyond its five
+lines.
+_Avoid_: 8va (a sign that moves notes an octave instead of drawing the lines)
+
+**Key signature**:
+The sharps or flats written once at the start of a staff, right after the
+clef, that hold for every note of their letter in every octave. A scale takes
+the key signature of the major or minor scale it is written from: a mode that
+of the major scale it shares its notes with, harmonic and melodic minor that
+of natural minor. A chord on its own has none.
+_Avoid_: Faste fortegn (in the app's text), key (a key signature is not a key)
+
+**Accidental**:
+A sharp, flat, double sharp, double flat or natural written in front of a
+single note, where its name differs from what the key signature says.
+_Avoid_: Løse fortegn (in the app's text), key signature

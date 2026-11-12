@@ -26,10 +26,11 @@ together in a key. Pick a root note, then:
   their function, including the V and vii° minor keys borrow from harmonic
   minor.
 
-**Explain** tells you what you are looking at, how it is built and where it is
-used, and lets you hear it on a recorded grand piano, moved an octave down or
-up if you like. Notes are spelled the way the key calls for: E♭
-major has flats, E major has sharps. The address bar keeps the selection, so a
+**Explain** writes the notes on a grand staff, with the key signature of the
+scale or key, tells you what you are looking at, how it is built and where it
+is used, and lets you hear it on a recorded grand piano, moved an octave down
+or up if you like. Notes are spelled the way the key calls for: E♭ major has
+flats, E major has sharps. The address bar keeps the selection, so a
 page can be bookmarked or shared.
 
 The app can be installed to the home screen or desktop, and works offline once
@@ -48,6 +49,11 @@ The piano sound is the
 Alexander Holm. The recordings are licensed under
 [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), not under the MIT
 license of the rest of the repository.
+
+The clefs, notes and accidentals of the staff are drawn from the
+[Bravura](https://github.com/steinbergmedia/bravura) music font by Steinberg
+Media Technologies, licensed under the
+[SIL Open Font License 1.1](packages/piano-vue/src/notation/OFL.txt).
 
 ## Packages
 

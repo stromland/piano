@@ -220,6 +220,23 @@ describe('App', () => {
       expect(shown()).toBe('0');
     });
 
+    it('writes the notes on a grand staff, with the key signature', async () => {
+      const staff = () => app.get('svg[role="img"]').attributes('aria-label');
+      await button('E♭').trigger('click');
+      await explain().trigger('click');
+      expect(staff()).toBe(
+        'Grand staff with 3 flats showing E♭ major: E♭ F G A♭ B♭ C D E♭',
+      );
+
+      await button('Chord').trigger('click');
+      expect(staff()).toBe('Grand staff showing E♭: E♭ G B♭');
+
+      await app.get('button[aria-label="Octave down"]').trigger('click');
+      expect(staff()).toBe(
+        'Grand staff showing E♭: E♭ G B♭, E♭, G and B♭ on the bass staff',
+      );
+    });
+
     it('moves on to a chord that usually follows', async () => {
       await button('Key').trigger('click');
       await keyChord('V').trigger('click');

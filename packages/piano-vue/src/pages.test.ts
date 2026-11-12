@@ -133,7 +133,7 @@ describe('Licenses', () => {
     expect(page()).toBeNull();
   });
 
-  it('lists the app, the piano recordings and every bundled package', async () => {
+  it('lists the app, the piano recordings, the music font and every bundled package', async () => {
     open('?page=licenses');
     await flushPromises();
 
@@ -141,16 +141,17 @@ describe('Licenses', () => {
       mounted()
         .findAll('.license .name')
         .map((it) => it.text()),
-    ).toEqual(['Piano', 'Salamander Grand Piano', '@vue/shared']);
+    ).toEqual(['Piano', 'Salamander Grand Piano', 'Bravura', '@vue/shared']);
     expect(
       mounted()
         .findAll('.license .id')
         .map((it) => it.text()),
-    ).toEqual(['MIT', 'CC BY 3.0', 'MIT']);
-    const [piano, , vue] = mounted().findAll('.license');
+    ).toEqual(['MIT', 'CC BY 3.0', 'OFL-1.1', 'MIT']);
+    const [piano, , bravura, vue] = mounted().findAll('.license');
     expect(piano?.get('.text').text()).toMatch(/^MIT License\n\nCopyright/);
     // The rest of the repository's LICENSE is about the recordings.
     expect(piano?.get('.text').text()).not.toContain('Salamander');
+    expect(bravura?.get('.text').text()).toContain('SIL Open Font License');
     expect(vue?.get('.about').text()).toBe('Version 3.5.45');
     expect(vue?.get('.text').text()).toContain('Yuxi (Evan) You');
     expect(mounted().text()).not.toContain('in a build of the app');
@@ -168,7 +169,7 @@ describe('Licenses', () => {
     open('?page=licenses');
     await flushPromises();
 
-    expect(mounted().findAll('.license')).toHaveLength(2);
+    expect(mounted().findAll('.license')).toHaveLength(3);
     expect(mounted().text()).toContain('in a build of the app');
   });
 });
