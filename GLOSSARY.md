@@ -126,6 +126,16 @@ A treble staff above a bass staff, joined so that middle C sits between them,
 as piano music is written. Notes below middle C go on the bass staff.
 _Avoid_: Piano staff, system
 
+**Middle C**:
+The C nearest the middle of the piano, where the notes start before they are
+moved an octave. On the grand staff it sits on a ledger line of its own
+between the two staves.
+
+**Ledger line**:
+A short line above or below a staff for a note that lies beyond its five
+lines.
+_Avoid_: 8va (a sign that moves notes an octave instead of drawing the lines)
+
 **Accidental**:
 A sharp, flat, double sharp, double flat or natural written in front of a note
 on the staff, as the note name spells it.
