@@ -77,7 +77,7 @@ show up right away and nothing has to be built first.
 
 ```sh
 scripts/release.sh minor
-git push && git push origin v0.5.0
+git push && git push origin v0.8.0
 ```
 
 The script bumps the version of every package, commits and tags. Pushing the
