@@ -3,9 +3,9 @@
 The Explain panel shows the selected notes on a grand staff, and we draw it
 with our own SVG instead of a notation library such as VexFlow or abcjs. The
 staff only ever holds one scale or one chord, without rhythm, so it needs
-little: two clefs, whole noteheads, ledger lines, sharps and flats single and
-double, and seconds and accidentals in a chord moved aside so they don't
-collide. A library brings a large bundle to an app that is meant to stay small
+little: two clefs, a key signature, whole noteheads, ledger lines, sharps,
+flats and naturals, and seconds and accidentals in a chord moved aside so they
+don't collide. A library brings a large bundle to an app that is meant to stay small
 and work offline, its own look next to the app's, and a text format to
 translate the selection into. Where each note goes is music theory, so it
 lives in `piano-lib` as plain, tested functions working from the note names
