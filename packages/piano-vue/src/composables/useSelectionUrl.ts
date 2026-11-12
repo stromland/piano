@@ -119,7 +119,10 @@ export function useSelectionUrl(selection: Selection) {
   applyQuery(selection, window.location.search);
   watch(
     () => toQuery(selection),
-    (query) => {
+    (selectionQuery) => {
+      // The page that is open is in the address too, and kept as it is.
+      const page = new URLSearchParams(window.location.search).get('page');
+      const query = page ? `${selectionQuery}&page=${page}` : selectionQuery;
       if (query === window.location.search) return;
       window.history.replaceState(window.history.state, '', query);
     },

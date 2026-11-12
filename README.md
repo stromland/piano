@@ -27,14 +27,27 @@ together in a key. Pick a root note, then:
   minor.
 
 **Explain** tells you what you are looking at, how it is built and where it is
-used, and lets you hear it, moved an octave down or up if you like. Notes are spelled the way the key calls for: E♭
+used, and lets you hear it on a recorded grand piano, moved an octave down or
+up if you like. Notes are spelled the way the key calls for: E♭
 major has flats, E major has sharps. The address bar keeps the selection, so a
 page can be bookmarked or shared.
 
 The app can be installed to the home screen or desktop, and works offline once
 it has been opened.
 
+**Settings**, behind the gear, shows the version the app was built from, links
+to the source code and lists the license of everything that comes with the
+app. The version comes from the git tags (`git describe --tags`), and the
+licenses of the bundled packages from Vite's `build.license`, so both are only
+complete in a build.
+
 The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
+
+The piano sound is the
+[Salamander Grand Piano](packages/piano-vue/public/samples/README.md) by
+Alexander Holm. The recordings are licensed under
+[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), not under the MIT
+license of the rest of the repository.
 
 ## Packages
 
@@ -70,7 +83,7 @@ show up right away and nothing has to be built first.
 
 ```sh
 scripts/release.sh minor
-git push && git push origin v0.5.0
+git push && git push origin v0.8.0
 ```
 
 The script bumps the version of every package, commits and tags. Pushing the

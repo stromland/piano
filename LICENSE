@@ -19,3 +19,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+The piano recordings in packages/piano-vue/public/samples are not covered by
+this license. They are the Salamander Grand Piano by Alexander Holm, licensed
+under CC BY 3.0: https://creativecommons.org/licenses/by/3.0/

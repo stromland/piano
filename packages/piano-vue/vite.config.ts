@@ -1,12 +1,36 @@
 import vue from '@vitejs/plugin-vue';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
+
+/**
+ * The version the app is built from, from its git tags: 0.7.0 when built from
+ * the v0.7.0 tag, 0.7.0-3-gd60ffd6 three commits after it, and only the commit
+ * when there are no tags, such as in a shallow clone.
+ */
+function appVersion(): string {
+  try {
+    const described = execFileSync('git', ['describe', '--tags', '--always'], {
+      encoding: 'utf8',
+    });
+    return described.trim().replace(/^v/, '');
+  } catch {
+    return 'unknown';
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
   // The app is served from https://stromland.github.io/piano/
   base: '/piano/',
+  define: {
+    __APP_VERSION__: JSON.stringify(appVersion()),
+  },
+  build: {
+    // Lists every bundled package with its license, for the Licenses page.
+    license: { fileName: 'licenses.json' },
+  },
   plugins: [
     vue(),
     // Makes the app installable and lets it work offline: the build gets a web
@@ -40,7 +64,9 @@ export default defineConfig({
         // The fonts are bundled as woff2 files and have to be cached too, but
         // only the Latin ones: the app has no Greek, Cyrillic or Vietnamese
         // text, and the browser only downloads a subset when text needs it.
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // The mp3 files are the piano recordings, and licenses.json is read by
+        // the Licenses page.
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,mp3,json}'],
         globIgnores: [
           '**/*-{cyrillic,cyrillic-ext,greek,greek-ext,vietnamese}-*.woff2',
         ],
