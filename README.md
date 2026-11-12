@@ -39,7 +39,9 @@ The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
 
 The piano sound is the
 [Salamander Grand Piano](packages/piano-vue/public/samples/README.md) by
-Alexander Holm, licensed under CC BY 3.0.
+Alexander Holm. The recordings are licensed under
+[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), not under the MIT
+license of the rest of the repository.
 
 ## Packages
 

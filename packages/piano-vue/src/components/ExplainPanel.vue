@@ -52,6 +52,23 @@ const headingId = useId();
           {{ option.label }}
         </button>
       </div>
+      <!-- The recordings are CC BY 3.0, which asks for credit where they are used. -->
+      <p class="credit">
+        Piano:
+        <a
+          href="https://archive.org/details/SalamanderGrandPianoV3"
+          target="_blank"
+          rel="noopener"
+          >Salamander Grand Piano</a
+        >
+        by Alexander Holm,
+        <a
+          href="https://creativecommons.org/licenses/by/3.0/"
+          target="_blank"
+          rel="noopener"
+          >CC BY 3.0</a
+        >
+      </p>
     </div>
 
     <div class="block">
@@ -167,6 +184,16 @@ const headingId = useId();
   color: var(--text-muted);
   font-size: 15px;
   line-height: 1.5;
+}
+
+.credit {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.credit a {
+  color: inherit;
 }
 
 .listen {
