@@ -107,3 +107,26 @@ whole step below the tonic, is called the subtonic.
 A chord that is used in a key but not built from its own scale; in this app,
 the V and vii° that minor keys take from harmonic minor.
 _Avoid_: Altered chord, chromatic chord
+
+## Notation
+
+**Staff**:
+The five lines notes are written on, read with a clef; each line and each
+space between them is one letter higher than the one below.
+_Avoid_: Notation system, stave, notesystem
+
+**Clef**:
+The sign at the start of a staff that tells which letter each line is: the
+treble clef puts G above middle C on the second line, the bass clef puts F
+below middle C on the fourth line.
+_Avoid_: G clef, F clef (in the app's text)
+
+**Grand staff**:
+A treble staff above a bass staff, joined so that middle C sits between them,
+as piano music is written. Notes below middle C go on the bass staff.
+_Avoid_: Piano staff, system
+
+**Accidental**:
+A sharp, flat, double sharp, double flat or natural written in front of a note
+on the staff, as the note name spells it.
+_Avoid_: Key signature (the accidentals written once at the start of a staff)
