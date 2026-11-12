@@ -53,4 +53,21 @@ export {
 } from './scales.js';
 export type { RelatedKey, ScaleGroup, ScaleNote, ScaleType } from './scales.js';
 export { intervalName } from './spelling.js';
+export {
+  BASS_LINES,
+  TREBLE_LINES,
+  getKeySignature,
+  getKeySignatureMarks,
+  getStaff,
+  staffPosition,
+} from './staff.js';
+export type {
+  Clef,
+  KeySignature,
+  KeySignatureMark,
+  Staff,
+  StaffInput,
+  StaffNote,
+  StaffOptions,
+} from './staff.js';
 export type { Tonality } from './spelling.js';
