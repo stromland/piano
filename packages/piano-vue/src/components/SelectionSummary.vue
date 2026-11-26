@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { type BoardNote, formatNoteName } from '@stromland/piano-lib';
+import { formatNoteName } from '@stromland/music-theory';
+
+import { type BoardNote } from '../board';
 
 defineProps<{
   overline: string;

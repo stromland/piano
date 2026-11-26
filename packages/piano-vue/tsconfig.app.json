@@ -3,7 +3,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "paths": {
-      "@stromland/piano-lib": ["../piano-lib/src/index.ts"]
+      "@stromland/music-theory": ["../music-theory/src/index.ts"]
     },
 
     "noUncheckedIndexedAccess": true,

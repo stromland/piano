@@ -8,7 +8,7 @@ flats and naturals, and seconds and accidentals in a chord moved aside so they
 don't collide. A library brings a large bundle to an app that is meant to stay small
 and work offline, its own look next to the app's, and a text format to
 translate the selection into. Where each note goes is music theory, so it
-lives in `piano-lib` as plain, tested functions working from the note names
+lives in `music-theory` as plain, tested functions working from the note names
 the app already spells; the Vue component only draws what they return.
 
 ## Considered options

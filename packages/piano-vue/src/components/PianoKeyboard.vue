@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, useTemplateRef, watch } from 'vue';
 
-import { type PianoKey, formatNoteName } from '@stromland/piano-lib';
+import { type PianoKey, formatNoteName } from '@stromland/music-theory';
 
 const props = defineProps<{
   keys: PianoKey[];

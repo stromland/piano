@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# Runs an npm script in one package: `nw test vue` or `nw test lib`.
 nw() {
-  npm run $1 -w packages/piano-$2
+  local package=piano-$2
+  [[ $2 == lib ]] && package=music-theory
+  npm run $1 -w packages/$package
 }

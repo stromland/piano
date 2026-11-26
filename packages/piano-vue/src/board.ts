@@ -2,33 +2,30 @@ import {
   type Chord,
   type ChordSize,
   type ChordType,
-  type Inversion,
-  getChord,
-  invertChord,
-} from './chords.js';
-import {
   DEFAULT_KEY_COUNT,
+  type Inversion,
+  type KeyChord,
+  type KeySignature,
   MIDDLE_C,
+  NOTES_PER_OCTAVE,
   type PianoKey,
-  createKeyboard,
-  pressKeys,
-} from './keyboard.js';
-import { type KeyChord, getKeyChords } from './keys.js';
-import { NOTES_PER_OCTAVE, toPitchClass } from './notes.js';
-import {
   SCALES,
   type ScaleNote,
   type ScaleType,
+  type Staff,
+  TONALITY_STEPS,
+  type Tonality,
+  createKeyboard,
+  getChord,
+  getKeyChords,
+  getKeySignature,
   getScaleKeyIndexes,
   getScaleNotes,
-} from './scales.js';
-import { TONALITY_STEPS, type Tonality } from './spelling.js';
-import {
-  type KeySignature,
-  type Staff,
-  getKeySignature,
   getStaff,
-} from './staff.js';
+  invertChord,
+  pressKeys,
+  toPitchClass,
+} from '@stromland/music-theory';
 
 export const VIEWS = ['scale', 'chord', 'key'] as const;
 

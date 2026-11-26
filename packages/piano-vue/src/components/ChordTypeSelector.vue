@@ -9,7 +9,7 @@ import {
   type ChordType,
   formatNoteName,
   getChord,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
 import ChoiceChip from './ChoiceChip.vue';
 

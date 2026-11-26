@@ -5,15 +5,14 @@ import {
   HARMONIC_FUNCTIONS,
   type Inversion,
   SCALES,
-  type Selection,
   formatNoteName,
-  getBoard,
   getChordRootNames,
   getInversions,
   getKeyName,
   getRootNames,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
+import { type Selection, getBoard } from '../board';
 import { useSelectionUrl } from './useSelectionUrl';
 
 export const INVERSION_LABELS: Record<Inversion, string> = {

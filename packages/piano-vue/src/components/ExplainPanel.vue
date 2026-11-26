@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useId } from 'vue';
 
-import type { Staff } from '@stromland/piano-lib';
+import type { Staff } from '@stromland/music-theory';
 
 import type { Explanation } from '../composables/useExplanation';
 import type { PlayStyle } from '../composables/useSound';

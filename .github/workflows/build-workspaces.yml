@@ -44,7 +44,7 @@ jobs:
       - run: npm run build
 
       - name: Check that the library can be imported from Node
-        run: node --eval "import('@stromland/piano-lib')"
+        run: node --eval "import('@stromland/music-theory')"
 
       - name: Upload the site
         if: inputs.upload-pages-artifact

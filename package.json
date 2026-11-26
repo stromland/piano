@@ -7,7 +7,7 @@
   "author": "Espen Strømland",
   "license": "MIT",
   "workspaces": [
-    "packages/piano-lib",
+    "packages/music-theory",
     "packages/piano-vue"
   ],
   "repository": {

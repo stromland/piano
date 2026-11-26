@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { Selection } from '@stromland/piano-lib';
-
+import type { Selection } from '../board';
 import { applyQuery, toQuery } from './useSelectionUrl';
 
 const selection = (overrides: Partial<Selection> = {}): Selection => ({

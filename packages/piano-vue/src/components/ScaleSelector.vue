@@ -5,7 +5,7 @@ import {
   SCALE_TYPES,
   type ScaleGroup,
   type ScaleType,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
 import ChoiceChip from './ChoiceChip.vue';
 

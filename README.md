@@ -58,10 +58,10 @@ Media Technologies, licensed under the
 
 ## Packages
 
-| Package                           | What it is                                                                        |
-| --------------------------------- | --------------------------------------------------------------------------------- |
-| [`piano-lib`](packages/piano-lib) | The music theory – scales, chords, keys and keyboard layout – as plain functions. |
-| [`piano-vue`](packages/piano-vue) | The web app, built with Vue and Vite.                                             |
+| Package                                 | What it is                                                                                     |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`music-theory`](packages/music-theory) | The music theory – scales, chords, keys, notation and the piano keyboard – as plain functions. |
+| [`piano-vue`](packages/piano-vue)       | The web app, built with Vue and Vite.                                                          |
 
 ## Development
 
@@ -72,7 +72,7 @@ npm install
 npm run dev
 ```
 
-The app uses the source of `piano-lib` directly, so changes to the library
+The app uses the source of `music-theory` directly, so changes to the library
 show up right away and nothing has to be built first.
 
 | Command             | What it does                                         |

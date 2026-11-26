@@ -1,7 +1,7 @@
 {
-  "name": "@stromland/piano-lib",
+  "name": "@stromland/music-theory",
   "version": "0.7.0",
-  "description": "Scales, chords and keyboard layout for a piano, as plain functions.",
+  "description": "Scales, chords, keys, notation and the piano keyboard, as plain functions.",
   "author": "Espen Strømland",
   "license": "MIT",
   "type": "module",

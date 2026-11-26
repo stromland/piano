@@ -1,5 +1,3 @@
-export { VIEWS, getBoard } from './board.js';
-export type { Board, BoardNote, Selection, View } from './board.js';
 export {
   CHORD_SIZES,
   CHORD_TYPES,
@@ -52,7 +50,7 @@ export {
   getScaleSteps,
 } from './scales.js';
 export type { RelatedKey, ScaleGroup, ScaleNote, ScaleType } from './scales.js';
-export { intervalName } from './spelling.js';
+export { TONALITY_STEPS, intervalName } from './spelling.js';
 export {
   BASS_LINES,
   TREBLE_LINES,

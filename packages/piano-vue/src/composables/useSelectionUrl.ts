@@ -4,14 +4,14 @@ import {
   CHORD_TYPE_IDS,
   INVERSIONS,
   SCALE_TYPES,
-  type Selection,
   TONALITIES,
-  VIEWS,
   getChordRootNames,
   getKeyChords,
   getRootNames,
   toPitchClass,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
+
+import { type Selection, VIEWS } from '../board';
 
 const LETTER_PITCH_CLASSES: Record<string, number> = {
   c: 0,

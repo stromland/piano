@@ -77,8 +77,8 @@ export default defineConfig({
     alias: {
       // Use the library's source directly, so the app can be developed, tested
       // and built without building the library first.
-      '@stromland/piano-lib': fileURLToPath(
-        new URL('../piano-lib/src/index.ts', import.meta.url),
+      '@stromland/music-theory': fileURLToPath(
+        new URL('../music-theory/src/index.ts', import.meta.url),
       ),
     },
   },

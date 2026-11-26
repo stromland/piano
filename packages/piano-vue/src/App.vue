@@ -4,10 +4,10 @@ import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 import {
   type ChordSize,
   type Tonality,
-  type View,
   formatNoteName,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
+import { type View } from './board';
 import ChordTypeSelector from './components/ChordTypeSelector.vue';
 import ControlSection from './components/ControlSection.vue';
 import ExplainPanel from './components/ExplainPanel.vue';

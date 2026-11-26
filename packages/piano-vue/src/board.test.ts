@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { type Board, type Selection, getBoard } from './board.js';
-import { CHORD_TYPE_IDS, INVERSIONS } from './chords.js';
+import { CHORD_TYPE_IDS, INVERSIONS } from '@stromland/music-theory';
+
+import { type Board, type Selection, getBoard } from './board';
 
 const selection = (overrides: Partial<Selection> = {}): Selection => ({
   view: 'scale',

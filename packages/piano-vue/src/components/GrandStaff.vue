@@ -7,7 +7,7 @@ import {
   type Staff,
   TREBLE_LINES,
   formatNoteName,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
 import { GLYPHS, type Glyph } from '../notation/bravura';
 

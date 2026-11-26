@@ -1,10 +1,8 @@
 import { type ComputedRef, computed } from 'vue';
 
 import {
-  type Board,
   CHORD_TYPES,
   SCALES,
-  type Selection,
   type Tonality,
   findKeysWithChord,
   formatNoteName,
@@ -12,8 +10,9 @@ import {
   getRelatedKey,
   getScaleSteps,
   intervalName,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
+import { type Board, type Selection } from '../board';
 import type { PlayStyle } from './useSound';
 
 export interface Explanation {

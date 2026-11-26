@@ -5,7 +5,7 @@ import {
   HARMONIC_FUNCTIONS,
   type KeyChord,
   formatNoteName,
-} from '@stromland/piano-lib';
+} from '@stromland/music-theory';
 
 import ChoiceChip from './ChoiceChip.vue';
 
