@@ -58,10 +58,11 @@ Media Technologies, licensed under the
 
 ## Packages
 
-| Package                                 | What it is                                                                                     |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [`music-theory`](packages/music-theory) | The music theory – scales, chords, keys, notation and the piano keyboard – as plain functions. |
-| [`piano-vue`](packages/piano-vue)       | The web app, built with Vue and Vite.                                                          |
+| Package                                   | What it is                                                                                                   |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [`music-theory`](packages/music-theory)   | The music theory – scales, chords, keys, notation and the piano keyboard – as plain functions.               |
+| [`piano-vue`](packages/piano-vue)         | The piano app, built with Vue and Vite.                                                                      |
+| [`accordion-vue`](packages/accordion-vue) | The accordion app, a work in progress: the chords of the Stradella bass and the treble of a piano accordion. |
 
 ## Development
 
@@ -75,16 +76,17 @@ npm run dev
 The app uses the source of `music-theory` directly, so changes to the library
 show up right away and nothing has to be built first.
 
-| Command             | What it does                                         |
-| ------------------- | ---------------------------------------------------- |
-| `npm run dev`       | Starts the app at http://localhost:5173/piano/       |
-| `npm test`          | Runs the tests of both packages                      |
-| `npm run lint`      | Lints everything with ESLint                         |
-| `npm run format`    | Formats everything with Prettier                     |
-| `npm run typecheck` | Type-checks both packages                            |
-| `npm run build`     | Builds the library and the app                       |
-| `npm run preview`   | Serves the built app at http://localhost:5050/piano/ |
-| `npm run check`     | Everything CI runs                                   |
+| Command                 | What it does                                                       |
+| ----------------------- | ------------------------------------------------------------------ |
+| `npm run dev`           | Starts the app at http://localhost:5173/piano/                     |
+| `npm run dev:accordion` | Starts the accordion app at http://localhost:5174/piano/accordion/ |
+| `npm test`              | Runs the tests of both packages                                    |
+| `npm run lint`          | Lints everything with ESLint                                       |
+| `npm run format`        | Formats everything with Prettier                                   |
+| `npm run typecheck`     | Type-checks both packages                                          |
+| `npm run build`         | Builds the library and the app                                     |
+| `npm run preview`       | Serves the built app at http://localhost:5050/piano/               |
+| `npm run check`         | Everything CI runs                                                 |
 
 ## Releasing
 

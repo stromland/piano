@@ -20,7 +20,7 @@ export default defineConfig(
     rules: { 'no-undef': 'off' },
   },
   {
-    files: ['packages/piano-vue/src/**'],
+    files: ['packages/piano-vue/src/**', 'packages/accordion-vue/src/**'],
     languageOptions: { globals: globals.browser },
   },
   {

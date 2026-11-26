@@ -8,7 +8,8 @@
   "license": "MIT",
   "workspaces": [
     "packages/music-theory",
-    "packages/piano-vue"
+    "packages/piano-vue",
+    "packages/accordion-vue"
   ],
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "scripts": {
     "dev": "npm run dev -w @stromland/piano-vue",
+    "dev:accordion": "npm run dev -w @stromland/accordion-vue",
     "build": "npm run build --workspaces",
     "preview": "npm run preview -w @stromland/piano-vue",
     "typecheck": "npm run typecheck --workspaces",
