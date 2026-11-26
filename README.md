@@ -42,7 +42,8 @@ app. The version comes from the git tags (`git describe --tags`), and the
 licenses of the bundled packages from Vite's `build.license`, so both are only
 complete in a build.
 
-The words the app uses are defined in [GLOSSARY.md](GLOSSARY.md).
+The words the app uses are defined in the glossaries listed in
+[GLOSSARY-MAP.md](GLOSSARY-MAP.md).
 
 The piano sound is the
 [Salamander Grand Piano](packages/piano-vue/public/samples/README.md) by

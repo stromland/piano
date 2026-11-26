@@ -1,13 +1,10 @@
-# Piano
+# Music theory
 
-A reference for looking up which piano keys make up a scale or a chord, and
-for learning how chords work together in a key so you can compose with them.
+The words for notes, scales, chords, keys and notation that the piano app and
+the accordion app share. The words for each instrument are in its own
+glossary; see [GLOSSARY-MAP.md](GLOSSARY-MAP.md).
 
-## Notes and the keyboard
-
-**Piano key**:
-One physical key on the keyboard, white or black.
-_Avoid_: Key (on its own), tangent
+## Notes
 
 **Pitch class**:
 A note regardless of octave: every C on the keyboard is the same pitch class.
@@ -123,7 +120,8 @@ _Avoid_: G clef, F clef (in the app's text)
 
 **Grand staff**:
 A treble staff above a bass staff, joined so that middle C sits between them,
-as piano music is written. Notes below middle C go on the bass staff.
+as piano and accordion music is written. Notes below middle C go on the bass
+staff.
 _Avoid_: Piano staff, system
 
 **Middle C**:
